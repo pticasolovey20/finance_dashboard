@@ -51,7 +51,7 @@ const RegisterForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email</FormLabel>
 
               <FormControl>
                 <Input placeholder="example@gmail.com" {...field} />
@@ -70,7 +70,7 @@ const RegisterForm = () => {
               <FormLabel>Password</FormLabel>
 
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
 
               <FormMessage />
@@ -78,7 +78,7 @@ const RegisterForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="w-full">
           Register
         </Button>
       </form>

@@ -70,7 +70,7 @@ const LoginForm = () => {
               <FormLabel>Password</FormLabel>
 
               <FormControl>
-                <Input {...field} />
+                <Input {...field} type="password" />
               </FormControl>
 
               <FormMessage />
@@ -78,7 +78,7 @@ const LoginForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="w-full">
           Login
         </Button>
       </form>

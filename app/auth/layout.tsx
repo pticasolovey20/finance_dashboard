@@ -5,7 +5,11 @@ interface IAuthLayoutProps {
 }
 
 const AuthLayout = ({ children }: IAuthLayoutProps) => {
-  return <main className="min-h-screen h-full">{children}</main>;
+  return (
+    <main className="min-h-screen h-full flex items-center justify-center">
+      {children}
+    </main>
+  );
 };
 
 export default AuthLayout;
