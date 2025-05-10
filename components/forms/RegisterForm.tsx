@@ -29,7 +29,7 @@ const RegisterForm = () => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = (formData: zod.infer<typeof RegisterSchema>) => {
+  const onFormSubmit = async (formData: zod.infer<typeof RegisterSchema>) => {
     startTransition(() =>
       register(formData)
         .then((data) => console.log(data))
