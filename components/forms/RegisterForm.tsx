@@ -1,8 +1,11 @@
 "use client";
 
+import * as zod from "zod";
+import { startTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { LoginSchema } from "@/schemas/authSchema";
+import { RegisterSchema } from "@/schemas/authSchema";
+import { register } from "@/actions/register";
 
 import {
   Form,
@@ -15,9 +18,9 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-const LoginForm = () => {
+const RegisterForm = () => {
   const form = useForm({
-    resolver: zodResolver(LoginSchema),
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
@@ -26,7 +29,13 @@ const LoginForm = () => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = () => {};
+  const onFormSubmit = (formData: zod.infer<typeof RegisterSchema>) => {
+    startTransition(() =>
+      register(formData)
+        .then((data) => console.log(data))
+        .catch((error) => console.log(error))
+    );
+  };
 
   return (
     <Form {...form}>
@@ -39,7 +48,7 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Username</FormLabel>
 
               <FormControl>
                 <Input placeholder="example@gmail.com" {...field} />
@@ -66,10 +75,10 @@ const LoginForm = () => {
           )}
         />
 
-        <Button type="submit">Login</Button>
+        <Button type="submit">Register</Button>
       </form>
     </Form>
   );
 };
 
-export default LoginForm;
+export default RegisterForm;

@@ -3,8 +3,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 
-import TopBar from "@/components/top-bar/TopBar";
-
 import "./globals.scss";
 
 const geistSans = localFont({
@@ -28,17 +26,14 @@ interface IRootLayoutProps {
   children: Readonly<ReactNode>;
 }
 
-const RootLayout = ({ children }: IRootLayoutProps) => {
+const RootLayout = async ({ children }: IRootLayoutProps) => {
   return (
     <html lang="en">
       <body
         suppressHydrationWarning
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
-        <TopBar />
-        <main className="min-h-[calc(100dvh-150px)] h-full p-4">
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );
