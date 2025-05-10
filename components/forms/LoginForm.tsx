@@ -1,7 +1,11 @@
 "use client";
 
+import * as zod from "zod";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+
+import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas/authSchema";
 
 import {
@@ -16,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const LoginForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm({
     resolver: zodResolver(LoginSchema),
     defaultValues: {
@@ -26,7 +32,13 @@ const LoginForm = () => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = () => {};
+  const onFormSubmit = async (formData: zod.infer<typeof LoginSchema>) => {
+    startTransition(() =>
+      login(formData)
+        .then(() => {})
+        .catch((error) => console.log(error))
+    );
+  };
 
   return (
     <Form {...form}>
@@ -66,7 +78,9 @@ const LoginForm = () => {
           )}
         />
 
-        <Button type="submit">Login</Button>
+        <Button type="submit" disabled={isPending}>
+          Login
+        </Button>
       </form>
     </Form>
   );

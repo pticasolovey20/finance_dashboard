@@ -1,11 +1,12 @@
 "use client";
 
 import * as zod from "zod";
-import { startTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { RegisterSchema } from "@/schemas/authSchema";
+
 import { register } from "@/actions/register";
+import { RegisterSchema } from "@/schemas/authSchema";
 
 import {
   Form,
@@ -19,6 +20,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 const RegisterForm = () => {
+  const [isPending, startTransition] = useTransition();
+
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
@@ -75,7 +78,9 @@ const RegisterForm = () => {
           )}
         />
 
-        <Button type="submit">Register</Button>
+        <Button type="submit" disabled={isPending}>
+          Register
+        </Button>
       </form>
     </Form>
   );
