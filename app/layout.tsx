@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 
-import TopBar from "@/components/TopBar";
+import TopBar from "@/components/top-bar/TopBar";
 
 import "./globals.scss";
 
