@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
+
 import "./globals.scss";
 
 const geistSans = localFont({
@@ -25,10 +26,11 @@ interface IRootLayoutProps {
   children: Readonly<ReactNode>;
 }
 
-const RootLayout = ({ children }: IRootLayoutProps) => {
+const RootLayout = async ({ children }: IRootLayoutProps) => {
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
         {children}
