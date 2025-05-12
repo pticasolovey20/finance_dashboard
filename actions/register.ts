@@ -11,7 +11,7 @@ export const register = async (values: zod.infer<typeof RegisterSchema>) => {
   const validatedFields = RegisterSchema.safeParse(values);
   if (!validatedFields.success) return { error: "Invalid fields!" };
 
-  const { email, password } = validatedFields.data;
+  const { firstName, lastName, email, password } = validatedFields.data;
   const hashedPassword = await bcrypt.hash(password, 10);
 
   const existingUser = await getUserByEmail(email);
@@ -19,6 +19,8 @@ export const register = async (values: zod.infer<typeof RegisterSchema>) => {
 
   await database.user.create({
     data: {
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
     },
