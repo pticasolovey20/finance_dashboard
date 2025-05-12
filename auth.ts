@@ -13,6 +13,14 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
         session.user.id = token.sub;
       }
 
+      if (token.firstName && session.user) {
+        session.user.firstName = token.firstName as string;
+      }
+
+      if (token.lastName && session.user) {
+        session.user.lastName = token.lastName as string;
+      }
+
       if (token.role && session.user) {
         session.user.role = token.role as UserRole;
       }
@@ -26,6 +34,8 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
       const existingUser = await getUserById(token.sub);
       if (!existingUser) return token;
 
+      token.firstName = existingUser.firstName;
+      token.lastName = existingUser.lastName;
       token.role = existingUser.role;
 
       return token;
