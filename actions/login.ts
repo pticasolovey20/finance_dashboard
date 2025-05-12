@@ -14,11 +14,13 @@ export const login = async (values: zod.infer<typeof LoginSchema>) => {
   const { email, password } = validatedFields.data;
 
   try {
-    await signIn("credentials", {
+    const response = await signIn("credentials", {
       email,
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
+
+    return response;
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {

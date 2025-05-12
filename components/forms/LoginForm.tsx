@@ -3,27 +3,26 @@
 import * as zod from "zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas/authSchema";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Form, FormField } from "@/components/ui/form";
+import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
+
+type LoginFormFields = zod.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
   const form = useForm({
+    mode: "onChange",
     resolver: zodResolver(LoginSchema),
+
     defaultValues: {
       email: "",
       password: "",
@@ -35,7 +34,16 @@ const LoginForm = () => {
   const onFormSubmit = async (formData: zod.infer<typeof LoginSchema>) => {
     startTransition(() =>
       login(formData)
-        .then(() => {})
+        .then((data) => {
+          if (data?.error) {
+            toast({
+              variant: "destructive",
+              description: data.error,
+            });
+
+            return;
+          }
+        })
         .catch((error) => console.log(error))
     );
   };
@@ -47,19 +55,12 @@ const LoginForm = () => {
           control={control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-
-              <FormControl>
-                <Input
-                  {...field}
-                  className="h-10"
-                  placeholder="example@gmail.com"
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<LoginFormFields>
+              field={field}
+              id="email"
+              type="email"
+              label="Email"
+            />
           )}
         />
 
@@ -67,15 +68,12 @@ const LoginForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-
-              <FormControl>
-                <Input {...field} type="password" className="h-10" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<LoginFormFields>
+              field={field}
+              id="password"
+              type="password"
+              label="Password"
+            />
           )}
         />
 

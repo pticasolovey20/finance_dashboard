@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { cn } from "@/lib/utils";
 
+import { Toaster } from "@/components/ui/toaster";
 import "./globals.scss";
 
 const geistSans = localFont({
@@ -33,6 +34,7 @@ const RootLayout = async ({ children }: IRootLayoutProps) => {
         suppressHydrationWarning
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
+        <Toaster />
         {children}
       </body>
     </html>
