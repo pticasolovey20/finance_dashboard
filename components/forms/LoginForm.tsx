@@ -42,10 +42,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(onFormSubmit)}
-        className="max-w-[400px] w-full space-y-4 p-4"
-      >
+      <form onSubmit={handleSubmit(onFormSubmit)} className="w-full space-y-4">
         <FormField
           control={control}
           name="email"
@@ -54,7 +51,11 @@ const LoginForm = () => {
               <FormLabel>Email</FormLabel>
 
               <FormControl>
-                <Input placeholder="example@gmail.com" {...field} />
+                <Input
+                  {...field}
+                  className="h-10"
+                  placeholder="example@gmail.com"
+                />
               </FormControl>
 
               <FormMessage />
@@ -70,7 +71,7 @@ const LoginForm = () => {
               <FormLabel>Password</FormLabel>
 
               <FormControl>
-                <Input {...field} type="password" />
+                <Input {...field} type="password" className="h-10" />
               </FormControl>
 
               <FormMessage />
@@ -78,7 +79,7 @@ const LoginForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={isPending} className="w-full">
+        <Button type="submit" disabled={isPending} className="w-full h-10">
           Login
         </Button>
       </form>

@@ -25,8 +25,11 @@ const RegisterForm = () => {
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
+      firstName: "",
+      lastName: "",
       email: "",
       password: "",
+      confirmPassword: "",
     },
   });
 
@@ -42,10 +45,39 @@ const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(onFormSubmit)}
-        className="max-w-[400px] w-full space-y-4 p-4"
-      >
+      <form onSubmit={handleSubmit(onFormSubmit)} className="w-full space-y-4">
+        <FormField
+          control={control}
+          name="firstName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First Name</FormLabel>
+
+              <FormControl>
+                <Input {...field} className="h-10" placeholder="Jhon" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Last Name</FormLabel>
+
+              <FormControl>
+                <Input {...field} className="h-10" placeholder="Doe" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={control}
           name="email"
@@ -54,7 +86,11 @@ const RegisterForm = () => {
               <FormLabel>Email</FormLabel>
 
               <FormControl>
-                <Input placeholder="example@gmail.com" {...field} />
+                <Input
+                  {...field}
+                  className="h-10"
+                  placeholder="example@gmail.com"
+                />
               </FormControl>
 
               <FormMessage />
@@ -70,7 +106,7 @@ const RegisterForm = () => {
               <FormLabel>Password</FormLabel>
 
               <FormControl>
-                <Input {...field} type="password" />
+                <Input {...field} type="password" className="h-10" />
               </FormControl>
 
               <FormMessage />
@@ -78,7 +114,23 @@ const RegisterForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={isPending} className="w-full">
+        <FormField
+          control={control}
+          name="confirmPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Confirm Password</FormLabel>
+
+              <FormControl>
+                <Input {...field} type="password" className="h-10" />
+              </FormControl>
+
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <Button type="submit" disabled={isPending} className="w-full h-10">
           Register
         </Button>
       </form>

@@ -1,7 +1,20 @@
 import LoginForm from "@/components/forms/LoginForm";
+import ProvidersWrapper from "@/components/ProvidersWrapper";
+import ActionsWrapper from "@/components/ActionsWrapper";
 
 const LoginPage = () => {
-  return <LoginForm />;
+  return (
+    <div className="max-w-[420px] w-full flex flex-col justify-center z-10">
+      <h4 className="text-2xl md:text-4xl font-semibold mb-10">
+        Welcome! <br />
+        Login to continue
+      </h4>
+
+      <LoginForm />
+      <ProvidersWrapper />
+      <ActionsWrapper />
+    </div>
+  );
 };
 
 export default LoginPage;
