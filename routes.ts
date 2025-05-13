@@ -2,7 +2,10 @@ import { AuthRoutesEnum, ProtectedRoutesEnum } from "@/types/route";
 
 export const publicRoutes = ["/faq"];
 
-export const authRoutes = [AuthRoutesEnum.LOGIN, AuthRoutesEnum.REGISTER];
+export const authRoutes = [
+  AuthRoutesEnum.LOGIN,
+  AuthRoutesEnum.REGISTER,
+] as string[];
 
 export const apiAuthPrefix = "/api/auth";
 

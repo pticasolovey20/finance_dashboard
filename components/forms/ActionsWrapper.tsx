@@ -11,7 +11,7 @@ const ActionsWrapper = () => {
         className="min-w-[64px] py-2 px-3 font-semibold capitalize"
         aria-label="Forgot password link button"
       >
-        <Link href={AuthRoutesEnum.FORGOT_PASSWORD}>Forgot Password</Link>
+        <Link href="#">Forgot Password</Link>
       </Button>
 
       <Button
