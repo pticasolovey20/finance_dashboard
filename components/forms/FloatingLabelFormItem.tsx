@@ -6,13 +6,19 @@ import {
 } from "react-hook-form";
 
 import { Input } from "@/components/ui/input";
-import { FormItem, FormControl, FormMessage } from "@/components/ui/form";
+import {
+  FormItem,
+  FormControl,
+  FormMessage,
+  FormDescription,
+} from "@/components/ui/form";
 
 interface IFloatingLabelFormItemProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
   id: string;
   type?: string;
   label: string;
+  helperText?: string;
 }
 
 const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
@@ -20,6 +26,7 @@ const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
   id,
   type = "text",
   label,
+  helperText,
 }: IFloatingLabelFormItemProps<TFieldValues>) => {
   const { formState } = useFormContext<TFieldValues>();
 
@@ -44,7 +51,7 @@ const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
           <label
             htmlFor={id}
             className={cn(
-              "px-1 peer-focus:bg-[#f7f7f7]",
+              "px-1 rounded-sm peer-focus:bg-[#f7f7f7]",
               "text-sm text-muted-foreground peer-focus:text-sm",
               "absolute left-3 peer-focus:top-[-10px] peer-focus:left-2",
               "transition-all duration-200 ease-in-out pointer-events-none",
@@ -62,6 +69,10 @@ const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
       </FormControl>
 
       <FormMessage className="ml-2 !mt-1" />
+
+      {helperText && !hasError && (
+        <FormDescription className="ml-2 !mt-1">{helperText}</FormDescription>
+      )}
     </FormItem>
   );
 };

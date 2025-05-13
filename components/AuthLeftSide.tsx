@@ -4,9 +4,9 @@ import dynamic from "next/dynamic";
 const Logo = dynamic(() => import("@/components/Logo"), { ssr: false });
 const Slogan = lazy(() => import("@/components/Slogan"));
 
-const AuthPageDecoration = () => {
+const AuthLeftSide = () => {
   return (
-    <div className="max-w-[479px] w-full hidden sm:flex flex-col justify-center mr-[52px] z-10">
+    <div className="max-w-[479px] w-full hidden md:flex flex-col justify-center mr-[52px] z-10">
       <Logo />
 
       <Suspense fallback={null}>
@@ -16,4 +16,4 @@ const AuthPageDecoration = () => {
   );
 };
 
-export default AuthPageDecoration;
+export default AuthLeftSide;

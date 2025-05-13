@@ -9,26 +9,24 @@ import { LoginSchema } from "@/schemas/authSchema";
 
 export const login = async (values: zod.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
-  if (!validatedFields.success) return { error: "Invalid fields!" };
+  if (!validatedFields.success) throw new Error("Invalid fields!");
 
   const { email, password } = validatedFields.data;
 
   try {
-    const response = await signIn("credentials", {
+    await signIn("credentials", {
       email,
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
-
-    return response;
   } catch (error) {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          return { error: "Invalid credential!" };
+          throw new Error("Invalid credential!");
 
         default:
-          return { error: "Something went wrong!" };
+          throw new Error("Something went wrong!");
       }
     }
 

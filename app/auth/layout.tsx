@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
-import AuthPageDecoration from "@/components/AuthDecoration";
+import AuthLeftSide from "@/components/AuthLeftSide";
 
 interface IAuthLayoutProps {
   children: ReactNode;
@@ -11,7 +11,7 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
   return (
     <main
       className={cn(
-        "min-h-screen h-full relative",
+        "min-h-screen h-full relative p-4 md:p-8 lg:p-12",
         "flex items-center justify-center overflow-hidden"
       )}
     >
@@ -24,7 +24,7 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
       />
 
       <div className="w-full h-full flex justify-center">
-        <AuthPageDecoration />
+        <AuthLeftSide />
         {children}
       </div>
     </main>

@@ -33,18 +33,12 @@ const LoginForm = () => {
 
   const onFormSubmit = async (formData: zod.infer<typeof LoginSchema>) => {
     startTransition(() =>
-      login(formData)
-        .then((data) => {
-          if (data?.error) {
-            toast({
-              variant: "destructive",
-              description: data.error,
-            });
-
-            return;
-          }
-        })
-        .catch((error) => console.log(error))
+      login(formData).catch((error) => {
+        toast({
+          variant: "destructive",
+          description: error.message || "Something went wrong",
+        });
+      })
     );
   };
 

@@ -5,22 +5,19 @@ import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useToast } from "@/hooks/use-toast";
 import { register } from "@/actions/register";
 import { RegisterSchema } from "@/schemas/authSchema";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Form, FormField } from "@/components/ui/form";
+import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
+
+type RegisterFormFields = zod.infer<typeof RegisterSchema>;
 
 const RegisterForm = () => {
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
@@ -37,9 +34,12 @@ const RegisterForm = () => {
 
   const onFormSubmit = async (formData: zod.infer<typeof RegisterSchema>) => {
     startTransition(() =>
-      register(formData)
-        .then((data) => console.log(data))
-        .catch((error) => console.log(error))
+      register(formData).catch((error) => {
+        toast({
+          variant: "destructive",
+          description: error.message || "Something went wrong",
+        });
+      })
     );
   };
 
@@ -50,15 +50,11 @@ const RegisterForm = () => {
           control={control}
           name="firstName"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>First Name</FormLabel>
-
-              <FormControl>
-                <Input {...field} className="h-10" placeholder="Jhon" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<RegisterFormFields>
+              field={field}
+              id="firstName"
+              label="First Name"
+            />
           )}
         />
 
@@ -66,15 +62,11 @@ const RegisterForm = () => {
           control={control}
           name="lastName"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Last Name</FormLabel>
-
-              <FormControl>
-                <Input {...field} className="h-10" placeholder="Doe" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<RegisterFormFields>
+              id="lastName"
+              field={field}
+              label="Last Name"
+            />
           )}
         />
 
@@ -82,19 +74,11 @@ const RegisterForm = () => {
           control={control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-
-              <FormControl>
-                <Input
-                  {...field}
-                  className="h-10"
-                  placeholder="example@gmail.com"
-                />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<RegisterFormFields>
+              id="email"
+              label="Email"
+              field={field}
+            />
           )}
         />
 
@@ -102,15 +86,13 @@ const RegisterForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-
-              <FormControl>
-                <Input {...field} type="password" className="h-10" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<RegisterFormFields>
+              field={field}
+              id="password"
+              type="password"
+              label="Password"
+              helperText="Password must be at least 8 english characters, and contain 1 uppercase, 1 lowercase and 1 digit"
+            />
           )}
         />
 
@@ -118,15 +100,12 @@ const RegisterForm = () => {
           control={control}
           name="confirmPassword"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
-
-              <FormControl>
-                <Input {...field} type="password" className="h-10" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<RegisterFormFields>
+              field={field}
+              type="password"
+              id="confirmPassword"
+              label="Confirm Password"
+            />
           )}
         />
 

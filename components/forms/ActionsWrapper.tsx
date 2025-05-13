@@ -7,6 +7,7 @@ const ActionsWrapper = () => {
       <Button
         variant="link"
         className="min-w-[64px] py-2 px-3 font-semibold capitalize"
+        aria-label="Forgot password link button"
       >
         <Link href="#">Forgot Password</Link>
       </Button>
@@ -14,6 +15,7 @@ const ActionsWrapper = () => {
       <Button
         variant="link"
         className="min-w-[64px] py-2 px-3 font-semibold capitalize"
+        aria-label="Create account link button"
       >
         <Link href="/auth/register">Create Account</Link>
       </Button>
