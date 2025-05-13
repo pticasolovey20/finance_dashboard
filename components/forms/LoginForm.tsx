@@ -3,27 +3,26 @@
 import * as zod from "zod";
 import { useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { login } from "@/actions/login";
 import { LoginSchema } from "@/schemas/authSchema";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Form, FormField } from "@/components/ui/form";
+import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
+
+type LoginFormFields = zod.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
   const form = useForm({
+    mode: "onChange",
     resolver: zodResolver(LoginSchema),
+
     defaultValues: {
       email: "",
       password: "",
@@ -34,31 +33,28 @@ const LoginForm = () => {
 
   const onFormSubmit = async (formData: zod.infer<typeof LoginSchema>) => {
     startTransition(() =>
-      login(formData)
-        .then(() => {})
-        .catch((error) => console.log(error))
+      login(formData).catch((error) => {
+        toast({
+          variant: "destructive",
+          description: error.message || "Something went wrong",
+        });
+      })
     );
   };
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={handleSubmit(onFormSubmit)}
-        className="max-w-[400px] w-full space-y-4 p-4"
-      >
+      <form onSubmit={handleSubmit(onFormSubmit)} className="w-full space-y-4">
         <FormField
           control={control}
           name="email"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-
-              <FormControl>
-                <Input placeholder="example@gmail.com" {...field} />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<LoginFormFields>
+              field={field}
+              id="email"
+              type="email"
+              label="Email"
+            />
           )}
         />
 
@@ -66,19 +62,16 @@ const LoginForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-
-              <FormControl>
-                <Input {...field} type="password" />
-              </FormControl>
-
-              <FormMessage />
-            </FormItem>
+            <FloatingLabelFormItem<LoginFormFields>
+              field={field}
+              id="password"
+              type="password"
+              label="Password"
+            />
           )}
         />
 
-        <Button type="submit" disabled={isPending} className="w-full">
+        <Button type="submit" disabled={isPending} className="w-full h-10">
           Login
         </Button>
       </form>

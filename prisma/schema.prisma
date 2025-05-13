@@ -19,8 +19,6 @@ datasource db {
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
-
-
 model Account {
   id                 String  @id @default(cuid())
   userId             String  @map("user_id")
@@ -41,11 +39,10 @@ model Account {
   @@map("accounts")
 }
 
-
-
 model User {
   id            String    @id @default(cuid())
-  name          String?
+  firstName     String?
+  lastName      String?
   email         String?   @unique
   emailVerified DateTime? @map("email_verified")
   password      String?
