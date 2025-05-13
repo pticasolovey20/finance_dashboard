@@ -1,8 +1,21 @@
 import { Settings } from "lucide-react";
+import { ProtectedRoutesEnum } from "@/types/route";
 
 export const NAVIGATION = [
-  { label: "Dashboard", href: "/dashboard", icon: <Settings /> },
-  { label: "Transactions", href: "/transactions", icon: <Settings /> },
-  { label: "Budget", href: "/budget", icon: <Settings /> },
-  { label: "Settings", href: "/settings", icon: <Settings /> },
+  {
+    label: "Dashboard",
+    href: ProtectedRoutesEnum.DASHBOARD,
+    icon: <Settings />,
+  },
+  {
+    label: "Transactions",
+    href: ProtectedRoutesEnum.TRANSACTIONS,
+    icon: <Settings />,
+  },
+  { label: "Budget", href: ProtectedRoutesEnum.BUDGET, icon: <Settings /> },
+  {
+    label: "Settings",
+    href: ProtectedRoutesEnum.SETTINGS,
+    icon: <Settings />,
+  },
 ];
