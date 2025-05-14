@@ -1,3 +1,5 @@
+import { AuthRoutesEnum } from "@/types/route";
+
 import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
 import { Button } from "@/components/ui/button";
@@ -15,7 +17,7 @@ const RegisterPage = () => {
           size="icon"
           aria-label="Back to login page button"
         >
-          <Link href="/auth/login">
+          <Link href={AuthRoutesEnum.LOGIN}>
             <IoMdArrowBack />
           </Link>
         </Button>

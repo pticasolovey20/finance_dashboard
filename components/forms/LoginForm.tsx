@@ -1,9 +1,11 @@
 "use client";
 
 import * as zod from "zod";
-import { useTransition } from "react";
+
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
+import { useTransition, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { login } from "@/actions/login";
@@ -16,8 +18,21 @@ import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
 type LoginFormFields = zod.infer<typeof LoginSchema>;
 
 const LoginForm = () => {
-  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const errorParam = searchParams.get("error");
+
+    if (errorParam === "OAuthAccountNotLinked") {
+      toast({
+        variant: "destructive",
+        description: "Email is already used with a different provider!",
+      });
+    }
+  }, [searchParams, toast]);
+
+  const [isPending, startTransition] = useTransition();
 
   const form = useForm({
     mode: "onChange",
