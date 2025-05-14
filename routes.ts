@@ -5,6 +5,7 @@ export const publicRoutes = ["/faq"];
 export const authRoutes = [
   AuthRoutesEnum.LOGIN,
   AuthRoutesEnum.REGISTER,
+  AuthRoutesEnum.ERROR,
 ] as string[];
 
 export const apiAuthPrefix = "/api/auth";

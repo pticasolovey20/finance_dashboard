@@ -5,8 +5,28 @@ import authConfig from "@/auth.config";
 import { getUserById } from "@/lib/user";
 import { UserRole } from "@prisma/client";
 import { database } from "@/lib/database";
+import { AuthRoutesEnum } from "./types/route";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  pages: {
+    signIn: AuthRoutesEnum.LOGIN,
+    error: AuthRoutesEnum.ERROR,
+  },
+
+  events: {
+    async linkAccount({ user }) {
+      await database.user.update({
+        where: {
+          id: user.id,
+        },
+
+        data: {
+          emailVerified: new Date(),
+        },
+      });
+    },
+  },
+
   callbacks: {
     async session({ token, session }) {
       if (token.sub && session.user) {

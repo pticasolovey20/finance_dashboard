@@ -8,4 +8,5 @@ export enum ProtectedRoutesEnum {
 export enum AuthRoutesEnum {
   LOGIN = "/auth/login",
   REGISTER = "/auth/register",
+  ERROR = "/auth/error",
 }
