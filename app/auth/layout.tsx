@@ -11,7 +11,7 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
   return (
     <main
       className={cn(
-        "min-h-screen h-full relative p-4 md:p-8 lg:p-12",
+        "min-h-[100dvh] h-full relative p-4 md:p-8 lg:p-12",
         "flex items-center justify-center overflow-hidden"
       )}
     >
