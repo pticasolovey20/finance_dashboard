@@ -11,7 +11,12 @@ const ActionsWrapper = () => {
         className="min-w-[64px] py-2 px-3 font-semibold capitalize"
         aria-label="Forgot password link button"
       >
-        <Link href="#">Forgot Password</Link>
+        <Link
+          href="#"
+          className="text-[12px] text-muted-foreground hover:text-primary"
+        >
+          Forgot Password
+        </Link>
       </Button>
 
       <Button
@@ -19,7 +24,12 @@ const ActionsWrapper = () => {
         className="min-w-[64px] py-2 px-3 font-semibold capitalize"
         aria-label="Create account link button"
       >
-        <Link href={AuthRoutesEnum.REGISTER}>Create Account</Link>
+        <Link
+          href={AuthRoutesEnum.REGISTER}
+          className="text-[12px] text-muted-foreground hover:text-primary"
+        >
+          Create Account
+        </Link>
       </Button>
     </div>
   );
