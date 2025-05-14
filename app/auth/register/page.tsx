@@ -16,6 +16,7 @@ const RegisterPage = () => {
           variant="ghost"
           size="icon"
           aria-label="Back to login page button"
+          className="text-muted-foreground hover:bg-transparent hover:text-primary"
         >
           <Link href={AuthRoutesEnum.LOGIN}>
             <IoMdArrowBack />

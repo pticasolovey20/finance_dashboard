@@ -11,7 +11,7 @@ import { RegisterSchema } from "@/schemas/authSchema";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
-import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
+import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 
 const RegisterForm = () => {
   const { toast } = useToast();
@@ -52,7 +52,7 @@ const RegisterForm = () => {
           control={control}
           name="firstName"
           render={({ field }) => (
-            <FloatingLabelFormItem<RegisterFormFields>
+            <FloatingLabelInputField<RegisterFormFields>
               field={field}
               id="firstName"
               label="First Name"
@@ -64,7 +64,7 @@ const RegisterForm = () => {
           control={control}
           name="lastName"
           render={({ field }) => (
-            <FloatingLabelFormItem<RegisterFormFields>
+            <FloatingLabelInputField<RegisterFormFields>
               id="lastName"
               field={field}
               label="Last Name"
@@ -76,7 +76,7 @@ const RegisterForm = () => {
           control={control}
           name="email"
           render={({ field }) => (
-            <FloatingLabelFormItem<RegisterFormFields>
+            <FloatingLabelInputField<RegisterFormFields>
               id="email"
               label="Email"
               field={field}
@@ -88,7 +88,7 @@ const RegisterForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FloatingLabelFormItem<RegisterFormFields>
+            <FloatingLabelInputField<RegisterFormFields>
               field={field}
               id="password"
               type="password"
@@ -102,7 +102,7 @@ const RegisterForm = () => {
           control={control}
           name="confirmPassword"
           render={({ field }) => (
-            <FloatingLabelFormItem<RegisterFormFields>
+            <FloatingLabelInputField<RegisterFormFields>
               field={field}
               type="password"
               id="confirmPassword"
