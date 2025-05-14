@@ -9,7 +9,7 @@ import { LoginSchema } from "@/schemas/authSchema";
 
 export const login = async (values: zod.infer<typeof LoginSchema>) => {
   const validatedFields = LoginSchema.safeParse(values);
-  if (!validatedFields.success) throw new Error("Invalid fields!");
+  if (!validatedFields.success) return { message: "Invalid fields!" };
 
   const { email, password } = validatedFields.data;
 
@@ -23,10 +23,13 @@ export const login = async (values: zod.infer<typeof LoginSchema>) => {
     if (error instanceof AuthError) {
       switch (error.type) {
         case "CredentialsSignin":
-          throw new Error("Invalid credential!");
+          return { message: "Invalid credential!" };
+
+        case "CallbackRouteError":
+          return { message: error.cause?.err?.toString() };
 
         default:
-          throw new Error("Something went wrong!");
+          return { message: "Something went wrong!" };
       }
     }
 

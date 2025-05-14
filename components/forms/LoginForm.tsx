@@ -1,25 +1,24 @@
 "use client";
 
-import * as zod from "zod";
-
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
-import { useTransition, useEffect } from "react";
+
 import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { login } from "@/actions/login";
+import { LoginFormFields } from "@/types/auth";
+import { useAuthStore } from "@/store/authStore";
 import { LoginSchema } from "@/schemas/authSchema";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
 
-type LoginFormFields = zod.infer<typeof LoginSchema>;
-
 const LoginForm = () => {
   const { toast } = useToast();
   const searchParams = useSearchParams();
+  const { loginUser, isLoading, error, resetError } = useAuthStore();
 
   useEffect(() => {
     const errorParam = searchParams.get("error");
@@ -30,9 +29,16 @@ const LoginForm = () => {
         description: "Email is already used with a different provider!",
       });
     }
-  }, [searchParams, toast]);
 
-  const [isPending, startTransition] = useTransition();
+    if (error) {
+      toast({
+        variant: "destructive",
+        description: error,
+      });
+
+      resetError();
+    }
+  }, [searchParams, error, toast, resetError]);
 
   const form = useForm({
     mode: "onChange",
@@ -46,16 +52,7 @@ const LoginForm = () => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = async (formData: zod.infer<typeof LoginSchema>) => {
-    startTransition(() =>
-      login(formData).catch((error) => {
-        toast({
-          variant: "destructive",
-          description: error.message || "Something went wrong",
-        });
-      })
-    );
-  };
+  const onFormSubmit = async (formData: LoginFormFields) => loginUser(formData);
 
   return (
     <Form {...form}>
@@ -86,7 +83,11 @@ const LoginForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={isPending} className="w-full h-10">
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-10 flex gap-2"
+        >
           Login
         </Button>
       </form>
