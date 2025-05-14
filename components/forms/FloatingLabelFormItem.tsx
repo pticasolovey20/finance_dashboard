@@ -1,3 +1,4 @@
+import { HTMLInputTypeAttribute, useState } from "react";
 import { cn } from "@/lib/utils";
 import {
   ControllerRenderProps,
@@ -5,18 +6,20 @@ import {
   useFormContext,
 } from "react-hook-form";
 
-import { Input } from "@/components/ui/input";
 import {
   FormItem,
   FormControl,
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { PiEye, PiEyeClosed } from "react-icons/pi";
 
 interface IFloatingLabelFormItemProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
   id: string;
-  type?: string;
+  type?: HTMLInputTypeAttribute;
   label: string;
   helperText?: string;
 }
@@ -28,10 +31,18 @@ const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
   label,
   helperText,
 }: IFloatingLabelFormItemProps<TFieldValues>) => {
+  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
   const { formState } = useFormContext<TFieldValues>();
 
+  const isPasswordField = type === "password";
   const hasValue = !!field.value;
   const hasError = !!formState.errors[field.name];
+
+  const togglePasswordVisibility = () => {
+    setInputType((prev) => {
+      return prev === "password" ? "text" : "password";
+    });
+  };
 
   return (
     <FormItem>
@@ -40,10 +51,11 @@ const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
           <Input
             id={id}
             {...field}
-            type={type}
+            onBlur={() => setInputType("password")}
+            type={inputType}
             placeholder=" "
             className={cn(
-              "peer h-10",
+              "peer h-10 shadow-sm",
               hasError && "border-red-500 focus-visible:ring-red-500"
             )}
           />
@@ -65,6 +77,19 @@ const FloatingLabelFormItem = <TFieldValues extends FieldValues>({
           >
             {label}
           </label>
+
+          {isPasswordField && (
+            <Button
+              size="icon"
+              type="button"
+              variant="ghost"
+              onClick={togglePasswordVisibility}
+              className="absolute top-1/2 right-0.5 transform -translate-y-1/2 text-muted-foreground peer-focus:text-primary hover:bg-transparent"
+              tabIndex={-1}
+            >
+              {inputType === "password" ? <PiEye /> : <PiEyeClosed />}
+            </Button>
+          )}
         </div>
       </FormControl>
 
