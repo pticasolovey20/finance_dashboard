@@ -1,5 +1,3 @@
-import { Suspense } from "react";
-
 import LoginForm from "@/components/forms/LoginForm";
 import ProvidersWrapper from "@/components/forms/ProvidersWrapper";
 import ActionsWrapper from "@/components/forms/ActionsWrapper";
@@ -12,9 +10,7 @@ const LoginPage = () => {
         Login to continue
       </h4>
 
-      <Suspense fallback={null}>
-        <LoginForm />
-      </Suspense>
+      <LoginForm />
 
       <ProvidersWrapper />
       <ActionsWrapper />

@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
 
-import { useSearchParams } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { LoginFormFields } from "@/types/auth";
@@ -17,19 +16,24 @@ import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
 
 const LoginForm = () => {
   const { toast } = useToast();
-  const searchParams = useSearchParams();
   const { loginUser, isLoading, error, resetError } = useAuthStore();
 
   useEffect(() => {
-    const errorParam = searchParams.get("error");
+    const queryParams = new URLSearchParams(window.location.search);
+    const errorParam = queryParams.get("error");
 
     if (errorParam === "OAuthAccountNotLinked") {
       toast({
         variant: "destructive",
         description: "Email is already used with a different provider!",
       });
-    }
 
+      queryParams.delete("error");
+      window.history.replaceState(null, "", window.location.pathname);
+    }
+  }, [toast]);
+
+  useEffect(() => {
     if (error) {
       toast({
         variant: "destructive",
@@ -38,7 +42,7 @@ const LoginForm = () => {
 
       resetError();
     }
-  }, [searchParams, error, toast, resetError]);
+  }, [error, toast, resetError]);
 
   const form = useForm({
     mode: "onChange",
