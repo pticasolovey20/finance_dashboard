@@ -1,32 +1,42 @@
 "use client";
 
+import { ProviderType } from "@/types/auth";
+import { useAuthStore } from "@/store/authStore";
+import { loginWithProvider } from "@/actions/loginWithProvider";
+
 import { FcGoogle } from "react-icons/fc";
 import { BsGithub } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
-import { loginWithProvider } from "@/actions/loginWithProvider";
 
 const ProvidersWrapper = () => {
+  const { isLoading, setLoading } = useAuthStore();
+
+  const handleLoginWithProvider = async (provider: ProviderType) => {
+    setLoading(true);
+    loginWithProvider(provider).finally(() => setLoading(false));
+  };
+
   return (
     <div className="flex flex-col xs:flex-row gap-4 mt-4">
-      <form action={() => loginWithProvider("google")} className="w-full">
-        <Button
-          variant="outline"
-          className="w-full h-10"
-          aria-label="Google auth provider button"
-        >
-          <FcGoogle />
-        </Button>
-      </form>
+      <Button
+        variant="outline"
+        className="w-full h-10"
+        aria-label="Google auth provider button"
+        onClick={() => handleLoginWithProvider("google")}
+        disabled={isLoading}
+      >
+        <FcGoogle />
+      </Button>
 
-      <form action={() => loginWithProvider("github")} className="w-full">
-        <Button
-          variant="outline"
-          className="w-full h-10"
-          aria-label="GitHub auth provider button"
-        >
-          <BsGithub />
-        </Button>
-      </form>
+      <Button
+        variant="outline"
+        className="w-full h-10"
+        aria-label="GitHub auth provider button"
+        onClick={() => handleLoginWithProvider("github")}
+        disabled={isLoading}
+      >
+        <BsGithub />
+      </Button>
     </div>
   );
 };

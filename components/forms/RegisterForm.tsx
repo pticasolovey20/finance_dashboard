@@ -1,23 +1,32 @@
 "use client";
 
-import * as zod from "zod";
-import { useTransition } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useToast } from "@/hooks/use-toast";
-import { register } from "@/actions/register";
+import { useAuthStore } from "@/store/authStore";
+import { RegisterFormFields } from "@/types/auth";
 import { RegisterSchema } from "@/schemas/authSchema";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import FloatingLabelFormItem from "@/components/forms/FloatingLabelFormItem";
 
-type RegisterFormFields = zod.infer<typeof RegisterSchema>;
-
 const RegisterForm = () => {
-  const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const { registerUser, isLoading, error, resetError } = useAuthStore();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        variant: "destructive",
+        description: error,
+      });
+
+      resetError();
+    }
+  }, [error, toast, resetError]);
 
   const form = useForm({
     resolver: zodResolver(RegisterSchema),
@@ -32,15 +41,8 @@ const RegisterForm = () => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = async (formData: zod.infer<typeof RegisterSchema>) => {
-    startTransition(() =>
-      register(formData).catch((error) => {
-        toast({
-          variant: "destructive",
-          description: error.message || "Something went wrong",
-        });
-      })
-    );
+  const onFormSubmit = async (formData: RegisterFormFields) => {
+    registerUser(formData);
   };
 
   return (
@@ -109,8 +111,12 @@ const RegisterForm = () => {
           )}
         />
 
-        <Button type="submit" disabled={isPending} className="w-full h-10">
-          Register
+        <Button
+          type="submit"
+          disabled={isLoading}
+          className="w-full h-10 flex gap-2"
+        >
+          <span>Register</span>
         </Button>
       </form>
     </Form>

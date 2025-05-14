@@ -1,13 +1,19 @@
+"use client";
+
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
+import { useAuthStore } from "@/store/authStore";
 
 import AuthLeftSide from "@/components/AuthLeftSide";
+import CircleLoader from "@/components/CircleLoader";
 
 interface IAuthLayoutProps {
   children: ReactNode;
 }
 
 const AuthLayout = ({ children }: IAuthLayoutProps) => {
+  const { isLoading } = useAuthStore();
+
   return (
     <main
       className={cn(
@@ -22,6 +28,18 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
           "origin-bottom -skew-x-[13.9deg]"
         )}
       />
+
+      {isLoading && (
+        <div
+          className={cn(
+            "absolute top-0 left-0 w-full h-screen",
+            "flex items-center justify-center",
+            "bg-black/25 z-20"
+          )}
+        >
+          <CircleLoader />
+        </div>
+      )}
 
       <div className="w-full h-full flex justify-center">
         <AuthLeftSide />
