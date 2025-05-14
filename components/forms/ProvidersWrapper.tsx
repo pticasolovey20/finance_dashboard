@@ -17,7 +17,7 @@ const ProvidersWrapper = () => {
   };
 
   return (
-    <div className="flex flex-col xs:flex-row gap-4 mt-4">
+    <div className="flex flex-col xs:flex-row gap-2 xs:gap-4 mt-4">
       <Button
         variant="outline"
         className="w-full h-10"
