@@ -12,6 +12,7 @@ import { RegisterSchema } from "@/schemas/authSchema";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
+import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
 
 const RegisterForm = () => {
   const { toast } = useToast();
@@ -88,10 +89,9 @@ const RegisterForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FloatingLabelInputField<RegisterFormFields>
+            <FloatingLabelPasswordField<RegisterFormFields>
               field={field}
               id="password"
-              type="password"
               label="Password"
               helperText="Password must be at least 8 english characters, and contain 1 uppercase, 1 lowercase and 1 digit"
             />
@@ -102,9 +102,8 @@ const RegisterForm = () => {
           control={control}
           name="confirmPassword"
           render={({ field }) => (
-            <FloatingLabelInputField<RegisterFormFields>
+            <FloatingLabelPasswordField<RegisterFormFields>
               field={field}
-              type="password"
               id="confirmPassword"
               label="Confirm Password"
             />
@@ -116,7 +115,7 @@ const RegisterForm = () => {
           disabled={isLoading}
           className="w-full h-10 flex gap-2"
         >
-          <span>Register</span>
+          Register
         </Button>
       </form>
     </Form>

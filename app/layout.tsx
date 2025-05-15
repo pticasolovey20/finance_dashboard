@@ -1,21 +1,16 @@
 import { ReactNode } from "react";
 import type { Metadata } from "next";
-import localFont from "next/font/local";
+import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
 
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.scss";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +27,7 @@ const RootLayout = async ({ children }: IRootLayoutProps) => {
     <html lang="en">
       <body
         suppressHydrationWarning
-        className={cn(geistSans.variable, geistMono.variable, "antialiased")}
+        className={cn(montserrat.variable, "font-sans antialiased")}
       >
         <Toaster />
         {children}

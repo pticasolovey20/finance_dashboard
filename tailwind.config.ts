@@ -12,6 +12,10 @@ const config: Config = {
 
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["var(--font-montserrat)", "sans-serif"],
+      },
+
       screens: {
         xs: "380px",
         sm: "576px",

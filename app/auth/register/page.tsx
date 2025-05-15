@@ -8,7 +8,7 @@ import ProvidersWrapper from "@/components/forms/ProvidersWrapper";
 
 const RegisterPage = () => {
   return (
-    <div className="max-w-[420px] w-full flex flex-col justify-center z-10">
+    <div className="flex-1 flex flex-col justify-center">
       <h4 className="text-3xl sm:text-4xl font-semibold mb-10">Register</h4>
 
       <div className="mb-4">

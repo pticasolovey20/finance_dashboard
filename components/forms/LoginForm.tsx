@@ -13,6 +13,7 @@ import { LoginSchema } from "@/schemas/authSchema";
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
+import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
 
 const LoginForm = () => {
   const { toast } = useToast();
@@ -78,10 +79,9 @@ const LoginForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FloatingLabelInputField<LoginFormFields>
+            <FloatingLabelPasswordField<LoginFormFields>
               field={field}
               id="password"
-              type="password"
               label="Password"
             />
           )}

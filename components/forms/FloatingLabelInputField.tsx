@@ -1,4 +1,4 @@
-import { HTMLInputTypeAttribute, useState } from "react";
+import { HTMLInputTypeAttribute } from "react";
 import { cn } from "@/lib/utils";
 import {
   ControllerRenderProps,
@@ -14,9 +14,8 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import FloatingLabelWrapper from "@/components/forms/FloatingLabelWrapper";
-import TogglePasswordButton from "@/components/forms/TogglePasswordButton";
 
-interface IFloatingLabelFormItemProps<TFieldValues extends FieldValues> {
+interface FloatingLabelInputFieldProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
   id: string;
   type?: HTMLInputTypeAttribute;
@@ -30,19 +29,10 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
   type = "text",
   label,
   helperText,
-}: IFloatingLabelFormItemProps<TFieldValues>) => {
-  const [inputType, setInputType] = useState<HTMLInputTypeAttribute>(type);
+}: FloatingLabelInputFieldProps<TFieldValues>) => {
   const { formState } = useFormContext<TFieldValues>();
-
-  const isPasswordField = type === "password";
   const hasValue = !!field.value;
   const hasError = !!formState.errors[field.name];
-
-  const togglePasswordVisibility = () => {
-    setInputType((prev) => {
-      return prev === "password" ? "text" : "password";
-    });
-  };
 
   return (
     <FormItem>
@@ -52,19 +42,11 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
           label={label}
           hasValue={hasValue}
           hasError={hasError}
-          inputAdornment={
-            isPasswordField ? (
-              <TogglePasswordButton
-                inputType={inputType}
-                togglePasswordVisibility={togglePasswordVisibility}
-              />
-            ) : null
-          }
         >
           <Input
             id={id}
             {...field}
-            type={inputType}
+            type={type}
             placeholder=" "
             className={cn(
               "peer h-10 shadow-sm",
@@ -75,7 +57,6 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
       </FormControl>
 
       <FormMessage className="ml-2 !mt-1" />
-
       {helperText && !hasError && (
         <FormDescription className="ml-2 !mt-1">{helperText}</FormDescription>
       )}
