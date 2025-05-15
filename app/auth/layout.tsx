@@ -43,7 +43,7 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
 
       <div className="w-full h-full flex justify-center">
         <AuthLeftSide />
-        {children}
+        <div className="max-w-[420px] w-full z-10">{children}</div>
       </div>
     </main>
   );
