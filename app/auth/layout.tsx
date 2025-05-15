@@ -29,21 +29,13 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
         )}
       />
 
-      {isLoading && (
-        <div
-          className={cn(
-            "absolute top-0 left-0 w-full h-screen",
-            "flex items-center justify-center",
-            "bg-black/25 z-20"
-          )}
-        >
-          <CircleLoader />
-        </div>
-      )}
-
       <div className="w-full h-full flex justify-center">
         <AuthLeftSide />
-        <div className="max-w-[420px] w-full z-10">{children}</div>
+
+        <div className="relative max-w-[420px] w-full z-10">
+          {isLoading && <CircleLoader />}
+          {children}
+        </div>
       </div>
     </main>
   );

@@ -115,7 +115,7 @@ const RegisterForm = () => {
           disabled={isLoading}
           className="w-full h-10 flex gap-2"
         >
-          <span>Register</span>
+          Register
         </Button>
       </form>
     </Form>

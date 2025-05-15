@@ -20,6 +20,7 @@ const TogglePasswordButton = ({
       onClick={togglePasswordVisibility}
       className="absolute top-1/2 right-0.5 transform -translate-y-1/2 text-muted-foreground peer-focus:text-primary hover:bg-transparent"
       tabIndex={-1}
+      aria-label="toggle password button"
     >
       {inputType === "password" ? <PiEye /> : <PiEyeClosed />}
     </Button>

@@ -1,4 +1,3 @@
-import React from "react";
 import Image from "next/image";
 
 const Logo = () => {
@@ -7,7 +6,7 @@ const Logo = () => {
   return (
     logo && (
       <div className="w-full h-[50px] relative overflow-hidden">
-        <Image loading="lazy" src={logo} alt="logo" height={50} />
+        <Image src={logo} alt="logo" height={50} priority />
       </div>
     )
   );

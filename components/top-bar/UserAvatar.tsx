@@ -6,11 +6,19 @@ const UserAvatar = () => {
   return (
     <div className="flex items-center gap-4">
       <div className="flex items-center gap-2 p-1 rounded-full bg-gray-200">
-        <Button variant="outline" className="h-12 w-12 rounded-full">
+        <Button
+          variant="outline"
+          className="h-12 w-12 rounded-full"
+          aria-label="first fake button"
+        >
           <Settings />
         </Button>
 
-        <Button variant="outline" className="h-12 w-12 rounded-full">
+        <Button
+          variant="outline"
+          className="h-12 w-12 rounded-full"
+          aria-label="second fake button"
+        >
           <Settings />
         </Button>
       </div>

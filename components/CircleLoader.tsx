@@ -1,6 +1,15 @@
+import { cn } from "@/lib/utils";
+
 const CircleLoader = () => {
   return (
-    <div role="status">
+    <div
+      role="status"
+      className={cn(
+        "absolute top-0 right-0",
+        "flex items-center justify-center",
+        "w-full h-full z-20 pointer-events-auto"
+      )}
+    >
       <svg
         aria-hidden="true"
         className="w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"

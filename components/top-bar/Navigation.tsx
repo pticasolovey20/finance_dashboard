@@ -13,6 +13,7 @@ const Navigation = () => {
               <Button
                 variant="outline"
                 className="h-full px-6 rounded-2xl bg-gray-100"
+                aria-label="navigation button"
               >
                 {icon}
                 {label}

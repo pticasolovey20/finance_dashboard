@@ -1,7 +1,7 @@
 import CircleLoader from "@/components/CircleLoader";
 
-const AuthLoadingPage = () => {
+const LoadingPage = () => {
   return <CircleLoader />;
 };
 
-export default AuthLoadingPage;
+export default LoadingPage;
