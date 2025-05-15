@@ -7,13 +7,12 @@ interface FloatingLabelWrapperProps {
   hasValue: boolean;
   hasError: boolean;
   children: ReactNode;
-  inputAdornment?: ReactNode;
 }
 
 const FloatingLabelWrapper = forwardRef<
   HTMLDivElement,
   FloatingLabelWrapperProps
->(({ id, label, hasValue, hasError, children, inputAdornment }, ref) => (
+>(({ id, label, hasValue, hasError, children }, ref) => (
   <div ref={ref} className="relative">
     {children}
 
@@ -33,12 +32,6 @@ const FloatingLabelWrapper = forwardRef<
     >
       {label}
     </label>
-
-    {inputAdornment && (
-      <div className="absolute top-1/2 right-0.5 transform -translate-y-1/2">
-        {inputAdornment}
-      </div>
-    )}
   </div>
 ));
 
