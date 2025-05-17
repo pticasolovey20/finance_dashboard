@@ -1,6 +1,6 @@
 import LoginForm from "@/components/forms/LoginForm";
-import ProvidersWrapper from "@/components/forms/ProvidersWrapper";
-import ActionsWrapper from "@/components/forms/ActionsWrapper";
+import ProvidersWrapper from "@/components/auth/ProvidersWrapper";
+import ActionsWrapper from "@/components/auth/ActionsWrapper";
 
 const LoginPage = () => {
   return (

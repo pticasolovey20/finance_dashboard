@@ -4,7 +4,7 @@ import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";
 import { Button } from "@/components/ui/button";
 import RegisterForm from "@/components/forms/RegisterForm";
-import ProvidersWrapper from "@/components/forms/ProvidersWrapper";
+import ProvidersWrapper from "@/components/auth/ProvidersWrapper";
 
 const RegisterPage = () => {
   return (

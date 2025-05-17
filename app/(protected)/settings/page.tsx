@@ -1,4 +1,4 @@
-const SettingsPage = () => {
+const SettingsPage = async () => {
   return <div></div>;
 };
 
