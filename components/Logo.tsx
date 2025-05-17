@@ -1,14 +1,17 @@
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 
-const Logo = () => {
-  const logo = null;
+interface ILogoProps {
+  className?: string;
+}
+
+const Logo = ({ className }: ILogoProps) => {
+  const logo = "";
 
   return (
-    logo && (
-      <div className="w-full h-[50px] relative overflow-hidden">
-        <Image src={logo} alt="logo" height={50} priority />
-      </div>
-    )
+    <div className={cn("w-full h-[50px] relative overflow-hidden", className)}>
+      <Image src={logo} alt="logo" height={50} priority />
+    </div>
   );
 };
 
