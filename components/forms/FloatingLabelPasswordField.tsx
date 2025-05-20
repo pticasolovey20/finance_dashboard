@@ -37,7 +37,7 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
   const inputType = isVisible ? "text" : "password";
 
   return (
-    <FormItem>
+    <FormItem className="w-full">
       <FormControl>
         <div className="relative">
           <FloatingLabelWrapper

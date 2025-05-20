@@ -12,7 +12,6 @@ import {
   SidebarSeparator,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarGroupLabel,
 } from "@/components/ui/sidebar";
 import { Settings } from "lucide-react";
 // import Logo from "@/components/Logo";
@@ -27,11 +26,7 @@ const AppSidebar = () => {
 
       <SidebarContent className="flex-1">
         <SidebarGroup>
-          <SidebarGroup>
-            <SidebarGroupLabel className="text-base font-semibold">
-              APPLICATION
-            </SidebarGroupLabel>
-
+          <SidebarGroup className="p-0">
             <SidebarGroupContent className="my-2">
               <SidebarMenu>
                 {NAVIGATION.map(({ label, href, icon }) => (
@@ -48,11 +43,7 @@ const AppSidebar = () => {
             </SidebarGroupContent>
           </SidebarGroup>
 
-          <SidebarSeparator className="mb-4" />
-
-          <SidebarGroupLabel className="text-base font-semibold">
-            Account
-          </SidebarGroupLabel>
+          <SidebarSeparator className="mt-4 mb-4" />
 
           <SidebarGroupContent className="my-2">
             <SidebarMenu>
@@ -66,16 +57,6 @@ const AppSidebar = () => {
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarSeparator className="mb-4" />
-
-        <SidebarGroup>
-          <SidebarGroupLabel className="text-base font-semibold">
-            THEME
-          </SidebarGroupLabel>
-
-          <SidebarGroupContent></SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
 

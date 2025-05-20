@@ -35,7 +35,7 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
   const hasError = !!formState.errors[field.name];
 
   return (
-    <FormItem>
+    <FormItem className="w-full">
       <FormControl>
         <FloatingLabelWrapper
           id={id}
