@@ -63,8 +63,10 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
               disabled={disabled}
               onBlur={handleBlur}
               onKeyDown={(event) => {
-                event.preventDefault();
-                if (event.key === "Enter") event.currentTarget.blur();
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  event.currentTarget.blur();
+                }
               }}
               className={cn(
                 "peer h-10 pr-10 shadow-sm",
