@@ -12,7 +12,9 @@ const AccountSecurity = () => {
       />
 
       <form action={logout}>
-        <Button variant="outline">Logout</Button>
+        <Button type="submit" variant="outline">
+          Logout
+        </Button>
       </form>
     </div>
   );

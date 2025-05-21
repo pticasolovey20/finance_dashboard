@@ -89,7 +89,7 @@ const AccountForm = () => {
               )}
             />
           ) : (
-            <div className="flex gap-4">
+            <div className="flex flex-col xs:flex-row gap-4">
               <FormField
                 control={control}
                 name="firstName"
@@ -153,7 +153,7 @@ const AccountForm = () => {
               description="Modify your current password"
             />
 
-            <div className="flex gap-4">
+            <div className="flex flex-col xs:flex-row gap-4">
               <FormField
                 control={control}
                 name="currentPassword"

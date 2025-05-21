@@ -76,6 +76,7 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
           </FloatingLabelWrapper>
 
           <TogglePasswordButton
+            disabled={disabled}
             inputType={inputType}
             togglePasswordVisibility={() => setIsVisible((prev) => !prev)}
           />

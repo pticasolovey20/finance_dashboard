@@ -68,7 +68,7 @@ const AppSidebar = () => {
 
       <SidebarFooter>
         <div className="flex items-center gap-2">
-          <UserAvatar className="w-14 rounded-xl" />
+          <UserAvatar className="w-12 rounded-xl" />
 
           <div className="w-full truncate flex flex-col">
             <span title={data?.user?.email || "example@gmail.com"}>
