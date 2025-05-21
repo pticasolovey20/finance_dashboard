@@ -19,7 +19,7 @@ const AccountPage = async () => {
       />
 
       <Separator className="mt-4 mb-4" />
-      <AccountForm user={user} />
+      <AccountForm />
       <Separator className="mt-4 mb-4" />
 
       <IntegratedAccounts />

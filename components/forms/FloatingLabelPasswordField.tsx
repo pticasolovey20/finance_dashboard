@@ -18,16 +18,20 @@ import TogglePasswordButton from "@/components/forms/TogglePasswordButton";
 
 interface FloatingLabelPasswordFieldProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
+  onBlur?: () => void;
   id: string;
   label: string;
   helperText?: string;
+  disabled?: boolean;
 }
 
 const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
   field,
+  onBlur,
   id,
   label,
   helperText,
+  disabled,
 }: FloatingLabelPasswordFieldProps<TFieldValues>) => {
   const [isVisible, setIsVisible] = useState(false);
   const { formState } = useFormContext<TFieldValues>();
@@ -35,6 +39,11 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
   const hasValue = !!field.value;
   const hasError = !!formState.errors[field.name];
   const inputType = isVisible ? "text" : "password";
+
+  const handleBlur = () => {
+    field.onBlur();
+    if (onBlur) onBlur();
+  };
 
   return (
     <FormItem className="w-full">
@@ -49,8 +58,10 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
             <Input
               id={id}
               {...field}
+              onBlur={handleBlur}
               type={inputType}
               placeholder=" "
+              disabled={disabled}
               className={cn(
                 "peer h-10 pr-10 shadow-sm",
                 hasError && "border-red-500 focus-visible:ring-red-500"

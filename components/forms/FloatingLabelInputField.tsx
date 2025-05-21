@@ -17,22 +17,31 @@ import FloatingLabelWrapper from "@/components/forms/FloatingLabelWrapper";
 
 interface FloatingLabelInputFieldProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
+  onBlur?: () => void;
   id: string;
   type?: HTMLInputTypeAttribute;
   label: string;
   helperText?: string;
+  disabled?: boolean;
 }
 
 const FloatingLabelInputField = <TFieldValues extends FieldValues>({
   field,
+  onBlur,
   id,
   type = "text",
   label,
   helperText,
+  disabled,
 }: FloatingLabelInputFieldProps<TFieldValues>) => {
   const { formState } = useFormContext<TFieldValues>();
   const hasValue = !!field.value;
   const hasError = !!formState.errors[field.name];
+
+  const handleBlur = () => {
+    field.onBlur();
+    if (onBlur) onBlur();
+  };
 
   return (
     <FormItem className="w-full">
@@ -46,8 +55,10 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
           <Input
             id={id}
             {...field}
+            onBlur={handleBlur}
             type={type}
             placeholder=" "
+            disabled={disabled}
             className={cn(
               "peer h-10 shadow-sm",
               hasError && "border-red-500 focus-visible:ring-red-500"

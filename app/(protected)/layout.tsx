@@ -1,4 +1,8 @@
 import { ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
+
+import { auth } from "@/auth";
+
 import AppSidebar from "@/components/sidebar/AppSidebar";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
@@ -7,15 +11,19 @@ interface IMainLayoutProps {
 }
 
 const MainLayout = async ({ children }: IMainLayoutProps) => {
-  return (
-    <SidebarProvider>
-      <AppSidebar />
+  const session = await auth();
 
-      <main className="min-h-[100dvh] h-full w-full p-4">
-        <SidebarTrigger className="absolute" />
-        {children}
-      </main>
-    </SidebarProvider>
+  return (
+    <SessionProvider session={session}>
+      <SidebarProvider>
+        <AppSidebar />
+
+        <main className="min-h-[100dvh] h-full w-full p-4">
+          <SidebarTrigger className="absolute" />
+          {children}
+        </main>
+      </SidebarProvider>
+    </SessionProvider>
   );
 };
 

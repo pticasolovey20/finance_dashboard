@@ -1,9 +1,13 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { ExtendedUser } from "@/next-auth";
+// import { ExtendedUser } from "@/next-auth";
+import { useSession } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useCurrentUser } from "@/hooks/useCurrentUser";
+import { updateAccountSettings } from "@/actions/accountSettings";
 import { AccountSettingsFormFields } from "@/types/acountSettings";
 import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 
@@ -13,11 +17,13 @@ import ContentHeader from "@/components/account/ContentHeader";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
 
-interface IAccountFormProps {
-  user: ExtendedUser;
-}
+// interface IAccountFormProps {
+//   user: ExtendedUser;
+// }
 
-const AccountForm = ({ user }: IAccountFormProps) => {
+const AccountForm = () => {
+  const user = useCurrentUser();
+
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(AccountSettingsSchema),
@@ -25,49 +31,82 @@ const AccountForm = ({ user }: IAccountFormProps) => {
     defaultValues: {
       firstName: user?.firstName || "",
       lastName: user?.lastName || "",
+      name: user?.name || "",
       email: user?.email || "",
       currentPassword: "",
       newPassword: "",
     },
   });
 
-  const { handleSubmit, control } = form;
+  const { control } = form;
+  const { toast } = useToast();
+  const { update } = useSession();
 
-  const onFormSubmit = async (formData: AccountSettingsFormFields) => {
-    console.log(formData);
+  const onFieldBlur = async (
+    fieldName: keyof AccountSettingsFormFields,
+    value: string
+  ) => {
+    updateAccountSettings({ [fieldName]: value })
+      .then(({ message }) => {
+        update();
+        toast({ description: message });
+      })
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          description: "Something went wrong!",
+        });
+      });
   };
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onFormSubmit)} className="w-full space-y-4">
+      <form className="w-full space-y-4">
         <div className="flex flex-col gap-4">
           <ContentHeader title="Full Name" />
 
-          <div className="flex gap-4">
+          {user?.isOAuth ? (
             <FormField
               control={control}
-              name="firstName"
+              name="name"
               render={({ field }) => (
                 <FloatingLabelInputField<AccountSettingsFormFields>
                   field={field}
-                  id="firstName"
-                  label="First Name"
+                  onBlur={() => onFieldBlur("name", field.value ?? "")}
+                  id="name"
+                  label="Name"
                 />
               )}
             />
+          ) : (
+            <div className="flex gap-4">
+              <FormField
+                control={control}
+                name="firstName"
+                render={({ field }) => (
+                  <FloatingLabelInputField<AccountSettingsFormFields>
+                    field={field}
+                    onBlur={() => onFieldBlur("firstName", field.value ?? "")}
+                    id="firstName"
+                    label="First Name"
+                  />
+                )}
+              />
 
-            <FormField
-              control={control}
-              name="lastName"
-              render={({ field }) => (
-                <FloatingLabelInputField<AccountSettingsFormFields>
-                  field={field}
-                  id="lastName"
-                  label="Last Name"
-                />
-              )}
-            />
-          </div>
+              <FormField
+                control={control}
+                name="lastName"
+                render={({ field }) => (
+                  <FloatingLabelInputField<AccountSettingsFormFields>
+                    field={field}
+                    onBlur={() => onFieldBlur("lastName", field.value ?? "")}
+                    id="lastName"
+                    label="Last Name"
+                  />
+                )}
+              />
+            </div>
+          )}
         </div>
 
         <Separator className="mt-4 mb-4" />
@@ -84,9 +123,11 @@ const AccountForm = ({ user }: IAccountFormProps) => {
             render={({ field }) => (
               <FloatingLabelInputField<AccountSettingsFormFields>
                 field={field}
+                onBlur={() => onFieldBlur("email", field.value ?? "")}
                 id="email"
                 type="email"
                 label="Email"
+                disabled
               />
             )}
           />
@@ -94,38 +135,46 @@ const AccountForm = ({ user }: IAccountFormProps) => {
 
         <Separator className="mt-4 mb-4" />
 
-        <div className="flex flex-col gap-4">
-          <ContentHeader
-            title="Password"
-            description="Modify your current password"
-          />
-
-          <div className="flex gap-4">
-            <FormField
-              control={control}
-              name="currentPassword"
-              render={({ field }) => (
-                <FloatingLabelPasswordField<AccountSettingsFormFields>
-                  field={field}
-                  id="currentPassword"
-                  label="Current Password"
-                />
-              )}
+        {!user?.isOAuth && (
+          <div className="flex flex-col gap-4">
+            <ContentHeader
+              title="Password"
+              description="Modify your current password"
             />
 
-            <FormField
-              control={control}
-              name="newPassword"
-              render={({ field }) => (
-                <FloatingLabelPasswordField<AccountSettingsFormFields>
-                  field={field}
-                  id="newPassword"
-                  label="New Password"
-                />
-              )}
-            />
+            <div className="flex gap-4">
+              <FormField
+                control={control}
+                name="currentPassword"
+                render={({ field }) => (
+                  <FloatingLabelPasswordField<AccountSettingsFormFields>
+                    field={field}
+                    onBlur={() => {
+                      onFieldBlur("currentPassword", field.value ?? "");
+                    }}
+                    id="currentPassword"
+                    label="Current Password"
+                    disabled
+                  />
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="newPassword"
+                render={({ field }) => (
+                  <FloatingLabelPasswordField<AccountSettingsFormFields>
+                    field={field}
+                    onBlur={() => onFieldBlur("newPassword", field.value ?? "")}
+                    id="newPassword"
+                    label="New Password"
+                    disabled
+                  />
+                )}
+              />
+            </div>
           </div>
-        </div>
+        )}
       </form>
     </Form>
   );

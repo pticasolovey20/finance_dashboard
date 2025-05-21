@@ -15,10 +15,17 @@ export const updateAccountSettings = async (
     const existingUser = await getUserById(currentUser.id as string);
     if (!existingUser) return { message: "User not found" };
 
+    if (currentUser.isOAuth) {
+      values.email = undefined;
+      values.currentPassword = undefined;
+      values.newPassword = undefined;
+    }
+
     await database.user.update({
       where: {
         id: existingUser.id,
       },
+
       data: {
         ...values,
       },
