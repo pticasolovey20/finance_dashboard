@@ -1,6 +1,6 @@
 import LoginForm from "@/components/forms/LoginForm";
+import LinksWrapper from "@/components/auth/LinksWrapper";
 import ProvidersWrapper from "@/components/auth/ProvidersWrapper";
-import ActionsWrapper from "@/components/auth/ActionsWrapper";
 
 const LoginPage = () => {
   return (
@@ -11,9 +11,8 @@ const LoginPage = () => {
       </h4>
 
       <LoginForm />
-
       <ProvidersWrapper />
-      <ActionsWrapper />
+      <LinksWrapper />
     </div>
   );
 };
