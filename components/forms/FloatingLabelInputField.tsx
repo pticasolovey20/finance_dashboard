@@ -55,10 +55,16 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
           <Input
             id={id}
             {...field}
-            onBlur={handleBlur}
             type={type}
             placeholder=" "
             disabled={disabled}
+            onBlur={handleBlur}
+            onKeyDown={(event) => {
+              if (event.key === "Enter") {
+                event.preventDefault();
+                event.currentTarget.blur();
+              }
+            }}
             className={cn(
               "peer h-10 shadow-sm",
               hasError && "border-red-500 focus-visible:ring-red-500"

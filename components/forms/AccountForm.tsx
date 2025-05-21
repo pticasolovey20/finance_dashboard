@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
 // import { ExtendedUser } from "@/next-auth";
 import { useSession } from "next-auth/react";
@@ -22,6 +23,7 @@ import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPassword
 // }
 
 const AccountForm = () => {
+  const [isPending, startTransition] = useTransition();
   const user = useCurrentUser();
 
   const form = useForm({
@@ -42,21 +44,32 @@ const AccountForm = () => {
   const { toast } = useToast();
   const { update } = useSession();
 
+  useEffect(() => {
+    if (isPending) toast({ description: "Saving..." });
+  }, [isPending, toast]);
+
   const onFieldBlur = async (
     fieldName: keyof AccountSettingsFormFields,
     value: string
   ) => {
-    updateAccountSettings({ [fieldName]: value })
-      .then(({ message }) => {
-        update();
-        toast({ description: message });
-      })
-      .catch(() => {
-        toast({
-          variant: "destructive",
-          description: "Something went wrong!",
+    const currentValue = form.getValues(fieldName);
+    const defaultValue = form.formState.defaultValues?.[fieldName];
+
+    if (currentValue === defaultValue) return;
+
+    startTransition(() => {
+      updateAccountSettings({ [fieldName]: value })
+        .then(({ message }) => {
+          update();
+          toast({ description: message });
+        })
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            description: "Something went wrong!",
+          });
         });
-      });
+    });
   };
 
   return (
@@ -75,6 +88,7 @@ const AccountForm = () => {
                   onBlur={() => onFieldBlur("name", field.value ?? "")}
                   id="name"
                   label="Name"
+                  disabled={isPending}
                 />
               )}
             />
@@ -89,6 +103,7 @@ const AccountForm = () => {
                     onBlur={() => onFieldBlur("firstName", field.value ?? "")}
                     id="firstName"
                     label="First Name"
+                    disabled={isPending}
                   />
                 )}
               />
