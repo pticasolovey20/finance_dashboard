@@ -16,7 +16,7 @@ const MainLayout = async ({ children }: IMainLayoutProps) => {
   return (
     <SessionProvider session={session}>
       <SidebarProvider>
-        <AppSidebar />
+        <AppSidebar user={session!.user} />
 
         <main className="min-h-[100dvh] h-full w-full p-4">
           <SidebarTrigger className="absolute" />
