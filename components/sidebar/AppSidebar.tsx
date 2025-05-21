@@ -1,5 +1,7 @@
-import { ExtendedUser } from "@/next-auth";
+"use client";
+
 import { getFullName } from "@/lib/account";
+import { useSession } from "next-auth/react";
 import { NAVIGATION } from "@/constants/navigation";
 
 import Link from "next/link";
@@ -19,11 +21,9 @@ import { Settings } from "lucide-react";
 // import Logo from "@/components/Logo";
 import UserAvatar from "@/components/sidebar/UserAvatar";
 
-interface IMainLayoutProps {
-  user: ExtendedUser;
-}
+const AppSidebar = () => {
+  const { data } = useSession();
 
-const AppSidebar = ({ user }: IMainLayoutProps) => {
   return (
     <Sidebar>
       {/* <SidebarHeader className="flex items-start px-4">
@@ -71,11 +71,13 @@ const AppSidebar = ({ user }: IMainLayoutProps) => {
           <UserAvatar className="w-14 rounded-xl" />
 
           <div className="w-full truncate flex flex-col">
-            <span title={user?.email || "example@gmail.com"}>
-              {user ? user.email : "example@gmail.com"}
+            <span title={data?.user?.email || "example@gmail.com"}>
+              {data?.user ? data?.user.email : "example@gmail.com"}
             </span>
 
-            <span title={getFullName(user)}>{getFullName(user)}</span>
+            <span title={getFullName(data?.user)}>
+              {getFullName(data?.user)}
+            </span>
           </div>
         </div>
       </SidebarFooter>

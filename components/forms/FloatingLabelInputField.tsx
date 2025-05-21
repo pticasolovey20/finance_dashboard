@@ -60,10 +60,8 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
             disabled={disabled}
             onBlur={handleBlur}
             onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                event.currentTarget.blur();
-              }
+              event.preventDefault();
+              if (event.key === "Enter") event.currentTarget.blur();
             }}
             className={cn(
               "peer h-10 shadow-sm",
