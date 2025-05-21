@@ -14,7 +14,7 @@ import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 
 import { Separator } from "@/components/ui/separator";
 import { Form, FormField } from "@/components/ui/form";
-import ContentHeader from "@/components/account/ContentHeader";
+import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
 
@@ -71,9 +71,7 @@ const AccountForm = () => {
   return (
     <Form {...form}>
       <form className="w-full space-y-4">
-        <div className="flex flex-col gap-4">
-          <ContentHeader title="Full Name" />
-
+        <AccountSectionWrapper sectionTitle="Full Name">
           {user?.isOAuth ? (
             <FormField
               control={control}
@@ -89,7 +87,7 @@ const AccountForm = () => {
               )}
             />
           ) : (
-            <div className="flex flex-col xs:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4">
               <FormField
                 control={control}
                 name="firstName"
@@ -118,16 +116,14 @@ const AccountForm = () => {
               />
             </div>
           )}
-        </div>
+        </AccountSectionWrapper>
 
         <Separator className="mt-4 mb-4" />
 
-        <div className="flex flex-col gap-4">
-          <ContentHeader
-            title="Contact Email"
-            description="Menage your account email for the invoices"
-          />
-
+        <AccountSectionWrapper
+          sectionTitle="Contact Email"
+          sectionDescription="Menage your account email for the invoices"
+        >
           <FormField
             control={control}
             name="email"
@@ -142,18 +138,16 @@ const AccountForm = () => {
               />
             )}
           />
-        </div>
+        </AccountSectionWrapper>
 
         <Separator className="mt-4 mb-4" />
 
         {!user?.isOAuth && (
-          <div className="flex flex-col gap-4">
-            <ContentHeader
-              title="Password"
-              description="Modify your current password"
-            />
-
-            <div className="flex flex-col xs:flex-row gap-4">
+          <AccountSectionWrapper
+            sectionTitle="Password"
+            sectionDescription="Modify your current password"
+          >
+            <div className="flex flex-col sm:flex-row gap-4">
               <FormField
                 control={control}
                 name="currentPassword"
@@ -184,7 +178,7 @@ const AccountForm = () => {
                 )}
               />
             </div>
-          </div>
+          </AccountSectionWrapper>
         )}
       </form>
     </Form>

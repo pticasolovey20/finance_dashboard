@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import CircleLoader from "@/components/CircleLoader";
 import { Separator } from "@/components/ui/separator";
-import ContentHeader from "@/components/account/ContentHeader";
+import ContentHeader from "@/components/account/AccountSectionHeader";
 import AccountSecurity from "@/components/account/AccountSecurity";
 
 const AccountForm = dynamic(() => import("@/components/forms/AccountForm"), {

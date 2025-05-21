@@ -1,22 +1,20 @@
 import { logout } from "@/actions/logout";
 
 import { Button } from "@/components/ui/button";
-import ContentHeader from "@/components/account/ContentHeader";
+import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
 
 const AccountSecurity = () => {
   return (
-    <div className="flex flex-col gap-4">
-      <ContentHeader
-        title="Account Security"
-        description="Manage your account security"
-      />
-
+    <AccountSectionWrapper
+      sectionTitle="Account Security"
+      sectionDescription="Manage your account security"
+    >
       <form action={logout}>
         <Button type="submit" variant="outline">
           Logout
         </Button>
       </form>
-    </div>
+    </AccountSectionWrapper>
   );
 };
 
