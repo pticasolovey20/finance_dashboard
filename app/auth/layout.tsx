@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { useAuthStore } from "@/store/authStore";
 
-import AuthLeftSide from "@/components/AuthLeftSide";
+import AuthLeftSide from "@/components/auth/AuthLeftSide";
 import CircleLoader from "@/components/CircleLoader";
 
 interface IAuthLayoutProps {

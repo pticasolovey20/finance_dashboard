@@ -1,0 +1,21 @@
+import { logout } from "@/actions/logout";
+
+import { Button } from "@/components/ui/button";
+import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
+
+const AccountSecurity = () => {
+  return (
+    <AccountSectionWrapper
+      sectionTitle="Account Security"
+      sectionDescription="Manage your account security"
+    >
+      <form action={logout}>
+        <Button type="submit" variant="outline">
+          Logout
+        </Button>
+      </form>
+    </AccountSectionWrapper>
+  );
+};
+
+export default AccountSecurity;

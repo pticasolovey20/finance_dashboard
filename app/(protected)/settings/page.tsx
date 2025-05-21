@@ -1,5 +1,5 @@
-const SettingsPage = () => {
-  return <div>Settings Page</div>;
+const SettingsPage = async () => {
+  return <div></div>;
 };
 
 export default SettingsPage;

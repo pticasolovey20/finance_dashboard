@@ -18,16 +18,20 @@ import TogglePasswordButton from "@/components/forms/TogglePasswordButton";
 
 interface FloatingLabelPasswordFieldProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
+  onBlur?: () => void;
   id: string;
   label: string;
   helperText?: string;
+  disabled?: boolean;
 }
 
 const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
   field,
+  onBlur,
   id,
   label,
   helperText,
+  disabled,
 }: FloatingLabelPasswordFieldProps<TFieldValues>) => {
   const [isVisible, setIsVisible] = useState(false);
   const { formState } = useFormContext<TFieldValues>();
@@ -36,8 +40,13 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
   const hasError = !!formState.errors[field.name];
   const inputType = isVisible ? "text" : "password";
 
+  const handleBlur = () => {
+    field.onBlur();
+    if (onBlur) onBlur();
+  };
+
   return (
-    <FormItem>
+    <FormItem className="w-full">
       <FormControl>
         <div className="relative">
           <FloatingLabelWrapper
@@ -49,8 +58,16 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
             <Input
               id={id}
               {...field}
-              type={inputType}
               placeholder=" "
+              type={inputType}
+              disabled={disabled}
+              onBlur={handleBlur}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  event.currentTarget.blur();
+                }
+              }}
               className={cn(
                 "peer h-10 pr-10 shadow-sm",
                 hasError && "border-red-500 focus-visible:ring-red-500"
@@ -59,6 +76,7 @@ const FloatingLabelPasswordField = <TFieldValues extends FieldValues>({
           </FloatingLabelWrapper>
 
           <TogglePasswordButton
+            disabled={disabled}
             inputType={inputType}
             togglePasswordVisibility={() => setIsVisible((prev) => !prev)}
           />

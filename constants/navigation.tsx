@@ -1,21 +1,40 @@
-import { Settings } from "lucide-react";
+import {
+  LayoutDashboard,
+  BadgeDollarSign,
+  Wallet,
+  Settings,
+  CircleUser,
+} from "lucide-react";
 import { ProtectedRoutesEnum } from "@/types/route";
 
 export const NAVIGATION = [
   {
     label: "Dashboard",
     href: ProtectedRoutesEnum.DASHBOARD,
-    icon: <Settings />,
+    icon: LayoutDashboard,
   },
+
   {
     label: "Transactions",
     href: ProtectedRoutesEnum.TRANSACTIONS,
-    icon: <Settings />,
+    icon: BadgeDollarSign,
   },
-  { label: "Budget", href: ProtectedRoutesEnum.BUDGET, icon: <Settings /> },
+
+  {
+    label: "Budget",
+    href: ProtectedRoutesEnum.BUDGET,
+    icon: Wallet,
+  },
+
   {
     label: "Settings",
     href: ProtectedRoutesEnum.SETTINGS,
-    icon: <Settings />,
+    icon: Settings,
+  },
+
+  {
+    label: "Account",
+    href: ProtectedRoutesEnum.ACCOUNT,
+    icon: CircleUser,
   },
 ];
