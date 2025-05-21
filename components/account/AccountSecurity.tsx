@@ -5,7 +5,7 @@ import ContentHeader from "@/components/account/ContentHeader";
 
 const AccountSecurity = () => {
   return (
-    <div className="flex flex-col gap-4 mt-4">
+    <div className="flex flex-col gap-4">
       <ContentHeader
         title="Account Security"
         description="Manage your account security"

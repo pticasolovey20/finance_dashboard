@@ -125,7 +125,7 @@ const AccountForm = () => {
         <div className="flex flex-col gap-4">
           <ContentHeader
             title="Contact Email"
-            description="Menage yout accounts email for the invoices"
+            description="Menage your account email for the invoices"
           />
 
           <FormField
