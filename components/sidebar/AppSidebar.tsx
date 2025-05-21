@@ -1,4 +1,5 @@
 "use client";
+
 import { NAVIGATION } from "@/constants/navigation";
 
 import {
@@ -8,7 +9,6 @@ import {
   SidebarMenu,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
-import { CircleUser } from "lucide-react";
 import CustomSidebarMenuItem from "@/components/sidebar/CustomSidebarMenuItem";
 
 const AppSidebar = () => {
@@ -17,7 +17,24 @@ const AppSidebar = () => {
       <SidebarContent className="flex-1">
         <SidebarGroup>
           <SidebarMenu>
-            {NAVIGATION.map(({ label, href, icon }) => (
+            {NAVIGATION.slice(0, NAVIGATION.length - 1).map(
+              ({ label, href, icon }) => (
+                <CustomSidebarMenuItem
+                  key={label}
+                  href={href}
+                  icon={icon}
+                  label={label}
+                  iconSize={20}
+                  iconClassName="!w-5 !h-5"
+                />
+              )
+            )}
+          </SidebarMenu>
+
+          <SidebarSeparator className="mt-4 mb-4" />
+
+          <SidebarMenu>
+            {NAVIGATION.slice(-1).map(({ label, href, icon }) => (
               <CustomSidebarMenuItem
                 key={label}
                 href={href}
@@ -27,18 +44,6 @@ const AppSidebar = () => {
                 iconClassName="!w-5 !h-5"
               />
             ))}
-          </SidebarMenu>
-
-          <SidebarSeparator className="mt-4 mb-4" />
-
-          <SidebarMenu>
-            <CustomSidebarMenuItem
-              href="/account"
-              icon={CircleUser}
-              label="Account"
-              iconSize={20}
-              iconClassName="!w-5 !h-5"
-            />
           </SidebarMenu>
         </SidebarGroup>
       </SidebarContent>

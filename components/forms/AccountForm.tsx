@@ -12,11 +12,11 @@ import { updateAccountSettings } from "@/actions/accountSettings";
 import { AccountSettingsFormFields } from "@/types/acountSettings";
 import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 
-import { Separator } from "@/components/ui/separator";
 import { Form, FormField } from "@/components/ui/form";
 import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
+import { Separator } from "../ui/separator";
 
 const AccountForm = () => {
   const [isPending, startTransition] = useTransition();
@@ -70,113 +70,126 @@ const AccountForm = () => {
 
   return (
     <Form {...form}>
-      <form className="w-full space-y-4">
+      <form className="w-full mt-4">
+        <div className="w-full h-[100px] p-4 mb-4 rounded-lg bg-gray-300">
+          UPLOAD IMAGE SECTION
+        </div>
+
         <AccountSectionWrapper sectionTitle="Full Name">
-          {user?.isOAuth ? (
-            <FormField
-              control={control}
-              name="name"
-              render={({ field }) => (
-                <FloatingLabelInputField<AccountSettingsFormFields>
-                  field={field}
-                  onBlur={() => onFieldBlur("name", field.value ?? "")}
-                  id="name"
-                  label="Name"
-                  disabled={isPending}
-                />
-              )}
-            />
-          ) : (
-            <div className="flex flex-col sm:flex-row gap-4">
+          <div>
+            {user?.isOAuth ? (
               <FormField
                 control={control}
-                name="firstName"
+                name="name"
                 render={({ field }) => (
                   <FloatingLabelInputField<AccountSettingsFormFields>
                     field={field}
-                    onBlur={() => onFieldBlur("firstName", field.value ?? "")}
-                    id="firstName"
-                    label="First Name"
+                    onBlur={() => onFieldBlur("name", field.value ?? "")}
+                    id="name"
+                    label="Name"
                     disabled={isPending}
                   />
                 )}
               />
+            ) : (
+              <div className="flex flex-col sm:flex-row gap-4">
+                <FormField
+                  control={control}
+                  name="firstName"
+                  render={({ field }) => (
+                    <FloatingLabelInputField<AccountSettingsFormFields>
+                      field={field}
+                      onBlur={() => onFieldBlur("firstName", field.value ?? "")}
+                      id="firstName"
+                      label="First Name"
+                      disabled={isPending}
+                    />
+                  )}
+                />
 
-              <FormField
-                control={control}
-                name="lastName"
-                render={({ field }) => (
-                  <FloatingLabelInputField<AccountSettingsFormFields>
-                    field={field}
-                    onBlur={() => onFieldBlur("lastName", field.value ?? "")}
-                    id="lastName"
-                    label="Last Name"
-                  />
-                )}
-              />
-            </div>
-          )}
+                <FormField
+                  control={control}
+                  name="lastName"
+                  render={({ field }) => (
+                    <FloatingLabelInputField<AccountSettingsFormFields>
+                      field={field}
+                      onBlur={() => onFieldBlur("lastName", field.value ?? "")}
+                      id="lastName"
+                      label="Last Name"
+                    />
+                  )}
+                />
+              </div>
+            )}
+            <Separator className="my-4" />
+          </div>
         </AccountSectionWrapper>
-
-        <Separator className="mt-4 mb-4" />
 
         <AccountSectionWrapper
           sectionTitle="Contact Email"
           sectionDescription="Menage your account email for the invoices"
         >
-          <FormField
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FloatingLabelInputField<AccountSettingsFormFields>
-                field={field}
-                onBlur={() => onFieldBlur("email", field.value ?? "")}
-                id="email"
-                type="email"
-                label="Email"
-                disabled
-              />
-            )}
-          />
-        </AccountSectionWrapper>
+          <div>
+            <FormField
+              control={control}
+              name="email"
+              render={({ field }) => (
+                <FloatingLabelInputField<AccountSettingsFormFields>
+                  field={field}
+                  onBlur={() => onFieldBlur("email", field.value ?? "")}
+                  id="email"
+                  type="email"
+                  label="Email"
+                  disabled
+                />
+              )}
+            />
 
-        <Separator className="mt-4 mb-4" />
+            <Separator className="my-4" />
+          </div>
+        </AccountSectionWrapper>
 
         {!user?.isOAuth && (
           <AccountSectionWrapper
             sectionTitle="Password"
             sectionDescription="Modify your current password"
           >
-            <div className="flex flex-col sm:flex-row gap-4">
-              <FormField
-                control={control}
-                name="currentPassword"
-                render={({ field }) => (
-                  <FloatingLabelPasswordField<AccountSettingsFormFields>
-                    field={field}
-                    onBlur={() => {
-                      onFieldBlur("currentPassword", field.value ?? "");
-                    }}
-                    id="currentPassword"
-                    label="Current Password"
-                    disabled
-                  />
-                )}
-              />
+            <div>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <FormField
+                  control={control}
+                  name="currentPassword"
+                  render={({ field }) => (
+                    <FloatingLabelPasswordField<AccountSettingsFormFields>
+                      field={field}
+                      onBlur={() => {
+                        onFieldBlur("currentPassword", field.value ?? "");
+                      }}
+                      id="currentPassword"
+                      label="Current Password"
+                      disabled
+                    />
+                  )}
+                />
 
-              <FormField
-                control={control}
-                name="newPassword"
-                render={({ field }) => (
-                  <FloatingLabelPasswordField<AccountSettingsFormFields>
-                    field={field}
-                    onBlur={() => onFieldBlur("newPassword", field.value ?? "")}
-                    id="newPassword"
-                    label="New Password"
-                    disabled
-                  />
-                )}
-              />
+                <FormField
+                  control={control}
+                  name="newPassword"
+                  render={({ field }) => (
+                    <FloatingLabelPasswordField<AccountSettingsFormFields>
+                      field={field}
+                      onBlur={() =>
+                        onFieldBlur("newPassword", field.value ?? "")
+                      }
+                      id="newPassword"
+                      label="New Password"
+                      disabled
+                    />
+                  )}
+                />
+              </div>
+
+              <Separator className="my-4" />
             </div>
           </AccountSectionWrapper>
         )}

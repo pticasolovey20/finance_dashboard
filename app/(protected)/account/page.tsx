@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import CircleLoader from "@/components/CircleLoader";
 import { Separator } from "@/components/ui/separator";
-import ContentHeader from "@/components/account/AccountSectionHeader";
 import AccountSecurity from "@/components/account/AccountSecurity";
+import AccountSectionHeader from "@/components/account/AccountSectionHeader";
 
 const AccountForm = dynamic(() => import("@/components/forms/AccountForm"), {
   ssr: false,
@@ -11,15 +11,14 @@ const AccountForm = dynamic(() => import("@/components/forms/AccountForm"), {
 
 const AccountPage = () => {
   return (
-    <div className="max-w-[800px] w-full flex flex-col mt-16 mx-auto">
-      <ContentHeader
+    <div className="max-w-[800px] w-full flex flex-col mt-10 mx-auto">
+      <AccountSectionHeader
         title="Account"
         description="Realtime information and activities of your property"
       />
 
-      <Separator className="mt-4 mb-4" />
+      <Separator className="mt-4" />
       <AccountForm />
-      <Separator className="mt-4 mb-4" />
       <AccountSecurity />
     </div>
   );

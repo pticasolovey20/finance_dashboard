@@ -3,6 +3,7 @@ import {
   BadgeDollarSign,
   Wallet,
   Settings,
+  CircleUser,
 } from "lucide-react";
 import { ProtectedRoutesEnum } from "@/types/route";
 
@@ -29,5 +30,11 @@ export const NAVIGATION = [
     label: "Settings",
     href: ProtectedRoutesEnum.SETTINGS,
     icon: Settings,
+  },
+
+  {
+    label: "Account",
+    href: ProtectedRoutesEnum.ACCOUNT,
+    icon: CircleUser,
   },
 ];

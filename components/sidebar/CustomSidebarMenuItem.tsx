@@ -3,7 +3,11 @@ import { cn } from "@/lib/utils";
 import { ElementType } from "react";
 import { usePathname } from "next/navigation";
 
-import { SidebarMenuItem, SidebarMenuButton } from "@/components/ui/sidebar";
+import {
+  SidebarMenuItem,
+  SidebarMenuButton,
+  useSidebar,
+} from "@/components/ui/sidebar";
 
 interface ICustomSidebarMenuItemProps {
   href: string;
@@ -23,9 +27,16 @@ const CustomSidebarMenuItem = ({
   const pathname = usePathname();
   const isActive = pathname === href;
 
+  const { setOpenMobile } = useSidebar();
+
   return (
     <SidebarMenuItem className="h-10 flex items-center">
-      <SidebarMenuButton asChild isActive={isActive} className="h-full">
+      <SidebarMenuButton
+        asChild
+        isActive={isActive}
+        className="h-full"
+        onClick={() => setOpenMobile(false)}
+      >
         <Link
           href={href}
           className={cn(

@@ -3,6 +3,7 @@ export enum ProtectedRoutesEnum {
   TRANSACTIONS = "/transactions",
   BUDGET = "/budget",
   SETTINGS = "/settings",
+  ACCOUNT = "/account",
 }
 
 export enum AuthRoutesEnum {
