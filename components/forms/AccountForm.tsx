@@ -2,7 +2,7 @@
 
 import { useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
-// import { ExtendedUser } from "@/next-auth";
+
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,10 +17,6 @@ import { Form, FormField } from "@/components/ui/form";
 import ContentHeader from "@/components/account/ContentHeader";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
-
-// interface IAccountFormProps {
-//   user: ExtendedUser;
-// }
 
 const AccountForm = () => {
   const [isPending, startTransition] = useTransition();
