@@ -34,7 +34,7 @@ const AccountImage = ({ imageSRC }: IAccountImageProps) => {
 
       <div>
         <DropdownMenu>
-          <DropdownMenuTrigger className="absolute right-2 top-2 h-5">
+          <DropdownMenuTrigger className="absolute right-2 top-2 h-5 outline-none">
             <EllipsisVertical size={20} />
           </DropdownMenuTrigger>
 
