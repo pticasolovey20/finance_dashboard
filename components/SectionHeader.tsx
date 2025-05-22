@@ -1,12 +1,9 @@
-interface IAccountSectionHeaderProps {
+interface ISectionHeaderProps {
   title: string;
   description?: string;
 }
 
-const AccountSectionHeader = ({
-  title,
-  description,
-}: IAccountSectionHeaderProps) => {
+const SectionHeader = ({ title, description }: ISectionHeaderProps) => {
   return (
     <div>
       <h3 className="text-lg font-semibold">{title}</h3>
@@ -18,4 +15,4 @@ const AccountSectionHeader = ({
   );
 };
 
-export default AccountSectionHeader;
+export default SectionHeader;

@@ -1,7 +1,7 @@
 import { logout } from "@/actions/logout";
 
 import { Button } from "@/components/ui/button";
-import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
+import AccountSectionWrapper from "@/components/SectionWrapper";
 
 const AccountSecurity = () => {
   return (

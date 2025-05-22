@@ -15,7 +15,7 @@ import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 import { Separator } from "@/components/ui/separator";
 import { Form, FormField } from "@/components/ui/form";
 import AccountImage from "@/components/account/AccountImage";
-import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
+import AccountSectionWrapper from "@/components/SectionWrapper";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
 

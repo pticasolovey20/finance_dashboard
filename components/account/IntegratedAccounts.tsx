@@ -2,7 +2,7 @@ import { Fragment } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import ContentHeader from "@/components/account/AccountSectionHeader";
+import ContentHeader from "@/components/SectionHeader";
 
 const IntegratedAccounts = () => {
   return (
