@@ -42,18 +42,22 @@ const CustomSidebarMenuItem = ({
             "flex items-center gap-2",
             "group-data-[collapsible=icon]:justify-center",
             "peer px-2 text-muted-foreground transition-colors",
-            isActive && "text-primary"
+            isActive && "text-black dark:text-white"
           )}
         >
           <Icon
             size={iconSize}
-            className={cn("peer-hover:text-primary", iconClassName)}
+            className={cn(
+              "peer-hover:text-black",
+              "dark:peer-hover:text-white",
+              iconClassName
+            )}
           />
 
           <span
             className={cn(
               "text-lg font-medium",
-              "peer-hover:text-primary",
+              "peer-hover:text-black dark:peer-hover:text-white",
               "group-data-[collapsible=icon]:hidden"
             )}
           >
