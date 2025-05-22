@@ -1,11 +1,19 @@
+"use client";
+
+import { useTheme } from "next-themes";
 import { Switch } from "@/components/ui/switch";
 
 const ThemeSwitcher = () => {
+  const { resolvedTheme, setTheme } = useTheme();
+  const isDarkTheme = resolvedTheme === "dark";
+
+  const toggleTheme = () => setTheme(isDarkTheme ? "light" : "dark");
+
   return (
     <div className="flex items-center gap-4">
-      <span>Dark</span>
-      <Switch />
       <span>Light</span>
+      <Switch checked={isDarkTheme} onCheckedChange={toggleTheme} />
+      <span>Dark</span>
     </div>
   );
 };

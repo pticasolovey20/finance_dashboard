@@ -3,7 +3,7 @@ import SectionWrapper from "@/components/SectionWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 
-const SettingsPage = async () => {
+const SettingsPage = () => {
   return (
     <div className="max-w-[800px] w-full flex flex-col mt-10 md:mt-12 mx-auto">
       <SectionWrapper
