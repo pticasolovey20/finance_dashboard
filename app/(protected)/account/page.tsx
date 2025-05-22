@@ -17,7 +17,7 @@ const AccountPage = () => {
         description="Realtime information and activities of your property"
       />
 
-      <Separator className="mt-4" />
+      <Separator className="my-4" />
       <AccountForm />
       <AccountSecurity />
     </div>

@@ -13,7 +13,7 @@ const AccountSectionWrapper = ({
   children,
 }: IAccountSectionWrapperProps) => {
   return (
-    <div className="flex flex-col gap-6">
+    <div className="flex flex-col gap-8 my-6">
       <AccountSectionHeader
         title={sectionTitle}
         description={sectionDescription}
