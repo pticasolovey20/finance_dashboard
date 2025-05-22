@@ -18,13 +18,14 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
     <main
       className={cn(
         "min-h-[100dvh] h-full relative p-4 md:p-8 lg:p-12",
-        "flex items-center justify-center overflow-hidden"
+        "flex items-center justify-center overflow-hidden",
+        "bg-muted text-foreground"
       )}
     >
       <div
         className={cn(
           "absolute top-0 right-0 w-[70%] h-full",
-          "bg-[#f7f7f7] z-0 pointer-events-none",
+          "bg-background z-0 pointer-events-none",
           "origin-bottom -skew-x-[13.9deg]"
         )}
       />
