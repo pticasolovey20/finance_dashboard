@@ -33,7 +33,6 @@ const CustomSidebarMenuItem = ({
     <SidebarMenuItem className="h-10 flex items-center">
       <SidebarMenuButton
         asChild
-        isActive={isActive}
         className="h-full"
         onClick={() => setOpenMobile(false)}
       >
@@ -42,7 +41,8 @@ const CustomSidebarMenuItem = ({
           className={cn(
             "flex items-center gap-2",
             "group-data-[collapsible=icon]:justify-center",
-            "peer px-2 text-muted-foreground transition-colors"
+            "peer px-2 text-muted-foreground transition-colors",
+            isActive && "text-primary"
           )}
         >
           <Icon
