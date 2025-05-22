@@ -21,13 +21,13 @@ const SettingsPage = () => {
       <Separator className="my-4" />
 
       <SectionWrapper
-        sectionTitle="Theme"
-        sectionDescription="Choose between light and dark mode to match your preferences"
+        sectionTitle="Notifications"
+        sectionDescription="Manage how you want to receive updates and alerts"
         classNames="gap-4"
       >
         <Card className="rounded-lg">
-          <CardContent className="p-4 uppercase">
-            notification settings
+          <CardContent className="p-4">
+            <span className="uppercase">notification settings</span>
           </CardContent>
         </Card>
       </SectionWrapper>
