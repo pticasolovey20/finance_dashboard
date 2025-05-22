@@ -23,8 +23,6 @@ const AccountForm = () => {
   const [isPending, startTransition] = useTransition();
   const user = useCurrentUser();
 
-  console.log(user);
-
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(AccountSettingsSchema),

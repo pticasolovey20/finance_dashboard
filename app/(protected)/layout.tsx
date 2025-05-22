@@ -19,7 +19,7 @@ const MainLayout = async ({ children }: IMainLayoutProps) => {
         <AppSidebar />
 
         <main className="min-h-[100dvh] h-full w-full p-4">
-          <SidebarTrigger className="absolute top-[26px] w-5 h-5 text-muted-foreground hover:text-primary" />
+          <SidebarTrigger className="absolute top-4  md:top-[26px] w-5 h-5 text-muted-foreground hover:text-primary" />
           {children}
         </main>
       </SidebarProvider>

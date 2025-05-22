@@ -10,7 +10,11 @@ const AccountSecurity = () => {
       sectionDescription="Manage your account security"
     >
       <form action={logout}>
-        <Button type="submit" variant="outline">
+        <Button
+          type="submit"
+          variant="outline"
+          className="text-muted-foreground hover:text-primary"
+        >
           Logout
         </Button>
       </form>
