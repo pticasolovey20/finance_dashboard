@@ -14,6 +14,7 @@ import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 
 import { Separator } from "@/components/ui/separator";
 import { Form, FormField } from "@/components/ui/form";
+import AccountImage from "@/components/account/AccountImage";
 import AccountSectionWrapper from "@/components/account/AccountSectionWrapper";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
@@ -21,6 +22,8 @@ import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPassword
 const AccountForm = () => {
   const [isPending, startTransition] = useTransition();
   const user = useCurrentUser();
+
+  console.log(user);
 
   const form = useForm({
     mode: "onChange",
@@ -71,9 +74,7 @@ const AccountForm = () => {
   return (
     <Form {...form}>
       <form className="w-full">
-        <div className="w-full h-[100px] flex items-center justify-center my-4 rounded-lg bg-gray-300">
-          <span>UPLOAD IMAGE SECTION</span>
-        </div>
+        <AccountImage imageSRC={user!.image ?? ""} />
 
         <AccountSectionWrapper sectionTitle="Full Name">
           {user?.isOAuth ? (
