@@ -1,6 +1,6 @@
 import { logout } from "@/actions/logout";
 
-import { Button } from "@/components/ui/button";
+import SubmitButton from "@/components/forms/SubmitButton";
 import AccountSectionWrapper from "@/components/SectionWrapper";
 
 const AccountSecurity = () => {
@@ -10,13 +10,7 @@ const AccountSecurity = () => {
       sectionDescription="Manage your account security"
     >
       <form action={logout}>
-        <Button
-          type="submit"
-          variant="outline"
-          className="text-muted-foreground hover:text-primary"
-        >
-          Logout
-        </Button>
+        <SubmitButton label="Logout" classNames="w-fit" />
       </form>
     </AccountSectionWrapper>
   );

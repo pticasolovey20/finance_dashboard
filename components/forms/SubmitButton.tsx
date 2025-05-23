@@ -1,16 +1,25 @@
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ISubmitButtonProps {
   label: string;
-  isLoading: boolean;
+  isLoading?: boolean;
+  classNames?: string;
 }
 
-const SubmitButton = ({ label, isLoading }: ISubmitButtonProps) => {
+const SubmitButton = ({
+  label,
+  isLoading = false,
+  classNames,
+}: ISubmitButtonProps) => {
   return (
     <Button
       type="submit"
       disabled={isLoading}
-      className="w-full h-10 flex gap-2 bg-accent-foreground"
+      className={cn(
+        "w-full h-10 font-semibold bg-accent-foreground",
+        classNames
+      )}
     >
       {label}
     </Button>
