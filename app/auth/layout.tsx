@@ -19,7 +19,7 @@ const AuthLayout = ({ children }: IAuthLayoutProps) => {
       className={cn(
         "min-h-[100dvh] h-full relative p-4 md:p-8 lg:p-12",
         "flex items-center justify-center overflow-hidden",
-        "bg-muted text-foreground"
+        "md:bg-muted text-foreground"
       )}
     >
       <div
