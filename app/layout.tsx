@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import { cn } from "@/lib/utils";
 
+import ThemeProvider from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import "./globals.scss";
 
@@ -29,8 +30,15 @@ const RootLayout = async ({ children }: IRootLayoutProps) => {
         suppressHydrationWarning
         className={cn(montserrat.variable, "font-sans antialiased")}
       >
-        <Toaster />
-        {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Toaster />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -9,8 +9,8 @@ import { useAuthStore } from "@/store/authStore";
 import { RegisterFormFields } from "@/types/auth";
 import { RegisterSchema } from "@/schemas/authSchema";
 
-import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
+import SubmitButton from "@/components/forms/SubmitButton";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelPasswordField from "@/components/forms/FloatingLabelPasswordField";
 
@@ -110,13 +110,7 @@ const RegisterForm = () => {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={isLoading}
-          className="w-full h-10 flex gap-2"
-        >
-          Register
-        </Button>
+        <SubmitButton label="Register" isLoading={isLoading} />
       </form>
     </Form>
   );

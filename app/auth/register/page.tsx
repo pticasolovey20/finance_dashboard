@@ -9,7 +9,9 @@ import ProvidersWrapper from "@/components/auth/ProvidersWrapper";
 const RegisterPage = () => {
   return (
     <div className="flex-1 flex flex-col justify-center">
-      <h4 className="text-3xl sm:text-4xl font-semibold mb-10">Register</h4>
+      <h4 className="text-3xl lg:text-4xl font-semibold mb-4 md:mb-6 lg:mb-10">
+        Register
+      </h4>
 
       <div className="mb-4">
         <Button

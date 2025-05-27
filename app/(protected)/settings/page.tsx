@@ -1,5 +1,38 @@
-const SettingsPage = async () => {
-  return <div></div>;
+import { Separator } from "@/components/ui/separator";
+import SectionWrapper from "@/components/SectionWrapper";
+import { Card, CardContent } from "@/components/ui/card";
+import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
+
+const SettingsPage = () => {
+  return (
+    <div className="max-w-[800px] w-full flex flex-col mt-10 md:mt-12 mx-auto">
+      <SectionWrapper
+        sectionTitle="Theme"
+        sectionDescription="Choose between light and dark mode to match your preferences"
+        classNames="gap-4"
+      >
+        <Card className="rounded-lg">
+          <CardContent className="flex items-center justify-end p-4">
+            <ThemeSwitcher />
+          </CardContent>
+        </Card>
+      </SectionWrapper>
+
+      <Separator className="my-4" />
+
+      <SectionWrapper
+        sectionTitle="Notifications"
+        sectionDescription="Manage how you want to receive updates and alerts"
+        classNames="gap-4"
+      >
+        <Card className="rounded-lg">
+          <CardContent className="p-4">
+            <span className="uppercase">notification settings</span>
+          </CardContent>
+        </Card>
+      </SectionWrapper>
+    </div>
+  );
 };
 
 export default SettingsPage;
