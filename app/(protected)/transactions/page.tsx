@@ -5,7 +5,7 @@ import { useCategoriesStore } from "@/store/categoriesStore";
 import { useTransactionsStore } from "@/store/transactionStore";
 
 import CircleLoader from "@/components/CircleLoader";
-import TransactionsTable from "@/components/transactions/TransactionsTable";
+import TransactionsTable from "@/components/table/TransactionsTable";
 
 const TransactionsPage = () => {
   const { fetchCategories } = useCategoriesStore();

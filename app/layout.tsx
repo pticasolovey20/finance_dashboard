@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 
 import ThemeProvider from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.scss";
+import "@/app/styles/globals.scss";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
