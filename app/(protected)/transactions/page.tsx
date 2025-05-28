@@ -4,26 +4,23 @@ import { useEffect } from "react";
 import { useCategoriesStore } from "@/store/categoriesStore";
 import { useTransactionsStore } from "@/store/transactionStore";
 
+import CircleLoader from "@/components/CircleLoader";
+import TransactionsTable from "@/components/transactions/TransactionsTable";
+
 const TransactionsPage = () => {
-  const { categories, fetchCategories } = useCategoriesStore();
-  const { transactions, fetchTransactions } = useTransactionsStore();
+  const { fetchCategories } = useCategoriesStore();
+  const { fetchTransactions, isLoading, transactions } = useTransactionsStore();
 
   useEffect(() => {
     fetchCategories();
     fetchTransactions();
   }, [fetchCategories, fetchTransactions]);
 
-  return (
-    <div className="flex flex-col gap-4 mt-16">
-      <div className="flex gap-2">
-        <h1>Транзакции:</h1>
-        <pre>{JSON.stringify(transactions, null, 2)}</pre>
-      </div>
+  if (isLoading) return <CircleLoader />;
 
-      <div className="flex gap-2">
-        <h2>Категории:</h2>
-        <pre>{JSON.stringify(categories, null, 2)}</pre>
-      </div>
+  return (
+    <div className="flex flex-col mt-16">
+      <TransactionsTable transactions={transactions} />
     </div>
   );
 };
