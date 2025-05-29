@@ -1,4 +1,5 @@
 import { cn } from "@/lib/utils";
+import { useRef, useEffect } from "react";
 import { Virtualizer } from "@tanstack/react-virtual";
 import { Table, flexRender } from "@tanstack/react-table";
 
@@ -14,6 +15,23 @@ const VirtualizedTableHeader = <TableData,>({
   columnVirtualizer,
 }: IVirtualizedTableHeaderProps<TableData>) => {
   const virtualColumns = columnVirtualizer.getVirtualItems();
+  const isResizing = useRef(false);
+
+  useEffect(() => {
+    const handleMouseUp = () => {
+      requestAnimationFrame(() => {
+        isResizing.current = false;
+      });
+    };
+
+    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener("touchend", handleMouseUp);
+
+    return () => {
+      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener("touchend", handleMouseUp);
+    };
+  }, []);
 
   return (
     <TableHeader className="z-30 bg-background">
@@ -29,7 +47,11 @@ const VirtualizedTableHeader = <TableData,>({
               <TableHead
                 key={`headerCell-${headerCell.id}-${cellIndex}`}
                 className="relative flex items-center select-none border-r border-muted"
-                onClick={headerCell.column.getToggleSortingHandler()}
+                onClick={() => {
+                  if (!isResizing.current && headerCell.column.getCanSort()) {
+                    headerCell.column.toggleSorting?.();
+                  }
+                }}
                 style={{
                   width:
                     headerCell.getSize() !== 0
@@ -47,9 +69,18 @@ const VirtualizedTableHeader = <TableData,>({
                 {/* RESIZER */}
                 {headerCell.column.getCanResize() && (
                   <div
-                    onMouseDown={headerCell.getResizeHandler()}
-                    onTouchStart={headerCell.getResizeHandler()}
-                    onDoubleClick={() => headerCell.column.resetSize()}
+                    onMouseDown={(event) => {
+                      isResizing.current = true;
+                      headerCell.getResizeHandler()?.(event);
+                    }}
+                    onTouchStart={(event) => {
+                      isResizing.current = true;
+                      headerCell.getResizeHandler()?.(event);
+                    }}
+                    onDoubleClick={(event) => {
+                      event.stopPropagation();
+                      headerCell.column.resetSize();
+                    }}
                     className={cn(
                       "cursor-col-resize select-none",
                       "h-full w-1 bg-muted-foreground",
