@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ITransactionData } from "@/types/transactions";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useColumnSizing } from "@/hooks/useColumnSizing";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 
 import {
@@ -11,7 +12,6 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  ColumnSizingState,
 } from "@tanstack/react-table";
 
 import {
@@ -31,48 +31,15 @@ interface ITransactionsTableProps {
 
 const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const columns = useTransactionColumns();
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [containerWidth, setContainerWidth] = useState(0);
+  const { containerRef, columnSizing, setColumnSizing, totalTableWidth } =
+    useColumnSizing(columns);
 
-  useEffect(() => {
-    if (containerRef.current) {
-      setContainerWidth(containerRef.current.clientWidth);
-    }
-
-    const handleResize = () => {
-      if (containerRef.current) {
-        setContainerWidth(containerRef.current.clientWidth);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  const initialSizing = useMemo(() => {
-    if (!containerWidth) return {};
-
-    const sizing: ColumnSizingState = {};
-    const initialColumnWidth = Math.floor(containerWidth / columns.length);
-
-    columns.forEach((column) => {
-      if (column.id) sizing[column.id] = initialColumnWidth;
-    });
-
-    return sizing;
-  }, [columns, containerWidth]);
-
-  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
   });
-
-  useEffect(() => {
-    if (Object.keys(initialSizing).length > 0) setColumnSizing(initialSizing);
-  }, [initialSizing]);
 
   const transactionTable = useReactTable({
     data: transactions,
@@ -101,10 +68,6 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const totalTableWidth = useMemo(() => {
-    return Object.values(columnSizing).reduce((a, b) => a + b, 0);
-  }, [columnSizing]);
-
   return (
     <div>
       <Input
@@ -115,7 +78,10 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
       />
 
       <div className="overflow-auto" ref={containerRef}>
-        <div className="min-w-fit" style={{ minWidth: totalTableWidth }}>
+        <div
+          className="min-w-fit border border-muted rounded-md overflow-hidden"
+          style={{ minWidth: totalTableWidth }}
+        >
           <Table className="table-auto w-full">
             <TableHeader>
               {transactionTable
@@ -125,7 +91,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
                     {headerGroup.headers.map((headerCell, cellIndex) => (
                       <TableHead
                         key={`headerCell-${headerCell.id}-${cellIndex}`}
-                        className="relative select-none"
+                        className="relative select-none border-r border-muted"
                         onClick={headerCell.column.getToggleSortingHandler()}
                         style={{
                           width:
@@ -167,6 +133,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
                   {row.getVisibleCells().map((cell, cellIndex) => (
                     <TableCell
                       key={`bodyCell-${cell.id}-${cellIndex}`}
+                      className="px-4 border-r border-muted"
                       style={{
                         width:
                           cell.column.getSize() !== 0

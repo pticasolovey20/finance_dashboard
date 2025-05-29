@@ -13,7 +13,7 @@ const ColumnHeader = <TableData,>({
   const isSorted = column.getIsSorted();
 
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex items-center gap-2 px-2">
       <span>{title}</span>
 
       <button
