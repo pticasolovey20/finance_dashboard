@@ -1,5 +1,5 @@
 import { RefObject } from "react";
-import { Table, ColumnDef, flexRender } from "@tanstack/react-table";
+import { Table, flexRender } from "@tanstack/react-table";
 import { useVirtualizer, Virtualizer } from "@tanstack/react-virtual";
 
 import { TableBody, TableRow, TableCell } from "@/components/ui/table";
@@ -7,14 +7,12 @@ import { TableBody, TableRow, TableCell } from "@/components/ui/table";
 interface IVirtualizedTableBodyProps<TableData> {
   table: Table<TableData>;
   tableContainerRef: RefObject<HTMLDivElement>;
-  columns: ColumnDef<TableData>[];
   columnVirtualizer: Virtualizer<HTMLDivElement, HTMLTableCellElement>;
 }
 
 const VirtualizedTableBody = <TableData,>({
   table,
   tableContainerRef,
-  columns,
   columnVirtualizer,
 }: IVirtualizedTableBodyProps<TableData>) => {
   const rowVirtualizer = useVirtualizer({
@@ -25,11 +23,6 @@ const VirtualizedTableBody = <TableData,>({
   });
 
   const virtualRows = rowVirtualizer.getVirtualItems();
-
-  const paddingBottom =
-    virtualRows.length > 0
-      ? rowVirtualizer.getTotalSize() - virtualRows[virtualRows.length - 1].end
-      : 0;
 
   return (
     <TableBody className="relative grid">
@@ -62,15 +55,6 @@ const VirtualizedTableBody = <TableData,>({
           </TableRow>
         );
       })}
-
-      {paddingBottom > 0 && (
-        <TableRow>
-          <TableCell
-            colSpan={columns.length}
-            style={{ height: `${paddingBottom}px` }}
-          />
-        </TableRow>
-      )}
     </TableBody>
   );
 };

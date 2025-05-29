@@ -16,6 +16,7 @@ import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 import { Input } from "@/components/ui/input";
 import { Table } from "@/components/ui/table";
 import TablePagination from "@/components/table/TablePagination";
+import ColumnVisibility from "@/components/table/ColumnVisibility";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
 
@@ -24,9 +25,8 @@ interface ITransactionsTableProps {
 }
 
 const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
-  const columns = useTransactionColumns();
-
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
+  const [columnVisibility, setColumnVisibility] = useState({});
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
@@ -42,18 +42,20 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
   const transactionTable = useReactTable({
     data: transactions,
-    columns,
+    columns: useTransactionColumns(),
 
     state: {
       sorting,
       pagination,
       globalFilter,
       columnSizing,
+      columnVisibility,
     },
 
     enableColumnResizing: true,
     columnResizeMode: "onChange",
     onColumnSizingChange: setColumnSizing,
+    onColumnVisibilityChange: setColumnVisibility,
 
     getCoreRowModel: getCoreRowModel(),
 
@@ -82,12 +84,15 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
   return (
     <div>
-      <Input
-        className="mb-6"
-        placeholder="Search..."
-        value={globalFilter ?? ""}
-        onChange={(event) => setGlobalFilter(event.target.value)}
-      />
+      <div className="flex items-center gap-8 mb-6">
+        <Input
+          placeholder="Search..."
+          value={globalFilter ?? ""}
+          onChange={(event) => setGlobalFilter(event.target.value)}
+        />
+
+        <ColumnVisibility table={transactionTable} />
+      </div>
 
       <div className="border border-muted rounded-md overflow-hidden">
         <div
@@ -104,7 +109,6 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
             <VirtualizedTableBody
               table={transactionTable}
               tableContainerRef={tableContainerRef}
-              columns={columns}
               columnVirtualizer={columnVirtualizer}
             />
           </Table>

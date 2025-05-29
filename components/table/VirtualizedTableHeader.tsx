@@ -16,7 +16,7 @@ const VirtualizedTableHeader = <TableData,>({
   const virtualColumns = columnVirtualizer.getVirtualItems();
 
   return (
-    <TableHeader className="sticky top-0 grid z-30 bg-background">
+    <TableHeader className="z-30 bg-background">
       {table.getHeaderGroups().map((headerGroup, rowIndex) => (
         <TableRow
           key={`headerRow-${headerGroup.id}-${rowIndex}`}
