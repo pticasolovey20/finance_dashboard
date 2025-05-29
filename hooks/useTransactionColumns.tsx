@@ -33,7 +33,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
-        size: 300,
+        size: 200,
 
         id: "amount",
         accessorKey: "amount",
@@ -45,7 +45,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
-        size: 400,
+        size: 300,
 
         id: "date",
         accessorKey: "date",
@@ -57,7 +57,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
-        size: 500,
+        size: 700,
 
         id: "note",
         accessorKey: "note",

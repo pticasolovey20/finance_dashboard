@@ -17,11 +17,11 @@ import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 
 import { Input } from "@/components/ui/input";
 import { Table } from "@/components/ui/table";
+import CircleLoader from "@/components/CircleLoader";
+import TableFilter from "@/components/table/TableFilter";
 import TablePagination from "@/components/table/TablePagination";
-import ColumnVisibility from "@/components/table/ColumnVisibility";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
-import CircleLoader from "../CircleLoader";
 
 interface ITransactionsTableProps {
   transactions: ITransactionData[];
@@ -100,14 +100,14 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
   return (
     <div>
-      <div className="flex items-center gap-8 mb-6">
+      <div className="flex flex-col gap-2 mb-4">
         <Input
           placeholder="Search..."
           value={globalFilter ?? ""}
           onChange={(event) => setGlobalFilter(event.target.value)}
         />
 
-        <ColumnVisibility table={transactionTable} />
+        <TableFilter table={transactionTable} />
       </div>
 
       {transactionTable.getRowModel().rows.length === 0 ? (

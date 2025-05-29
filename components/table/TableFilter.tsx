@@ -8,20 +8,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-interface IColumnVisibilityProps<TableData> {
+interface ITableFilterProps<TableData> {
   table: Table<TableData>;
 }
 
-const ColumnVisibility = <TableData,>({
-  table,
-}: IColumnVisibilityProps<TableData>) => {
+const TableFilter = <TableData,>({ table }: ITableFilterProps<TableData>) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Columns</Button>
+        <Button variant="outline" className="w-[100px] sm:w-[200px]">
+          Columns
+        </Button>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className="absolute -right-12 top-2">
+      <DropdownMenuContent className="absolute left-3 sm:left-0 top-1 -translate-x-1/2 w-[100px] sm:w-[200px]">
         {table.getAllLeafColumns().map((column) => {
           const isVisible = column.getIsVisible();
           const canHide = column.getCanHide();
@@ -47,4 +47,4 @@ const ColumnVisibility = <TableData,>({
   );
 };
 
-export default ColumnVisibility;
+export default TableFilter;
