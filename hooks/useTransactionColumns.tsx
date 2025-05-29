@@ -9,6 +9,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
   return useMemo(
     () => [
       {
+        size: 400,
+
         id: "id",
         accessorKey: "id",
         enableSorting: true,
@@ -19,7 +21,9 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
-        id: "amount",
+        size: 200,
+
+        id: "type",
         accessorKey: "type",
         enableSorting: true,
         enableColumnFilter: true,
@@ -29,6 +33,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
+        size: 300,
+
         id: "amount",
         accessorKey: "amount",
         enableSorting: true,
@@ -39,6 +45,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
+        size: 400,
+
         id: "date",
         accessorKey: "date",
         enableSorting: true,
@@ -49,6 +57,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
+        size: 500,
+
         id: "note",
         accessorKey: "note",
         enableSorting: true,

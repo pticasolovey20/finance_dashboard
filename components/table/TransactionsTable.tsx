@@ -1,29 +1,23 @@
-import { useState } from "react";
-import { cn } from "@/lib/utils";
-import { ITransactionData } from "@/types/transactions";
-import { useColumnSizing } from "@/hooks/useColumnSizing";
-import { useTransactionColumns } from "@/hooks/useTransactionColumns";
-
+import { useMemo, useRef, useState } from "react";
+import { useVirtualizer } from "@tanstack/react-virtual";
 import {
-  flexRender,
   SortingState,
   useReactTable,
   getCoreRowModel,
   getSortedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  ColumnSizingState,
 } from "@tanstack/react-table";
 
-import {
-  Table,
-  TableRow,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-} from "@/components/ui/table";
+import { ITransactionData } from "@/types/transactions";
+import { useTransactionColumns } from "@/hooks/useTransactionColumns";
+
 import { Input } from "@/components/ui/input";
+import { Table } from "@/components/ui/table";
 import TablePagination from "@/components/table/TablePagination";
+import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
+import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
 
 interface ITransactionsTableProps {
   transactions: ITransactionData[];
@@ -31,20 +25,20 @@ interface ITransactionsTableProps {
 
 const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const columns = useTransactionColumns();
-  const {
-    //
-    containerRef,
-    columnSizing,
-    setColumnSizing,
-    totalTableWidth,
-  } = useColumnSizing(columns);
 
+  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 50,
   });
+
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
+  const totalTableWidth = useMemo(() => {
+    return Object.values(columnSizing).reduce((acc, state) => acc + state, 0);
+  }, [columnSizing]);
 
   const transactionTable = useReactTable({
     data: transactions,
@@ -73,6 +67,19 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const visibleColumns = transactionTable.getVisibleLeafColumns();
+
+  const columnVirtualizer = useVirtualizer<
+    HTMLDivElement,
+    HTMLTableCellElement
+  >({
+    count: visibleColumns.length,
+    estimateSize: (index) => visibleColumns[index].getSize(),
+    getScrollElement: () => tableContainerRef.current,
+    horizontal: true,
+    overscan: 3,
+  });
+
   return (
     <div>
       <Input
@@ -82,79 +89,24 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
         onChange={(event) => setGlobalFilter(event.target.value)}
       />
 
-      <div className="overflow-auto" ref={containerRef}>
+      <div className="border border-muted rounded-md overflow-hidden">
         <div
-          className="min-w-fit border border-muted rounded-md overflow-hidden"
+          ref={tableContainerRef}
           style={{ minWidth: totalTableWidth }}
+          className="relative grid h-[calc(100dvh-300px)] overflow-auto"
         >
           <Table className="table-auto w-full">
-            <TableHeader>
-              {transactionTable
-                .getHeaderGroups()
-                .map((headerGroup, rowIndex) => (
-                  <TableRow key={`headerRow-${headerGroup.id}-${rowIndex}`}>
-                    {headerGroup.headers.map((headerCell, cellIndex) => (
-                      <TableHead
-                        key={`headerCell-${headerCell.id}-${cellIndex}`}
-                        className="relative select-none border-r border-muted"
-                        onClick={headerCell.column.getToggleSortingHandler()}
-                        style={{
-                          width:
-                            headerCell.getSize() !== 0
-                              ? headerCell.getSize()
-                              : undefined,
-                        }}
-                      >
-                        <div className="cursor-pointer">
-                          {headerCell.isPlaceholder
-                            ? null
-                            : flexRender(
-                                headerCell.column.columnDef.header,
-                                headerCell.getContext()
-                              )}
-                        </div>
+            <VirtualizedTableHeader
+              table={transactionTable}
+              columnVirtualizer={columnVirtualizer}
+            />
 
-                        {headerCell.column.getCanResize() && (
-                          <div
-                            onMouseDown={headerCell.getResizeHandler()}
-                            onTouchStart={headerCell.getResizeHandler()}
-                            className={cn(
-                              "cursor-col-resize select-none",
-                              "h-full w-1 bg-muted-foreground",
-                              "opacity-30 hover:opacity-70 transition",
-                              "absolute inset-y-0 right-0"
-                            )}
-                          />
-                        )}
-                      </TableHead>
-                    ))}
-                  </TableRow>
-                ))}
-            </TableHeader>
-
-            <TableBody>
-              {transactionTable.getRowModel().rows.map((row, rowIndex) => (
-                <TableRow key={`bodyRow-${row.id}-${rowIndex}`}>
-                  {row.getVisibleCells().map((cell, cellIndex) => (
-                    <TableCell
-                      key={`bodyCell-${cell.id}-${cellIndex}`}
-                      className="px-4 border-r border-muted"
-                      style={{
-                        width:
-                          cell.column.getSize() !== 0
-                            ? cell.column.getSize()
-                            : undefined,
-                      }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableBody>
+            <VirtualizedTableBody
+              table={transactionTable}
+              tableContainerRef={tableContainerRef}
+              columns={columns}
+              columnVirtualizer={columnVirtualizer}
+            />
           </Table>
         </div>
       </div>

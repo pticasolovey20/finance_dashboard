@@ -19,7 +19,7 @@ const TablePagination = <TableData extends RowData>({
   const handleNextPage = () => table.nextPage();
 
   return (
-    <div className="flex items-center justify-center gap-6 mt-16">
+    <div className="flex items-center justify-center gap-6 mt-8">
       <Button
         variant="outline"
         onClick={handlePrevPage}
