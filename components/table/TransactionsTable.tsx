@@ -21,6 +21,7 @@ import TablePagination from "@/components/table/TablePagination";
 import ColumnVisibility from "@/components/table/ColumnVisibility";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
+import CircleLoader from "../CircleLoader";
 
 interface ITransactionsTableProps {
   transactions: ITransactionData[];
@@ -94,6 +95,8 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     horizontal: true,
     overscan: 3,
   });
+
+  if (!transactions?.length) return <CircleLoader />;
 
   return (
     <div>
