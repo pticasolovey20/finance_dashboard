@@ -116,7 +116,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           style={{ minWidth: totalTableWidth }}
           className="relative grid h-[calc(100dvh-300px)] overflow-auto"
         >
-          <Table className="table-auto w-full">
+          <Table className="relative table-auto w-full overflow-auto">
             <VirtualizedTableHeader
               table={transactionTable}
               columnVirtualizer={columnVirtualizer}

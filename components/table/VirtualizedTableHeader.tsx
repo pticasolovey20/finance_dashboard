@@ -1,9 +1,12 @@
 import { cn } from "@/lib/utils";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, MouseEvent, TouchEvent } from "react";
 import { Virtualizer } from "@tanstack/react-virtual";
 import { Table, flexRender } from "@tanstack/react-table";
 
 import { TableHeader, TableHead, TableRow } from "@/components/ui/table";
+import { Scaling } from "lucide-react";
+
+type HandlerEvent = MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>;
 
 interface IVirtualizedTableHeaderProps<TableData> {
   table: Table<TableData>;
@@ -33,6 +36,30 @@ const VirtualizedTableHeader = <TableData,>({
     };
   }, []);
 
+  const handleMouseDown = (
+    event: HandlerEvent,
+    handler: (event: HandlerEvent) => void
+  ) => {
+    isResizing.current = true;
+    handler(event);
+  };
+
+  const handleTouchStart = (
+    event: HandlerEvent,
+    handler: (event: HandlerEvent) => void
+  ) => {
+    isResizing.current = true;
+    handler(event);
+  };
+
+  const handleDoubleClick = (
+    event: HandlerEvent,
+    handler: (event: HandlerEvent) => void
+  ) => {
+    event.stopPropagation();
+    handler(event);
+  };
+
   return (
     <TableHeader className="z-30 bg-background">
       {table.getHeaderGroups().map((headerGroup, rowIndex) => (
@@ -45,8 +72,10 @@ const VirtualizedTableHeader = <TableData,>({
 
             return (
               <TableHead
+                scope="col"
+                colSpan={headerCell.colSpan}
                 key={`headerCell-${headerCell.id}-${cellIndex}`}
-                className="relative flex items-center select-none border-r border-muted"
+                className="flex items-center select-none border-r border-muted"
                 onClick={() => {
                   if (!isResizing.current && headerCell.column.getCanSort()) {
                     headerCell.column.toggleSorting?.();
@@ -59,36 +88,37 @@ const VirtualizedTableHeader = <TableData,>({
                       : undefined,
                 }}
               >
-                {headerCell.isPlaceholder
-                  ? null
-                  : flexRender(
-                      headerCell.column.columnDef.header,
-                      headerCell.getContext()
-                    )}
+                <div className="relative w-full">
+                  {headerCell.isPlaceholder
+                    ? null
+                    : flexRender(
+                        headerCell.column.columnDef.header,
+                        headerCell.getContext()
+                      )}
 
-                {/* RESIZER */}
-                {headerCell.column.getCanResize() && (
-                  <div
-                    onMouseDown={(event) => {
-                      isResizing.current = true;
-                      headerCell.getResizeHandler()?.(event);
-                    }}
-                    onTouchStart={(event) => {
-                      isResizing.current = true;
-                      headerCell.getResizeHandler()?.(event);
-                    }}
-                    onDoubleClick={(event) => {
-                      event.stopPropagation();
-                      headerCell.column.resetSize();
-                    }}
-                    className={cn(
-                      "cursor-col-resize select-none",
-                      "h-full w-1 bg-muted-foreground",
-                      "opacity-30 hover:opacity-70 transition",
-                      "absolute inset-y-0 right-0"
-                    )}
-                  />
-                )}
+                  {/* RESIZER */}
+                  {headerCell.column.getCanResize() && (
+                    <div
+                      onMouseDown={(event) => {
+                        handleMouseDown(event, headerCell.getResizeHandler());
+                      }}
+                      onTouchStart={(event) => {
+                        handleTouchStart(event, headerCell.getResizeHandler());
+                      }}
+                      onDoubleClick={(event) =>
+                        handleDoubleClick(event, () => {
+                          headerCell.column.resetSize();
+                        })
+                      }
+                      className={cn(
+                        "cursor-col-resize select-none",
+                        "w-5 h-5 absolute inset-y-0 right-0"
+                      )}
+                    >
+                      <Scaling size={20} />
+                    </div>
+                  )}
+                </div>
               </TableHead>
             );
           })}
