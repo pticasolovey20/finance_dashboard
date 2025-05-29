@@ -110,26 +110,32 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
         <ColumnVisibility table={transactionTable} />
       </div>
 
-      <div className="border border-muted rounded-md overflow-hidden">
-        <div
-          ref={tableContainerRef}
-          style={{ minWidth: totalTableWidth }}
-          className="relative grid h-[calc(100dvh-300px)] overflow-auto"
-        >
-          <Table className="relative table-auto w-full overflow-auto">
-            <VirtualizedTableHeader
-              table={transactionTable}
-              columnVirtualizer={columnVirtualizer}
-            />
-
-            <VirtualizedTableBody
-              table={transactionTable}
-              tableContainerRef={tableContainerRef}
-              columnVirtualizer={columnVirtualizer}
-            />
-          </Table>
+      {transactionTable.getRowModel().rows.length === 0 ? (
+        <div>
+          <span className="font-medium">Nothing found!</span>
         </div>
-      </div>
+      ) : (
+        <div className="border border-muted rounded-md overflow-hidden">
+          <div
+            ref={tableContainerRef}
+            style={{ minWidth: totalTableWidth }}
+            className="relative grid h-[calc(100dvh-300px)] overflow-auto"
+          >
+            <Table className="relative table-auto w-full overflow-auto">
+              <VirtualizedTableHeader
+                table={transactionTable}
+                columnVirtualizer={columnVirtualizer}
+              />
+
+              <VirtualizedTableBody
+                table={transactionTable}
+                tableContainerRef={tableContainerRef}
+                columnVirtualizer={columnVirtualizer}
+              />
+            </Table>
+          </div>
+        </div>
+      )}
 
       <TablePagination table={transactionTable} />
     </div>
