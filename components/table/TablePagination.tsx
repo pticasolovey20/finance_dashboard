@@ -1,5 +1,6 @@
-import { RowData, Table } from "@tanstack/react-table";
+import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { RowData, Table } from "@tanstack/react-table";
 
 interface ITablePaginationProps<TableData extends RowData> {
   table: Table<TableData>;
@@ -15,25 +16,29 @@ const TablePagination = <TableData extends RowData>({
   const hasPrevPage = table.getCanPreviousPage();
 
   const handlePrevPage = () => table.previousPage();
-  const handleNextPage = () => table.previousPage();
+  const handleNextPage = () => table.nextPage();
 
   return (
     <div className="flex items-center justify-center gap-6 mt-16">
-      {hasPrevPage && (
-        <Button variant="outline" onClick={handlePrevPage}>
-          PREV
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        onClick={handlePrevPage}
+        className={cn(hasPrevPage ? "visible" : "invisible")}
+      >
+        PREV
+      </Button>
 
       {maxExistingPage ? (
         <span>{`${currentPage} of ${maxExistingPage}`}</span>
       ) : null}
 
-      {hasNextPage && (
-        <Button variant="outline" onClick={handleNextPage}>
-          NEXT
-        </Button>
-      )}
+      <Button
+        variant="outline"
+        onClick={handleNextPage}
+        className={cn(hasNextPage ? "visible" : "invisible")}
+      >
+        NEXT
+      </Button>
     </div>
   );
 };

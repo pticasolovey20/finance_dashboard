@@ -31,14 +31,19 @@ interface ITransactionsTableProps {
 
 const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const columns = useTransactionColumns();
-  const { containerRef, columnSizing, setColumnSizing, totalTableWidth } =
-    useColumnSizing(columns);
+  const {
+    //
+    containerRef,
+    columnSizing,
+    setColumnSizing,
+    totalTableWidth,
+  } = useColumnSizing(columns);
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState({
     pageIndex: 0,
-    pageSize: 5,
+    pageSize: 50,
   });
 
   const transactionTable = useReactTable({
