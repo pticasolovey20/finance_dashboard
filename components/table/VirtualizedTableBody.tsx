@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { RefObject } from "react";
 import { Table, flexRender } from "@tanstack/react-table";
 import { useVirtualizer, Virtualizer } from "@tanstack/react-virtual";
@@ -41,11 +42,12 @@ const VirtualizedTableBody = <TableData,>({
           >
             {virtualColumns.map((virtualCell, cellIndex) => {
               const cell = visibleCells[virtualCell.index];
+              const isIdCell = cell.column.id === "id";
 
               return (
                 <TableCell
                   key={`bodyCell-${cell.id}-${cellIndex}`}
-                  className="flex px-4"
+                  className={cn("flex px-4", !isIdCell ? "capitalize" : "")}
                   style={{ width: cell.column.getSize() }}
                 >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}

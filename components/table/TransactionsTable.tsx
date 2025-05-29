@@ -8,6 +8,8 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   ColumnSizingState,
+  PaginationState,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import { ITransactionData } from "@/types/transactions";
@@ -26,10 +28,13 @@ interface ITransactionsTableProps {
 
 const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
-  const [columnVisibility, setColumnVisibility] = useState({});
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
+    id: false,
+  });
+
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [pagination, setPagination] = useState({
+  const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
   });
@@ -43,6 +48,14 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const transactionTable = useReactTable({
     data: transactions,
     columns: useTransactionColumns(),
+
+    // initialState: {
+    //   sorting,
+    //   pagination,
+    //   globalFilter,
+    //   columnSizing,
+    //   columnVisibility,
+    // },
 
     state: {
       sorting,

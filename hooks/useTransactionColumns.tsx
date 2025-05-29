@@ -16,8 +16,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         enableSorting: true,
         enableColumnFilter: true,
 
-        cell: ({ getValue }) => getValue(),
         header: ({ column }) => <ColumnHeader title="ID" column={column} />,
+        cell: ({ getValue }) => getValue(),
       },
 
       {
@@ -28,8 +28,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         enableSorting: true,
         enableColumnFilter: true,
 
-        cell: ({ getValue }) => getValue(),
         header: ({ column }) => <ColumnHeader title="Type" column={column} />,
+        cell: ({ getValue }) => getValue(),
       },
 
       {
@@ -40,8 +40,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         enableSorting: true,
         enableColumnFilter: true,
 
-        cell: ({ getValue }) => getValue(),
         header: ({ column }) => <ColumnHeader title="Amount" column={column} />,
+        cell: ({ getValue }) => getValue(),
       },
 
       {
@@ -52,8 +52,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         enableSorting: true,
         enableColumnFilter: true,
 
-        cell: ({ getValue }) => formatDate(getValue() as string),
         header: ({ column }) => <ColumnHeader title="Date" column={column} />,
+        cell: ({ getValue }) => formatDate(getValue() as string),
       },
 
       {
@@ -64,8 +64,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         enableSorting: true,
         enableColumnFilter: true,
 
-        cell: ({ getValue }) => getValue(),
         header: ({ column }) => <ColumnHeader title="Note" column={column} />,
+        cell: ({ getValue }) => getValue(),
       },
     ],
     []

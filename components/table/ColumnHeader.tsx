@@ -11,23 +11,26 @@ const ColumnHeader = <TableData,>({
   column,
 }: IColumnHeaderProps<TableData>) => {
   const isSorted = column.getIsSorted();
+  const isCanSorted = column.getCanSort();
 
   return (
     <div className="flex items-center gap-2 px-2">
       <span>{title}</span>
 
-      <button
-        onClick={() => column.toggleSorting()}
-        className="p-1 rounded hover:bg-muted"
-      >
-        {isSorted === "asc" ? (
-          <ArrowUp className="w-4 h-4 text-muted-foreground" />
-        ) : isSorted === "desc" ? (
-          <ArrowDown className="w-4 h-4 text-muted-foreground" />
-        ) : (
-          <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
-        )}
-      </button>
+      {isCanSorted && (
+        <button
+          onClick={() => column.toggleSorting()}
+          className="p-1 rounded hover:bg-muted"
+        >
+          {isSorted === "asc" ? (
+            <ArrowUp className="w-4 h-4 text-muted-foreground" />
+          ) : isSorted === "desc" ? (
+            <ArrowDown className="w-4 h-4 text-muted-foreground" />
+          ) : (
+            <ArrowUpDown className="w-4 h-4 text-muted-foreground" />
+          )}
+        </button>
+      )}
     </div>
   );
 };
