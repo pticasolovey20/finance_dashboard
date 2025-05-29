@@ -21,6 +21,7 @@ import CircleLoader from "@/components/CircleLoader";
 import TableFilter from "@/components/table/TableFilter";
 import TablePagination from "@/components/table/TablePagination";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
+import TransactionsTableModal from "@/components/table/TransactionsTableModal";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
 
 interface ITransactionsTableProps {
@@ -32,6 +33,9 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
     id: false,
   });
+
+  const [selectedRow, setSelectedRow] = useState<ITransactionData>();
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -96,6 +100,11 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     overscan: 3,
   });
 
+  const handleSelectRow = (rowData: ITransactionData) => {
+    setSelectedRow(rowData);
+    setIsModalOpen(true);
+  };
+
   if (!transactions?.length) return <CircleLoader />;
 
   return (
@@ -129,6 +138,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
               <VirtualizedTableBody
                 table={transactionTable}
+                setSelectedRow={handleSelectRow}
                 tableContainerRef={tableContainerRef}
                 columnVirtualizer={columnVirtualizer}
               />
@@ -138,6 +148,11 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
       )}
 
       <TablePagination table={transactionTable} />
+      <TransactionsTableModal
+        isOpen={isModalOpen}
+        setIsOpen={setIsModalOpen}
+        title={selectedRow?.id}
+      />
     </div>
   );
 };

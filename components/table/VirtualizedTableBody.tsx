@@ -7,12 +7,14 @@ import { TableBody, TableRow, TableCell } from "@/components/ui/table";
 
 interface IVirtualizedTableBodyProps<TableData> {
   table: Table<TableData>;
+  setSelectedRow: (rowData: TableData) => void;
   tableContainerRef: RefObject<HTMLDivElement>;
   columnVirtualizer: Virtualizer<HTMLDivElement, HTMLTableCellElement>;
 }
 
 const VirtualizedTableBody = <TableData,>({
   table,
+  setSelectedRow,
   tableContainerRef,
   columnVirtualizer,
 }: IVirtualizedTableBodyProps<TableData>) => {
@@ -39,6 +41,7 @@ const VirtualizedTableBody = <TableData,>({
             className="absolute flex w-full"
             ref={(node) => rowVirtualizer.measureElement(node)}
             style={{ transform: `translateY(${virtualRow.start}px)` }}
+            onClick={() => setSelectedRow(row.original)}
           >
             {virtualColumns.map((virtualCell, cellIndex) => {
               const cell = visibleCells[virtualCell.index];

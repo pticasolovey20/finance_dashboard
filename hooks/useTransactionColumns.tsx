@@ -35,6 +35,18 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       {
         size: 200,
 
+        id: "status",
+        accessorKey: "Status",
+        enableSorting: true,
+        enableColumnFilter: true,
+
+        header: ({ column }) => <ColumnHeader title="Status" column={column} />,
+        cell: ({ getValue }) => getValue(),
+      },
+
+      {
+        size: 200,
+
         id: "amount",
         accessorKey: "amount",
         enableSorting: true,
