@@ -1,11 +1,15 @@
 import { Table } from "@tanstack/react-table";
 
 import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
 
 interface ITableFilterProps<TableData> {
@@ -13,37 +17,35 @@ interface ITableFilterProps<TableData> {
 }
 
 const TableFilter = <TableData,>({ table }: ITableFilterProps<TableData>) => {
+  console.log(table);
+
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-[100px] sm:w-[200px]">
-          Columns
+    <Drawer>
+      <DrawerTrigger className="max-w-[100px] xs:max-w-[150px] w-full">
+        <Button variant="outline" className="w-full">
+          Filters
         </Button>
-      </DropdownMenuTrigger>
+      </DrawerTrigger>
 
-      <DropdownMenuContent className="absolute left-3 sm:left-0 top-1 -translate-x-1/2 w-[100px] sm:w-[200px]">
-        {table.getAllLeafColumns().map((column) => {
-          const isVisible = column.getIsVisible();
-          const canHide = column.getCanHide();
+      <DrawerContent>
+        <DrawerHeader>
+          <DrawerTitle>Table Filters</DrawerTitle>
+          <DrawerDescription>Manage your table filters here</DrawerDescription>
+        </DrawerHeader>
 
-          const toggleHandler = (value: boolean) => {
-            return column.toggleVisibility(value);
-          };
+        <div className="h-[300px] p-4">{/* FILTERS */}</div>
 
-          return (
-            <DropdownMenuCheckboxItem
-              key={column.id}
-              checked={isVisible}
-              disabled={!canHide}
-              onCheckedChange={toggleHandler}
-              className="capitalize"
-            >
-              {column.id}
-            </DropdownMenuCheckboxItem>
-          );
-        })}
-      </DropdownMenuContent>
-    </DropdownMenu>
+        <DrawerFooter>
+          <div className="flex gap-4">
+            <Button>Submit</Button>
+
+            <DrawerClose>
+              <Button variant="outline">Cancel</Button>
+            </DrawerClose>
+          </div>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   );
 };
 

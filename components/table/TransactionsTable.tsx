@@ -109,7 +109,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
   return (
     <div>
-      <div className="flex flex-col gap-2 mb-4">
+      <div className="flex gap-4 mb-4">
         <Input
           placeholder="Search..."
           value={globalFilter ?? ""}
@@ -124,11 +124,11 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           <span className="font-medium">Nothing found!</span>
         </div>
       ) : (
-        <div className="border border-muted rounded-md overflow-hidden">
+        <div className="md:border border-muted md:rounded-md overflow-hidden">
           <div
             ref={tableContainerRef}
             style={{ minWidth: totalTableWidth }}
-            className="relative grid h-[calc(100dvh-300px)] overflow-auto"
+            className="relative grid h-[calc(100dvh-220px)] overflow-auto"
           >
             <Table className="relative table-auto w-full overflow-auto">
               <VirtualizedTableHeader

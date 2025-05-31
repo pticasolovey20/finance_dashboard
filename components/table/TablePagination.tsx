@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { RowData, Table } from "@tanstack/react-table";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ITablePaginationProps<TableData extends RowData> {
   table: Table<TableData>;
@@ -19,13 +20,14 @@ const TablePagination = <TableData extends RowData>({
   const handleNextPage = () => table.nextPage();
 
   return (
-    <div className="flex items-center justify-center gap-6 mt-8">
+    <div className="flex items-center justify-center gap-2 mt-8">
       <Button
-        variant="outline"
+        size="icon"
+        variant="ghost"
         onClick={handlePrevPage}
         className={cn(hasPrevPage ? "visible" : "invisible")}
       >
-        PREV
+        <ChevronLeft />
       </Button>
 
       {maxExistingPage ? (
@@ -33,11 +35,12 @@ const TablePagination = <TableData extends RowData>({
       ) : null}
 
       <Button
-        variant="outline"
+        size="icon"
+        variant="ghost"
         onClick={handleNextPage}
         className={cn(hasNextPage ? "visible" : "invisible")}
       >
-        NEXT
+        <ChevronRight />
       </Button>
     </div>
   );
