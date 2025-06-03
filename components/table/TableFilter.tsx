@@ -1,27 +1,33 @@
-import { Table } from "@tanstack/react-table";
+import { Dispatch, SetStateAction, useState } from "react";
+import { Table, VisibilityState } from "@tanstack/react-table";
 
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
-  DrawerFooter,
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Button } from "@/components/ui/button";
+import FiltersForm from "@/components/forms/FiltersForm";
 
 interface ITableFilterProps<TableData> {
   table: Table<TableData>;
+  columnVisibility: VisibilityState;
+  setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>;
 }
 
-const TableFilter = <TableData,>({ table }: ITableFilterProps<TableData>) => {
-  console.log(table);
+const TableFilter = <TableData,>({
+  table,
+  columnVisibility,
+  setColumnVisibility,
+}: ITableFilterProps<TableData>) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   return (
-    <Drawer>
-      <DrawerTrigger className="max-w-[100px] xs:max-w-[150px] w-full">
+    <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <DrawerTrigger className="max-w-[100px] xs:max-w-[150px] w-full" asChild>
         <Button variant="outline" className="w-full">
           Filters
         </Button>
@@ -33,17 +39,12 @@ const TableFilter = <TableData,>({ table }: ITableFilterProps<TableData>) => {
           <DrawerDescription>Manage your table filters here</DrawerDescription>
         </DrawerHeader>
 
-        <div className="h-[300px] p-4">{/* FILTERS */}</div>
-
-        <DrawerFooter>
-          <div className="flex gap-4">
-            <Button>Submit</Button>
-
-            <DrawerClose>
-              <Button variant="outline">Cancel</Button>
-            </DrawerClose>
-          </div>
-        </DrawerFooter>
+        <FiltersForm
+          table={table}
+          columnVisibility={columnVisibility}
+          setColumnVisibility={setColumnVisibility}
+          onCloseDrawer={() => setIsOpen(false)}
+        />
       </DrawerContent>
     </Drawer>
   );

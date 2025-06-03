@@ -14,6 +14,7 @@ import {
 
 import { ITransactionData } from "@/types/transactions";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
+import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionsTableFilters";
 
 import { Input } from "@/components/ui/input";
 import { Table } from "@/components/ui/table";
@@ -30,9 +31,9 @@ interface ITransactionsTableProps {
 
 const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({
-    id: false,
-  });
+  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
+    DEFAULT_COLUMNS_VISIBILITY
+  );
 
   const [selectedRow, setSelectedRow] = useState<ITransactionData>();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -116,7 +117,11 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           onChange={(event) => setGlobalFilter(event.target.value)}
         />
 
-        <TableFilter table={transactionTable} />
+        <TableFilter
+          table={transactionTable}
+          columnVisibility={columnVisibility}
+          setColumnVisibility={setColumnVisibility}
+        />
       </div>
 
       {transactionTable.getRowModel().rows.length === 0 ? (

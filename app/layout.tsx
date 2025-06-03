@@ -25,11 +25,8 @@ interface IRootLayoutProps {
 
 const RootLayout = async ({ children }: IRootLayoutProps) => {
   return (
-    <html lang="en">
-      <body
-        suppressHydrationWarning
-        className={cn(montserrat.variable, "font-sans antialiased")}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(montserrat.variable, "font-sans antialiased")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
