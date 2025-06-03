@@ -1,4 +1,3 @@
-import { Separator } from "@/components/ui/separator";
 import SectionWrapper from "@/components/SectionWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
@@ -14,20 +13,6 @@ const SettingsPage = () => {
         <Card className="rounded-lg">
           <CardContent className="flex items-center justify-end p-4">
             <ThemeSwitcher />
-          </CardContent>
-        </Card>
-      </SectionWrapper>
-
-      <Separator className="my-4" />
-
-      <SectionWrapper
-        sectionTitle="Notifications"
-        sectionDescription="Manage how you want to receive updates and alerts"
-        classNames="gap-4"
-      >
-        <Card className="rounded-lg">
-          <CardContent className="p-4">
-            <span className="uppercase">notification settings</span>
           </CardContent>
         </Card>
       </SectionWrapper>

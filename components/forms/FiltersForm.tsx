@@ -49,7 +49,7 @@ const FiltersForm = <TableData,>({
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onFormSubmit)}
-        className="w-full space-y-4 p-4"
+        className="w-full flex flex-col p-4"
       >
         <FormField
           control={control}
@@ -58,17 +58,17 @@ const FiltersForm = <TableData,>({
             const columnIDs = columns.map((col) => col.id);
 
             return (
-              <FormItem className="flex flex-col gap-2">
-                <FormLabel className="text-base">Columns</FormLabel>
+              <FormItem className="max-w-md w-full space-y-4">
+                <FormLabel className="text-lg lg:text-xl">Columns</FormLabel>
 
-                <div className="flex flex-col gap-4">
+                <div className="w-full flex flex-col gap-4">
                   {columnIDs.map((columnID) => {
                     const checked = field.value?.[columnID] ?? true;
 
                     return (
                       <FormItem
                         key={columnID}
-                        className="flex items-center gap-2"
+                        className="w-full flex items-center gap-2"
                       >
                         <FormControl>
                           <Checkbox
@@ -83,7 +83,7 @@ const FiltersForm = <TableData,>({
                           />
                         </FormControl>
 
-                        <FormLabel className="text-sm font-normal capitalize !mt-0">
+                        <FormLabel className="w-full text-sm font-normal capitalize !mt-0">
                           {columnID}
                         </FormLabel>
                       </FormItem>
@@ -95,8 +95,11 @@ const FiltersForm = <TableData,>({
           }}
         />
 
-        <div className="flex justify-end">
-          <SubmitButton label="Apply Filters" classNames="w-fit" />
+        <div className="flex justify-end mt-8">
+          <SubmitButton
+            label="Apply"
+            classNames="max-w-full xs:max-w-[150px] md:max-w-[200px]"
+          />
         </div>
       </form>
     </Form>

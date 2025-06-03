@@ -35,8 +35,13 @@ const TableFilter = <TableData,>({
 
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Table Filters</DrawerTitle>
-          <DrawerDescription>Manage your table filters here</DrawerDescription>
+          <DrawerTitle className="text-xl lg:text-2xl">
+            Table Filters
+          </DrawerTitle>
+
+          <DrawerDescription className="text-base lg:text-lg">
+            Manage your table filters here
+          </DrawerDescription>
         </DrawerHeader>
 
         <FiltersForm
