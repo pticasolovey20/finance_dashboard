@@ -156,7 +156,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
       <TransactionsTableModal
         isOpen={isModalOpen}
         setIsOpen={setIsModalOpen}
-        title={selectedRow?.id}
+        selectedTransactionRow={selectedRow}
       />
     </div>
   );
