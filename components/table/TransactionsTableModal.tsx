@@ -26,7 +26,7 @@ const TransactionsTableModal = () => {
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={closeModal}>
-        <DrawerContent className="max-h-[calc(100dvh-100px)]">
+        <DrawerContent className="max-h-[calc(100dvh-50px)] !h-auto">
           <DrawerHeader className="text-left">
             <DrawerTitle className="text-center">
               {mode === "create" ? "Create" : "Edit"} your transaction
@@ -42,10 +42,7 @@ const TransactionsTableModal = () => {
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent
-        className={cn(
-          "min-w-[600px] max-h-[calc(100dvh-100px)]",
-          "flex flex-col"
-        )}
+        className={cn("min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col")}
       >
         <DialogHeader>
           <DialogTitle>
@@ -53,9 +50,7 @@ const TransactionsTableModal = () => {
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex-1">
-          <TransactionForm />
-        </div>
+        <TransactionForm />
       </DialogContent>
     </Dialog>
   );

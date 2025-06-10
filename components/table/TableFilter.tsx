@@ -33,7 +33,7 @@ const TableFilter = <TableData,>({
         </Button>
       </DrawerTrigger>
 
-      <DrawerContent>
+      <DrawerContent className="max-h-[calc(100dvh-50px)]">
         <DrawerHeader>
           <DrawerTitle className="text-xl lg:text-2xl">
             Table Filters

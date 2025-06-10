@@ -43,8 +43,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={cn(
-          "h-full w-full",
-          "mt-2 sm:mt-6 p-4 md:p-0",
+          "w-full p-4 md:p-0 md:pt-4 md:pr-2 overflow-y-auto",
           "grid grid-cols-1 sm:grid-cols-2 gap-4",
           classNames
         )}
@@ -100,9 +99,10 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           />
         </div>
 
-        <div className="col-span-1 sm:col-span-2 mt-6">
-          <SubmitButton label={mode === "create" ? "Create" : "Save"} />
-        </div>
+        <SubmitButton
+          label={mode === "create" ? "Create" : "Save"}
+          classNames="col-span-1 sm:col-span-2 mt-6"
+        />
       </form>
     </Form>
   );
