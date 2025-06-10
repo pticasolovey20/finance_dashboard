@@ -63,6 +63,136 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
 
         <FormField
           control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
+          name="id"
+          render={({ field }) => (
+            <FloatingLabelInputField
+              field={field}
+              id="id"
+              label="ID"
+              disabled
+            />
+          )}
+        />
+
+        <FormField
+          control={control}
           name="type"
           render={({ field }) => (
             <FloatingLabelInputField field={field} id="type" label="Type" />

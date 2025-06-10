@@ -97,7 +97,7 @@ const FiltersForm = <TableData,>({
 
         <div className="flex justify-end mt-8">
           <SubmitButton
-            label="Apply"
+            label="Save"
             classNames="max-w-full xs:max-w-[150px] md:max-w-[200px]"
           />
         </div>

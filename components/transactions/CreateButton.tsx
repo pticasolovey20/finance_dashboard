@@ -1,6 +1,7 @@
+import { useTransactionModalStore } from "@/store/useTransactionModalStore";
+
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTransactionModalStore } from "@/store/useTransactionModalStore";
 
 const CreateButton = () => {
   const { openModal } = useTransactionModalStore();
@@ -9,8 +10,9 @@ const CreateButton = () => {
     <Button
       size="icon"
       variant="outline"
-      onClick={() => openModal("create")}
       className="aspect-square"
+      onClick={() => openModal("create")}
+      aria-label="Create transaction button"
     >
       <Plus />
     </Button>

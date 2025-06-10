@@ -19,7 +19,7 @@ const TransactionsPage = () => {
   if (isLoading) return <CircleLoader />;
 
   return (
-    <div className="flex flex-col mt-16">
+    <div className="flex flex-col mt-12">
       <TransactionsTable transactions={transactions} />
     </div>
   );
