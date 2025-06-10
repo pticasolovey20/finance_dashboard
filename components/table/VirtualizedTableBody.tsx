@@ -28,7 +28,10 @@ const VirtualizedTableBody = <TableData,>({
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <TableBody className="relative grid">
+    <TableBody
+      className="relative grid"
+      style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
+    >
       {virtualRows.map((virtualRow) => {
         const row = table.getRowModel().rows[virtualRow.index];
         const visibleCells = row.getVisibleCells();

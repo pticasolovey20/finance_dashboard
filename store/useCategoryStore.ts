@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { ICategoryData } from "@/types/categoryTypes";
-import { getAllCategories, getCategoryById } from "@/lib/category";
+import { getAllCategories, getCategoryById } from "@/actions/category";
 
 type CategoriesSate = {
   isLoading: boolean;

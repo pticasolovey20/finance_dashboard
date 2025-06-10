@@ -14,15 +14,15 @@ import {
 
 import { ITransactionData } from "@/types/transactionTypes";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
-import { useTransactionModalStore } from "@/store/useTransactionModalStore";
+import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionTableFilter";
 
 import { Input } from "@/components/ui/input";
 import { Table } from "@/components/ui/table";
-import CircleLoader from "@/components/CircleLoader";
-import TableFilter from "@/components/table/TableFilter";
+import { Button } from "@/components/ui/button";
 import TablePagination from "@/components/table/TablePagination";
 import CreateButton from "@/components/transactions/CreateButton";
+import TableFilterModal from "@/components/table/TableFilterModal";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import TransactionsTableModal from "@/components/table/TransactionsTableModal";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
@@ -99,13 +99,12 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     overscan: 3,
   });
 
-  const { openModal } = useTransactionModalStore();
+  const { openTransactionModal, openTransactionFilter } =
+    useTransactionTableStore();
 
   const handleSelectRow = (rowData: ITransactionData) => {
-    openModal("edit", rowData);
+    openTransactionModal("edit", rowData);
   };
-
-  if (!transactions?.length) return <CircleLoader />;
 
   return (
     <div>
@@ -118,13 +117,14 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           onChange={(event) => setGlobalFilter(event.target.value)}
         />
 
-        <TableFilter
-          table={transactionTable}
-          columnVisibility={columnVisibility}
-          setColumnVisibility={setColumnVisibility}
-        />
+        <Button
+          variant="outline"
+          onClick={openTransactionFilter}
+          className="max-w-[100px] xs:max-w-[150px] w-full"
+        >
+          Filters
+        </Button>
       </div>
-
       {transactionTable.getRowModel().rows.length === 0 ? (
         <div>
           <span className="font-medium">Nothing found!</span>
@@ -134,7 +134,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           <div
             ref={tableContainerRef}
             style={{ minWidth: totalTableWidth }}
-            className="relative grid h-[calc(100dvh-220px)] overflow-auto"
+            className="relative grid max-h-[calc(100dvh-220px)] overflow-auto"
           >
             <Table className="relative table-auto w-full overflow-auto">
               <VirtualizedTableHeader
@@ -155,6 +155,11 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
       <TablePagination table={transactionTable} />
       <TransactionsTableModal />
+      <TableFilterModal
+        table={transactionTable}
+        columnVisibility={columnVisibility}
+        setColumnVisibility={setColumnVisibility}
+      />
     </div>
   );
 };

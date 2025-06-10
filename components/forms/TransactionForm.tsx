@@ -1,11 +1,13 @@
 import { cn } from "@/lib/utils";
-import { faker } from "@faker-js/faker";
 import { useForm } from "react-hook-form";
+import { TransactionType } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import { useToast } from "@/hooks/use-toast";
 import { TransactionSchema } from "@/schemas/transactionSchema";
 import { TransactionsFormFields } from "@/types/transactionTypes";
-import { useTransactionModalStore } from "@/store/useTransactionModalStore";
+import { useTransactionStore } from "@/store/useTransactionStore";
+import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
 import { Form, FormField } from "@/components/ui/form";
 import SubmitButton from "@/components/forms/SubmitButton";
@@ -16,14 +18,16 @@ interface ITransactionFormProps {
 }
 
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
-  const { transactionData, mode } = useTransactionModalStore();
+  const { isLoading, createTransaction } = useTransactionStore();
+  const { transactionData, mode, closeTransactionModal } =
+    useTransactionTableStore();
+  const { toast } = useToast();
 
   const form = useForm({
     mode: "onChange",
     resolver: zodResolver(TransactionSchema),
 
     defaultValues: {
-      id: transactionData?.id ?? faker.string.uuid(),
       type: transactionData?.type ?? undefined,
       categoryId: transactionData?.categoryId ?? undefined,
       amount: transactionData?.amount ?? undefined,
@@ -34,8 +38,18 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = (formData: TransactionsFormFields) => {
-    console.log(formData);
+  const onFormSubmit = async (formData: TransactionsFormFields) => {
+    createTransaction({
+      ...formData,
+      type: formData.type as TransactionType,
+    })
+      .then(() => closeTransactionModal())
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          description: "Something went wrong!",
+        });
+      });
   };
 
   return (
@@ -43,154 +57,11 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={cn(
-          "w-full p-4 md:p-0 md:pt-4 md:pr-2 overflow-y-auto",
+          "w-full p-4 md:p-0 md:pt-4 md:px-2 overflow-y-auto",
           "grid grid-cols-1 sm:grid-cols-2 gap-4",
           classNames
         )}
       >
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
-        <FormField
-          control={control}
-          name="id"
-          render={({ field }) => (
-            <FloatingLabelInputField
-              field={field}
-              id="id"
-              label="ID"
-              disabled
-            />
-          )}
-        />
-
         <FormField
           control={control}
           name="type"
@@ -232,6 +103,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
         <SubmitButton
           label={mode === "create" ? "Create" : "Save"}
           classNames="col-span-1 sm:col-span-2 mt-6"
+          isLoading={isLoading}
         />
       </form>
     </Form>

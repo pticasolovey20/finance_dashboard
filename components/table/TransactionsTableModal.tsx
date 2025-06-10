@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { useTransactionModalStore } from "@/store/useTransactionModalStore";
+import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
 import {
   Dialog,
@@ -19,13 +19,17 @@ import TransactionForm from "@/components/forms/TransactionForm";
 
 const TransactionsTableModal = () => {
   const isMobile = useIsMobile();
-  const { isOpen, closeModal, mode } = useTransactionModalStore();
+  const { isTransactionModalOpen, closeTransactionModal, mode } =
+    useTransactionTableStore();
 
-  if (!isOpen) return null;
+  if (!isTransactionModalOpen) return null;
 
   if (isMobile) {
     return (
-      <Drawer open={isOpen} onOpenChange={closeModal}>
+      <Drawer
+        open={isTransactionModalOpen}
+        onOpenChange={closeTransactionModal}
+      >
         <DrawerContent className="max-h-[calc(100dvh-50px)] !h-auto">
           <DrawerHeader className="text-left">
             <DrawerTitle className="text-center">
@@ -40,7 +44,7 @@ const TransactionsTableModal = () => {
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={closeModal}>
+    <Dialog open={isTransactionModalOpen} onOpenChange={closeTransactionModal}>
       <DialogContent
         className={cn("min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col")}
       >

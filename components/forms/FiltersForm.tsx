@@ -49,7 +49,7 @@ const FiltersForm = <TableData,>({
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onFormSubmit)}
-        className="w-full flex flex-col p-4 overflow-y-auto"
+        className="w-full flex flex-col p-4 md:p-0 md:pt-4 md:px-2 overflow-y-auto"
       >
         <FormField
           control={control}

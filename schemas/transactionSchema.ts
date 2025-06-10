@@ -1,7 +1,6 @@
 import * as zod from "zod";
 
 export const TransactionSchema = zod.object({
-  id: zod.string({ required_error: "Required field" }),
   type: zod.string({ required_error: "Required field" }),
   categoryId: zod.string({ required_error: "Required field" }),
 

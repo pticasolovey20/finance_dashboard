@@ -7,7 +7,7 @@ const CircleLoader = () => {
       className={cn(
         "absolute top-0 right-0",
         "flex items-center justify-center",
-        "w-full h-full z-20 pointer-events-auto"
+        "w-full h-full z-20 pointer-events-auto bg-background opacity-50"
       )}
     >
       <svg

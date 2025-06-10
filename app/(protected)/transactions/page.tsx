@@ -16,11 +16,10 @@ const TransactionsPage = () => {
     fetchTransactions();
   }, [fetchCategories, fetchTransactions]);
 
-  if (isLoading) return <CircleLoader />;
-
   return (
     <div className="flex flex-col mt-12">
       <TransactionsTable transactions={transactions} />
+      {isLoading && <CircleLoader />}
     </div>
   );
 };
