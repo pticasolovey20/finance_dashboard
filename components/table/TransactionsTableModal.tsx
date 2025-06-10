@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
@@ -19,20 +18,21 @@ import TransactionForm from "@/components/forms/TransactionForm";
 
 const TransactionsTableModal = () => {
   const isMobile = useIsMobile();
-  const { isTransactionModalOpen, closeTransactionModal, mode } =
-    useTransactionTableStore();
 
-  if (!isTransactionModalOpen) return null;
+  const {
+    isTransactionModalOpen: isOpen,
+    closeTransactionModal: closeModal,
+    mode,
+  } = useTransactionTableStore();
+
+  if (!isOpen) return null;
 
   if (isMobile) {
     return (
-      <Drawer
-        open={isTransactionModalOpen}
-        onOpenChange={closeTransactionModal}
-      >
+      <Drawer open={isOpen} onOpenChange={closeModal}>
         <DrawerContent className="max-h-[calc(100dvh-50px)] !h-auto">
-          <DrawerHeader className="text-left">
-            <DrawerTitle className="text-center">
+          <DrawerHeader>
+            <DrawerTitle className="text-xl lg:text-2xl text-center">
               {mode === "create" ? "Create" : "Edit"} your transaction
             </DrawerTitle>
           </DrawerHeader>
@@ -44,12 +44,10 @@ const TransactionsTableModal = () => {
   }
 
   return (
-    <Dialog open={isTransactionModalOpen} onOpenChange={closeTransactionModal}>
-      <DialogContent
-        className={cn("min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col")}
-      >
+    <Dialog open={isOpen} onOpenChange={closeModal}>
+      <DialogContent className="min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col">
         <DialogHeader>
-          <DialogTitle>
+          <DialogTitle className="text-xl lg:text-2xl pl-1">
             {mode === "create" ? "Create" : "Edit"} your transaction
           </DialogTitle>
         </DialogHeader>

@@ -57,7 +57,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={cn(
-          "w-full p-4 md:p-0 md:pt-4 md:px-2 overflow-y-auto",
+          "w-full p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 overflow-y-auto",
           "grid grid-cols-1 sm:grid-cols-2 gap-4",
           classNames
         )}

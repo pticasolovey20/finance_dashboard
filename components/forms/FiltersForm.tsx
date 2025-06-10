@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
 import { Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -49,7 +50,10 @@ const FiltersForm = <TableData,>({
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onFormSubmit)}
-        className="w-full flex flex-col p-4 md:p-0 md:pt-4 md:px-2 overflow-y-auto"
+        className={cn(
+          "w-full flex flex-col overflow-y-auto",
+          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2"
+        )}
       >
         <FormField
           control={control}
@@ -58,48 +62,41 @@ const FiltersForm = <TableData,>({
             const columnIDs = columns.map((col) => col.id);
 
             return (
-              <FormItem className="max-w-md w-full space-y-4">
-                <FormLabel className="text-lg lg:text-xl">Columns</FormLabel>
+              <div className="w-full flex flex-col gap-4">
+                {columnIDs.map((columnID) => {
+                  const checked = field.value?.[columnID] ?? true;
 
-                <div className="w-full flex flex-col gap-4">
-                  {columnIDs.map((columnID) => {
-                    const checked = field.value?.[columnID] ?? true;
+                  return (
+                    <FormItem
+                      key={columnID}
+                      className="w-full flex items-center gap-2"
+                    >
+                      <FormControl>
+                        <Checkbox
+                          className="h-5 w-5"
+                          checked={checked}
+                          onCheckedChange={(value) =>
+                            field.onChange({
+                              ...field.value,
+                              [columnID]: value,
+                            })
+                          }
+                        />
+                      </FormControl>
 
-                    return (
-                      <FormItem
-                        key={columnID}
-                        className="w-full flex items-center gap-2"
-                      >
-                        <FormControl>
-                          <Checkbox
-                            className="h-5 w-5"
-                            checked={checked}
-                            onCheckedChange={(value) =>
-                              field.onChange({
-                                ...field.value,
-                                [columnID]: value,
-                              })
-                            }
-                          />
-                        </FormControl>
-
-                        <FormLabel className="w-full text-sm font-normal capitalize !mt-0">
-                          {columnID}
-                        </FormLabel>
-                      </FormItem>
-                    );
-                  })}
-                </div>
-              </FormItem>
+                      <FormLabel className="w-full text-sm font-normal capitalize !mt-0">
+                        {columnID}
+                      </FormLabel>
+                    </FormItem>
+                  );
+                })}
+              </div>
             );
           }}
         />
 
         <div className="flex justify-end mt-8">
-          <SubmitButton
-            label="Save"
-            classNames="max-w-full xs:max-w-[150px] md:max-w-[200px]"
-          />
+          <SubmitButton label="Save" classNames="max-w-full md:max-w-[200px]" />
         </div>
       </form>
     </Form>

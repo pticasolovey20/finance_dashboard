@@ -1,4 +1,3 @@
-import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Dispatch, SetStateAction } from "react";
 import { Table, VisibilityState } from "@tanstack/react-table";
@@ -31,20 +30,21 @@ const TableFilterModal = <TableData,>({
   columnVisibility,
   setColumnVisibility,
 }: ITableFilterModalProps<TableData>) => {
-  const { isTransactionFilterOpen, closeTransactionFilter } =
-    useTransactionTableStore();
-
   const isMobile = useIsMobile();
+
+  const {
+    isTransactionFilterOpen: isOpen,
+    closeTransactionFilter: closeFilter,
+  } = useTransactionTableStore();
+
+  if (!isOpen) return null;
 
   if (isMobile) {
     return (
-      <Drawer
-        open={isTransactionFilterOpen}
-        onOpenChange={closeTransactionFilter}
-      >
+      <Drawer open={isOpen} onOpenChange={closeFilter}>
         <DrawerContent className="max-h-[calc(100dvh-50px)]">
           <DrawerHeader>
-            <DrawerTitle className="text-xl lg:text-2xl">
+            <DrawerTitle className="text-xl lg:text-2xl text-center">
               Manage your table filters here
             </DrawerTitle>
           </DrawerHeader>
@@ -53,7 +53,7 @@ const TableFilterModal = <TableData,>({
             table={table}
             columnVisibility={columnVisibility}
             setColumnVisibility={setColumnVisibility}
-            onCloseDrawer={closeTransactionFilter}
+            onCloseDrawer={closeFilter}
           />
         </DrawerContent>
       </Drawer>
@@ -61,22 +61,19 @@ const TableFilterModal = <TableData,>({
   }
 
   return (
-    <Dialog
-      open={isTransactionFilterOpen}
-      onOpenChange={closeTransactionFilter}
-    >
-      <DialogContent
-        className={cn("min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col")}
-      >
+    <Dialog open={isOpen} onOpenChange={closeFilter}>
+      <DialogContent className="min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col">
         <DialogHeader>
-          <DialogTitle>Manage your table filters here</DialogTitle>
+          <DialogTitle className="text-xl lg:text-2xl pl-1">
+            Manage your table filters here
+          </DialogTitle>
         </DialogHeader>
 
         <FiltersForm
           table={table}
           columnVisibility={columnVisibility}
           setColumnVisibility={setColumnVisibility}
-          onCloseDrawer={closeTransactionFilter}
+          onCloseDrawer={closeFilter}
         />
       </DialogContent>
     </Dialog>
