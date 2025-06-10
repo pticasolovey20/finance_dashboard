@@ -1,4 +1,4 @@
-import { AuthRoutesEnum } from "@/types/route";
+import { AuthRoutesEnum } from "@/types/routeTypes";
 
 import Link from "next/link";
 import { IoMdArrowBack } from "react-icons/io";

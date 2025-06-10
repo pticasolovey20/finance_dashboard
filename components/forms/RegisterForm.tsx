@@ -5,8 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useToast } from "@/hooks/use-toast";
-import { useAuthStore } from "@/store/authStore";
-import { RegisterFormFields } from "@/types/auth";
+import { useAuthStore } from "@/store/useAuthStore";
+import { RegisterFormFields } from "@/types/authTypes";
 import { RegisterSchema } from "@/schemas/authSchema";
 
 import { Form, FormField } from "@/components/ui/form";

@@ -1,6 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { TransactionType } from "@prisma/client";
-import { ITransactionData } from "@/types/transactions";
+import { ITransactionData } from "@/types/transactionTypes";
 import { addTransactionToDB } from "@/actions/transactions";
 
 export const generateFakeTransaction = (): ITransactionData => {

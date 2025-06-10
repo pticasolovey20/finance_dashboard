@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { updateAccountSettings } from "@/actions/accountSettings";
-import { AccountSettingsFormFields } from "@/types/acountSettings";
+import { AccountSettingsFormFields } from "@/types/acountSettingsTypes";
 import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 
 import { Separator } from "@/components/ui/separator";

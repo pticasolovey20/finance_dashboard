@@ -1,7 +1,7 @@
 "use server";
 
 import { database } from "@/lib/database";
-import { ITransactionData } from "@/types/transactions";
+import { ITransactionData } from "@/types/transactionTypes";
 
 export const addTransactionToDB = async (transaction: ITransactionData) => {
   try {

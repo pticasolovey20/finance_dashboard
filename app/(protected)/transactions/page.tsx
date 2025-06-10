@@ -1,15 +1,15 @@
 "use client";
 
 import { useEffect } from "react";
-import { useCategoriesStore } from "@/store/categoriesStore";
-import { useTransactionsStore } from "@/store/transactionStore";
+import { useCategoryStore } from "@/store/useCategoryStore";
+import { useTransactionStore } from "@/store/useTransactionStore";
 
 import CircleLoader from "@/components/CircleLoader";
 import TransactionsTable from "@/components/table/TransactionsTable";
 
 const TransactionsPage = () => {
-  const { fetchCategories } = useCategoriesStore();
-  const { fetchTransactions, isLoading, transactions } = useTransactionsStore();
+  const { fetchCategories } = useCategoryStore();
+  const { fetchTransactions, isLoading, transactions } = useTransactionStore();
 
   useEffect(() => {
     fetchCategories();

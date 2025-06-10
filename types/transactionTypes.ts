@@ -8,7 +8,9 @@ export interface ITransactionData {
   categoryId: string;
   amount: number;
   date: Date;
-  note?: string | null;
+  note: string;
 }
 
 export type TransactionsFormFields = zod.infer<typeof TransactionSchema>;
+
+export type ModalMode = "create" | "edit";

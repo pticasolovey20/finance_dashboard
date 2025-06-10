@@ -2,7 +2,7 @@
 
 import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useAuthStore } from "@/store/authStore";
+import { useAuthStore } from "@/store/useAuthStore";
 
 import AuthLeftSide from "@/components/auth/AuthLeftSide";
 import CircleLoader from "@/components/CircleLoader";

@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { ITransactionData } from "@/types/transactions";
-import { getAllTransactions, getTransactionById } from "@/lib/transactions";
+
+import { ITransactionData } from "@/types/transactionTypes";
+import { getAllTransactions, getTransactionById } from "@/lib/transaction";
 
 type TransactionsState = {
   isLoading: boolean;
@@ -18,7 +19,7 @@ type TransactionsState = {
   deleteTransaction: (id: string) => void;
 };
 
-export const useTransactionsStore = create<TransactionsState>()((set) => ({
+export const useTransactionStore = create<TransactionsState>()((set) => ({
   isLoading: false,
   transactions: [],
   error: null,
@@ -29,7 +30,10 @@ export const useTransactionsStore = create<TransactionsState>()((set) => ({
       const transactions = await getAllTransactions();
 
       return transactions
-        ? set({ transactions, isLoading: false })
+        ? set({
+            transactions,
+            isLoading: false,
+          })
         : set({ isLoading: false });
     } catch (error: unknown) {
       let message = "Something went wrong";

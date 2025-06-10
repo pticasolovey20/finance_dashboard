@@ -66,9 +66,9 @@ model User {
 model Transaction {
   id         String   @id @default(uuid())
   type       TransactionType
-  amount     Float
+  amount     Int
   date       DateTime
-  note       String?  
+  note       String  
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
 

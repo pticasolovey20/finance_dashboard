@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { formatDate } from "@/lib/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
-import { ITransactionData } from "@/types/transactions";
+import { ITransactionData } from "@/types/transactionTypes";
 
 import ColumnHeader from "@/components/table/ColumnHeader";
 

@@ -3,8 +3,8 @@ import { Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Table, VisibilityState } from "@tanstack/react-table";
 
-import { FiltersFormFields } from "@/types/filters";
-import { FiltersSchema } from "@/schemas/filtersSchema";
+import { FiltersFormFields } from "@/types/filterTypes";
+import { FiltersSchema } from "@/schemas/filterSchema";
 
 import {
   Form,

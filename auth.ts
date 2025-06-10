@@ -5,8 +5,8 @@ import authConfig from "@/auth.config";
 import { getUserById } from "@/lib/user";
 import { UserRole } from "@prisma/client";
 import { database } from "@/lib/database";
-import { AuthRoutesEnum } from "./types/route";
-import { getAccountByUserId } from "./lib/account";
+import { getAccountByUserId } from "@/lib/account";
+import { AuthRoutesEnum } from "@/types/routeTypes";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   pages: {

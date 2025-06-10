@@ -1,7 +1,7 @@
 "use client";
 
-import { ProviderType } from "@/types/auth";
-import { useAuthStore } from "@/store/authStore";
+import { ProviderType } from "@/types/authTypes";
+import { useAuthStore } from "@/store/useAuthStore";
 import { loginWithProvider } from "@/actions/loginWithProvider";
 
 import { FcGoogle } from "react-icons/fc";

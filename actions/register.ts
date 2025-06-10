@@ -6,7 +6,7 @@ import { redirect } from "next/navigation";
 
 import { database } from "@/lib/database";
 import { getUserByEmail } from "@/lib/user";
-import { AuthRoutesEnum } from "@/types/route";
+import { AuthRoutesEnum } from "@/types/routeTypes";
 import { RegisterSchema } from "@/schemas/authSchema";
 
 export const register = async (values: zod.infer<typeof RegisterSchema>) => {

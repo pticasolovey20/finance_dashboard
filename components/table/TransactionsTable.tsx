@@ -12,15 +12,17 @@ import {
   VisibilityState,
 } from "@tanstack/react-table";
 
-import { ITransactionData } from "@/types/transactions";
+import { ITransactionData } from "@/types/transactionTypes";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
-import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionsTableFilters";
+import { useTransactionModalStore } from "@/store/useTransactionModalStore";
+import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionTableFilter";
 
 import { Input } from "@/components/ui/input";
 import { Table } from "@/components/ui/table";
 import CircleLoader from "@/components/CircleLoader";
 import TableFilter from "@/components/table/TableFilter";
 import TablePagination from "@/components/table/TablePagination";
+import CreateButton from "@/components/transactions/CreateButton";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import TransactionsTableModal from "@/components/table/TransactionsTableModal";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
@@ -35,9 +37,6 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     DEFAULT_COLUMNS_VISIBILITY
   );
 
-  const [selectedRow, setSelectedRow] = useState<ITransactionData>();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
   const [pagination, setPagination] = useState<PaginationState>({
@@ -46,7 +45,6 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   });
 
   const tableContainerRef = useRef<HTMLDivElement>(null);
-
   const totalTableWidth = useMemo(() => {
     return Object.values(columnSizing).reduce((acc, state) => acc + state, 0);
   }, [columnSizing]);
@@ -101,9 +99,10 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     overscan: 3,
   });
 
+  const { openModal } = useTransactionModalStore();
+
   const handleSelectRow = (rowData: ITransactionData) => {
-    setSelectedRow(rowData);
-    setIsModalOpen(true);
+    openModal("edit", rowData);
   };
 
   if (!transactions?.length) return <CircleLoader />;
@@ -111,6 +110,8 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   return (
     <div>
       <div className="flex gap-4 mb-4">
+        <CreateButton />
+
         <Input
           placeholder="Search..."
           value={globalFilter ?? ""}
@@ -153,11 +154,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
       )}
 
       <TablePagination table={transactionTable} />
-      <TransactionsTableModal
-        isOpen={isModalOpen}
-        setIsOpen={setIsModalOpen}
-        selectedTransactionRow={selectedRow}
-      />
+      <TransactionsTableModal />
     </div>
   );
 };

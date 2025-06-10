@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { ICategoryData } from "@/types/categories";
-import { getAllCategories, getCategoryById } from "@/lib/categories";
+import { ICategoryData } from "@/types/categoryTypes";
+import { getAllCategories, getCategoryById } from "@/lib/category";
 
 type CategoriesSate = {
   isLoading: boolean;
@@ -18,7 +18,7 @@ type CategoriesSate = {
   deleteCategory: (id: string) => void;
 };
 
-export const useCategoriesStore = create<CategoriesSate>()((set) => ({
+export const useCategoryStore = create<CategoriesSate>()((set) => ({
   isLoading: false,
   categories: [],
   error: null,

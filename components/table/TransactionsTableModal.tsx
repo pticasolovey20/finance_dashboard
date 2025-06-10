@@ -1,14 +1,12 @@
 import { cn } from "@/lib/utils";
-import { Dispatch, SetStateAction } from "react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { ITransactionData } from "@/types/transactions";
+import { useTransactionModalStore } from "@/store/useTransactionModalStore";
 
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
 } from "@/components/ui/dialog";
 
 import {
@@ -16,45 +14,33 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerTitle,
-  DrawerDescription,
 } from "@/components/ui/drawer";
-import CircleLoader from "@/components/CircleLoader";
 import TransactionForm from "@/components/forms/TransactionForm";
 
-interface ITransactionsTableModalProps {
-  isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
-  selectedTransactionRow: ITransactionData | undefined;
-}
-
-const TransactionsTableModal = ({
-  isOpen,
-  setIsOpen,
-  selectedTransactionRow,
-}: ITransactionsTableModalProps) => {
+const TransactionsTableModal = () => {
   const isMobile = useIsMobile();
+  const { isOpen, closeModal, mode } = useTransactionModalStore();
+
+  if (!isOpen) return null;
 
   if (isMobile) {
     return (
-      <Drawer open={isOpen} onOpenChange={setIsOpen}>
+      <Drawer open={isOpen} onOpenChange={closeModal}>
         <DrawerContent className="max-h-[calc(100dvh-100px)]">
           <DrawerHeader className="text-left">
-            <DrawerTitle>Form</DrawerTitle>
-            <DrawerDescription>Manage your transaction</DrawerDescription>
+            <DrawerTitle className="text-center">
+              {mode === "create" ? "Create" : "Edit"} your transaction
+            </DrawerTitle>
           </DrawerHeader>
 
-          {selectedTransactionRow ? (
-            <TransactionForm selectedTransactionRow={selectedTransactionRow} />
-          ) : (
-            <CircleLoader />
-          )}
+          <TransactionForm />
         </DrawerContent>
       </Drawer>
     );
   }
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={closeModal}>
       <DialogContent
         className={cn(
           "min-w-[600px] max-h-[calc(100dvh-100px)]",
@@ -62,16 +48,13 @@ const TransactionsTableModal = ({
         )}
       >
         <DialogHeader>
-          <DialogTitle>Form</DialogTitle>
-          <DialogDescription>Manage your transaction</DialogDescription>
+          <DialogTitle>
+            {mode === "create" ? "Create" : "Edit"} your transaction
+          </DialogTitle>
         </DialogHeader>
 
         <div className="flex-1">
-          {selectedTransactionRow ? (
-            <TransactionForm selectedTransactionRow={selectedTransactionRow} />
-          ) : (
-            <CircleLoader />
-          )}
+          <TransactionForm />
         </div>
       </DialogContent>
     </Dialog>

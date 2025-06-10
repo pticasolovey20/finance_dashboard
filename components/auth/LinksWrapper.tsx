@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { AuthRoutesEnum } from "@/types/route";
+import { AuthRoutesEnum } from "@/types/routeTypes";
 
 const LinksWrapper = () => {
   return (

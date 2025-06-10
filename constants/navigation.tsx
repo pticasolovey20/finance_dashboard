@@ -5,7 +5,7 @@ import {
   Settings,
   CircleUser,
 } from "lucide-react";
-import { ProtectedRoutesEnum } from "@/types/route";
+import { ProtectedRoutesEnum } from "@/types/routeTypes";
 
 export const NAVIGATION = [
   {
