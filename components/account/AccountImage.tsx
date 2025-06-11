@@ -34,8 +34,11 @@ const AccountImage = ({ imageSRC }: IAccountImageProps) => {
 
       <div>
         <DropdownMenu>
-          <DropdownMenuTrigger className="absolute right-2 top-2 h-5 outline-none">
-            <EllipsisVertical size={20} />
+          <DropdownMenuTrigger
+            aria-label="profile image dropdown trigger"
+            className="absolute right-2 top-2 h-5 outline-none"
+          >
+            <EllipsisVertical className="w-5 h-5" />
           </DropdownMenuTrigger>
 
           <DropdownMenuContent className="absolute right-0 top-2">

@@ -10,11 +10,11 @@ const CreateButton = () => {
     <Button
       size="icon"
       variant="outline"
-      className="aspect-square"
+      className="h-10 w-10 aspect-square"
       onClick={() => openTransactionModal("create")}
       aria-label="Create transaction button"
     >
-      <Plus />
+      <Plus className="!h-5 !w-5" />
     </Button>
   );
 };

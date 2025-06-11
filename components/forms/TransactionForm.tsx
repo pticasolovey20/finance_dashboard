@@ -8,10 +8,13 @@ import { TransactionSchema } from "@/schemas/transactionSchema";
 import { TransactionsFormFields } from "@/types/transactionTypes";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
+import { transactionsTypeOptions } from "@/constants/transactionFormOptions";
 
+import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
 import SubmitButton from "@/components/forms/SubmitButton";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
+import FloatingLabelSelectField from "@/components/forms/FloatingLabelSelectField";
 
 interface ITransactionFormProps {
   classNames?: string;
@@ -66,7 +69,12 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           control={control}
           name="type"
           render={({ field }) => (
-            <FloatingLabelInputField field={field} id="type" label="Type" />
+            <FloatingLabelSelectField
+              field={field}
+              options={transactionsTypeOptions}
+              // id="type"
+              // label="Type"
+            />
           )}
         />
 
@@ -100,11 +108,16 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           />
         </div>
 
-        <SubmitButton
-          label={mode === "create" ? "Create" : "Save"}
-          classNames="col-span-1 sm:col-span-2 mt-6"
-          isLoading={isLoading}
-        />
+        <div className="col-span-1 sm:col-span-2 flex flex-col-reverse xs:flex-row gap-4 mt-8">
+          <Button variant="destructive" className="h-10 w-full" disabled>
+            Delete
+          </Button>
+
+          <SubmitButton
+            label={mode === "create" ? "Create" : "Save"}
+            isLoading={isLoading}
+          />
+        </div>
       </form>
     </Form>
   );

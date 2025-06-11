@@ -19,7 +19,10 @@ const MainLayout = async ({ children }: IMainLayoutProps) => {
         <AppSidebar />
 
         <main className="relative min-h-[100dvh] h-full w-full p-4 overflow-x-hidden">
-          <SidebarTrigger className="absolute top-4  md:top-[26px] w-5 h-5 text-muted-foreground hover:text-primary" />
+          <SidebarTrigger
+            aria-label="sidebar trigger"
+            className="absolute top-4  md:top-[26px] w-5 h-5 text-muted-foreground hover:text-primary"
+          />
           {children}
         </main>
       </SidebarProvider>

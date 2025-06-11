@@ -1,10 +1,9 @@
 import { cn } from "@/lib/utils";
-import { useRef, useEffect, MouseEvent, TouchEvent } from "react";
 import { Virtualizer } from "@tanstack/react-virtual";
 import { Table, flexRender } from "@tanstack/react-table";
+import { useRef, useEffect, MouseEvent, TouchEvent } from "react";
 
 import { TableHeader, TableHead, TableRow } from "@/components/ui/table";
-import { Scaling } from "lucide-react";
 
 type HandlerEvent = MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>;
 
@@ -88,7 +87,7 @@ const VirtualizedTableHeader = <TableData,>({
                       : undefined,
                 }}
               >
-                <div className="relative w-full">
+                <div className="relative w-full text-base">
                   {headerCell.isPlaceholder
                     ? null
                     : flexRender(
@@ -99,6 +98,8 @@ const VirtualizedTableHeader = <TableData,>({
                   {/* RESIZER */}
                   {headerCell.column.getCanResize() && (
                     <div
+                      role="button"
+                      title="Reesize column width"
                       onMouseDown={(event) => {
                         handleMouseDown(event, headerCell.getResizeHandler());
                       }}
@@ -111,12 +112,11 @@ const VirtualizedTableHeader = <TableData,>({
                         })
                       }
                       className={cn(
-                        "cursor-col-resize select-none",
-                        "w-5 h-5 absolute inset-y-0 right-0"
+                        "w-1 h-full bg-muted",
+                        "absolute inset-y-0 right-0",
+                        "cursor-col-resize select-none"
                       )}
-                    >
-                      <Scaling size={20} />
-                    </div>
+                    />
                   )}
                 </div>
               </TableHead>

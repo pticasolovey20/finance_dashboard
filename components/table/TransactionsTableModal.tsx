@@ -3,16 +3,15 @@ import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
+  DialogHeader,
+  DialogContent,
 } from "@/components/ui/dialog";
-
 import {
   Drawer,
-  DrawerContent,
-  DrawerHeader,
   DrawerTitle,
+  DrawerHeader,
+  DrawerContent,
 } from "@/components/ui/drawer";
 import TransactionForm from "@/components/forms/TransactionForm";
 
@@ -25,15 +24,20 @@ const TransactionsTableModal = () => {
     mode,
   } = useTransactionTableStore();
 
+  const actionLabel = mode === "create" ? "Create" : "Edit";
+
   if (!isOpen) return null;
 
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={closeModal}>
-        <DrawerContent className="max-h-[calc(100dvh-50px)] !h-auto">
+        <DrawerContent
+          className="max-h-[calc(100dvh-50px)] !h-auto"
+          aria-describedby={undefined}
+        >
           <DrawerHeader>
             <DrawerTitle className="text-xl lg:text-2xl text-center">
-              {mode === "create" ? "Create" : "Edit"} your transaction
+              {actionLabel} your transaction
             </DrawerTitle>
           </DrawerHeader>
 
@@ -45,10 +49,13 @@ const TransactionsTableModal = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={closeModal}>
-      <DialogContent className="min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col">
+      <DialogContent
+        className="min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col"
+        aria-describedby={undefined}
+      >
         <DialogHeader>
           <DialogTitle className="text-xl lg:text-2xl pl-1">
-            {mode === "create" ? "Create" : "Edit"} your transaction
+            {actionLabel} your transaction
           </DialogTitle>
         </DialogHeader>
 

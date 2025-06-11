@@ -12,7 +12,13 @@ const ThemeSwitcher = () => {
   return (
     <div className="flex items-center gap-4">
       <span>Light</span>
-      <Switch checked={isDarkTheme} onCheckedChange={toggleTheme} />
+
+      <Switch
+        aria-label="theme switcher"
+        checked={isDarkTheme}
+        onCheckedChange={toggleTheme}
+      />
+
       <span>Dark</span>
     </div>
   );

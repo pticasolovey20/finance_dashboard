@@ -107,27 +107,29 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   };
 
   return (
-    <div>
+    <>
       <div className="flex gap-4 mb-4">
         <CreateButton />
 
         <Input
           placeholder="Search..."
           value={globalFilter ?? ""}
+          className="h-10 placeholder:text-base"
           onChange={(event) => setGlobalFilter(event.target.value)}
         />
 
         <Button
           variant="outline"
           onClick={openTransactionFilter}
-          className="max-w-[100px] xs:max-w-[150px] w-full"
+          className="h-10 max-w-[100px] xs:max-w-[150px] w-full md:text-base"
         >
           Filters
         </Button>
       </div>
+
       {transactionTable.getRowModel().rows.length === 0 ? (
-        <div>
-          <span className="font-medium">Nothing found!</span>
+        <div className="h-[100px] flex items-center justify-center">
+          <span className="font-medium text-lg">Nothing found!</span>
         </div>
       ) : (
         <div className="md:border border-muted md:rounded-md overflow-hidden">
@@ -153,14 +155,17 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
         </div>
       )}
 
-      <TablePagination table={transactionTable} />
+      {transactionTable.getRowModel().rows.length !== 0 && (
+        <TablePagination table={transactionTable} />
+      )}
+
       <TransactionsTableModal />
       <TableFilterModal
         table={transactionTable}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
       />
-    </div>
+    </>
   );
 };
 

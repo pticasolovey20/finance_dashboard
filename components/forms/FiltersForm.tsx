@@ -14,6 +14,7 @@ import {
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
+import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import SubmitButton from "@/components/forms/SubmitButton";
 
@@ -95,8 +96,12 @@ const FiltersForm = <TableData,>({
           }}
         />
 
-        <div className="flex justify-end mt-8">
-          <SubmitButton label="Save" classNames="max-w-full md:max-w-[200px]" />
+        <div className="flex flex-col-reverse xs:flex-row gap-4 mt-8">
+          <Button variant="outline" className="h-10 w-full" disabled>
+            Reset
+          </Button>
+
+          <SubmitButton label="Save" />
         </div>
       </form>
     </Form>

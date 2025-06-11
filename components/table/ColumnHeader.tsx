@@ -19,6 +19,7 @@ const ColumnHeader = <TableData,>({
 
       {isCanSorted && (
         <button
+          aria-label="sort column"
           onClick={() => column.toggleSorting()}
           className="p-1 rounded hover:bg-muted"
         >

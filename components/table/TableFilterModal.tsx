@@ -5,18 +5,16 @@ import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
 import {
   Drawer,
-  DrawerContent,
-  DrawerHeader,
   DrawerTitle,
+  DrawerHeader,
+  DrawerContent,
 } from "@/components/ui/drawer";
-
 import {
   Dialog,
-  DialogContent,
-  DialogHeader,
   DialogTitle,
+  DialogHeader,
+  DialogContent,
 } from "@/components/ui/dialog";
-
 import FiltersForm from "@/components/forms/FiltersForm";
 
 interface ITableFilterModalProps<TableData> {
@@ -42,7 +40,10 @@ const TableFilterModal = <TableData,>({
   if (isMobile) {
     return (
       <Drawer open={isOpen} onOpenChange={closeFilter}>
-        <DrawerContent className="max-h-[calc(100dvh-50px)]">
+        <DrawerContent
+          className="max-h-[calc(100dvh-50px)]"
+          aria-describedby={undefined}
+        >
           <DrawerHeader>
             <DrawerTitle className="text-xl lg:text-2xl text-center">
               Manage your table filters here
@@ -62,7 +63,10 @@ const TableFilterModal = <TableData,>({
 
   return (
     <Dialog open={isOpen} onOpenChange={closeFilter}>
-      <DialogContent className="min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col">
+      <DialogContent
+        className="min-w-[600px] max-h-[calc(100dvh-50px)] flex flex-col"
+        aria-describedby={undefined}
+      >
         <DialogHeader>
           <DialogTitle className="text-xl lg:text-2xl pl-1">
             Manage your table filters here

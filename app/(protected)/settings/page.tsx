@@ -4,7 +4,7 @@ import ThemeSwitcher from "@/components/theme/ThemeSwitcher";
 
 const SettingsPage = () => {
   return (
-    <div className="max-w-[800px] w-full flex flex-col mt-10 md:mt-12 mx-auto">
+    <div className="max-w-[800px] w-full flex flex-col mt-12 mx-auto">
       <SectionWrapper
         sectionTitle="Theme"
         sectionDescription="Choose between light and dark mode to match your preferences"

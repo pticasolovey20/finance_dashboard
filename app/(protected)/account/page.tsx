@@ -11,7 +11,7 @@ const AccountForm = dynamic(() => import("@/components/forms/AccountForm"), {
 
 const AccountPage = () => {
   return (
-    <div className="max-w-[800px] w-full flex flex-col mt-10 md:mt-12 mx-auto">
+    <div className="max-w-[800px] w-full flex flex-col mt-12 mx-auto">
       <AccountSectionHeader
         title="Account"
         description="Realtime information and activities of your property"
