@@ -3,6 +3,7 @@ import {
   useFormContext,
   ControllerRenderProps,
 } from "react-hook-form";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { IOptionsData } from "@/types/selectOptionsTypes";
 
@@ -19,14 +20,14 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-// import FloatingLabelWrapper from "@/components/forms/FloatingLabelWrapper";
+import FloatingLabelWrapper from "@/components/forms/FloatingLabelWrapper";
 
 interface FloatingLabelSelectFieldProps<TFieldValues extends FieldValues> {
   onBlur?: () => void;
   field: ControllerRenderProps<TFieldValues>;
   options: IOptionsData[];
-  // id: string;
-  // label: string;
+  id: string;
+  label: string;
   helperText?: string;
   disabled?: boolean;
 }
@@ -35,13 +36,15 @@ const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
   onBlur,
   field,
   options,
-  // id,
-  // label,
+  id,
+  label,
   helperText,
   disabled,
 }: FloatingLabelSelectFieldProps<TFieldValues>) => {
+  const [isFocused, setIsFocused] = useState<boolean>(false);
+
   const { formState } = useFormContext<TFieldValues>();
-  // const hasValue = !!field.value;
+  const hasValue = !!field.value;
   const hasError = !!formState.errors[field.name];
 
   const handleBlur = () => {
@@ -52,36 +55,47 @@ const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
   return (
     <FormItem className="w-full">
       <FormControl>
-        <Select
-          value={field.value}
-          disabled={disabled}
-          onValueChange={field.onChange}
+        <FloatingLabelWrapper
+          id={id}
+          label={label}
+          hasValue={hasValue}
+          hasError={hasError}
+          isFocused={isFocused}
         >
-          <SelectTrigger
-            onBlur={handleBlur}
-            onKeyDown={(event) => {
-              if (event.key === "Enter") {
-                event.preventDefault();
-                event.currentTarget.blur();
-              }
-            }}
-            className={cn(
-              "h-10 shadow-sm",
-              "text-base text-gray-400",
-              hasError && "border-red-500 focus-visible:ring-red-500"
-            )}
+          <Select
+            disabled={disabled}
+            value={field.value ?? ""}
+            onValueChange={field.onChange}
+            onOpenChange={(open) => setIsFocused(open)}
           >
-            <SelectValue placeholder="Type" />
-          </SelectTrigger>
+            <SelectTrigger
+              tabIndex={-1}
+              onBlur={handleBlur}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") {
+                  event.preventDefault();
+                  event.currentTarget.blur();
+                }
+              }}
+              className={cn(
+                "h-10 peer shadow-sm",
+                "text-base text-gray-400",
+                isFocused ? "ring-1 ring-ring" : "!ring-0",
+                hasError && "border-red-500 focus-visible:ring-red-500"
+              )}
+            >
+              <SelectValue placeholder=" " />
+            </SelectTrigger>
 
-          <SelectContent>
-            {options.map(({ value, label }) => (
-              <SelectItem key={value} value={value}>
-                {label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
+            <SelectContent>
+              {options.map(({ value, label }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </FloatingLabelWrapper>
       </FormControl>
 
       <FormMessage className="ml-2 !mt-1" />

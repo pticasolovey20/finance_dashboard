@@ -72,8 +72,8 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             <FloatingLabelSelectField
               field={field}
               options={transactionsTypeOptions}
-              // id="type"
-              // label="Type"
+              id="type"
+              label="Type"
             />
           )}
         />

@@ -56,6 +56,7 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
             id={id}
             {...field}
             type={type}
+            tabIndex={-1}
             placeholder=" "
             disabled={disabled}
             onBlur={handleBlur}
