@@ -1,7 +1,7 @@
 import { faker } from "@faker-js/faker";
-import { TransactionType } from "@prisma/client";
 import { ITransactionData } from "@/types/transactionTypes";
 import { getCreateTransaction } from "@/actions/transaction";
+import { TransactionType, TransactionStatus } from "@prisma/client";
 
 export const generateFakeTransaction = (): ITransactionData => {
   return {
@@ -9,6 +9,12 @@ export const generateFakeTransaction = (): ITransactionData => {
     type: faker.helpers.arrayElement([
       TransactionType.expense,
       TransactionType.income,
+    ]),
+    status: faker.helpers.arrayElement([
+      TransactionStatus.cancelled,
+      TransactionStatus.completed,
+      TransactionStatus.failed,
+      TransactionStatus.pending,
     ]),
     amount: parseFloat(faker.finance.amount({ min: 5, max: 500, dec: 2 })),
     date: faker.date.past(),
