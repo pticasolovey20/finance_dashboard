@@ -1,10 +1,11 @@
 import * as zod from "zod";
-import { TransactionType } from "@prisma/client";
 import { TransactionSchema } from "@/schemas/transactionSchema";
+import { TransactionType, TransactionStatus } from "@prisma/client";
 
 export interface ITransactionData {
   id: string;
   type: TransactionType;
+  status: TransactionStatus;
   categoryId: string;
   amount: number;
   date: Date;

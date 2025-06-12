@@ -30,6 +30,7 @@ interface FloatingLabelSelectFieldProps<TFieldValues extends FieldValues> {
   label: string;
   helperText?: string;
   disabled?: boolean;
+  classNames?: string;
 }
 
 const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
@@ -40,6 +41,7 @@ const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
   label,
   helperText,
   disabled,
+  classNames,
 }: FloatingLabelSelectFieldProps<TFieldValues>) => {
   const [isFocused, setIsFocused] = useState<boolean>(false);
 
@@ -53,7 +55,7 @@ const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
   };
 
   return (
-    <FormItem className="w-full">
+    <FormItem className={cn("w-full", classNames)}>
       <FormControl>
         <FloatingLabelWrapper
           id={id}

@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { TransactionType } from "@prisma/client";
+import { TransactionStatus } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useToast } from "@/hooks/use-toast";
@@ -32,6 +32,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
 
     defaultValues: {
       type: transactionData?.type ?? undefined,
+      status: transactionData?.status ?? TransactionStatus.pending,
       categoryId: transactionData?.categoryId ?? undefined,
       amount: transactionData?.amount ?? undefined,
       date: transactionData?.date ?? new Date(),
@@ -42,10 +43,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
   const { handleSubmit, control } = form;
 
   const onFormSubmit = async (formData: TransactionsFormFields) => {
-    createTransaction({
-      ...formData,
-      type: formData.type as TransactionType,
-    })
+    createTransaction(formData)
       .then(() => closeTransactionModal())
       .catch(() => {
         toast({
@@ -60,8 +58,9 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={cn(
-          "w-full p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 overflow-y-auto",
-          "grid grid-cols-1 sm:grid-cols-2 gap-4",
+          "w-full gap-4 overflow-y-auto",
+          "grid grid-cols-1 sm:grid-cols-2",
+          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2",
           classNames
         )}
       >
@@ -77,6 +76,21 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             />
           )}
         />
+
+        {mode === "edit" && (
+          <FormField
+            control={control}
+            name="status"
+            render={({ field }) => (
+              <FloatingLabelInputField
+                field={field}
+                id="status"
+                label="Status"
+                disabled
+              />
+            )}
+          />
+        )}
 
         <FormField
           control={control}

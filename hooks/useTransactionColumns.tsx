@@ -36,7 +36,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         size: 200,
 
         id: "status",
-        accessorKey: "Status",
+        accessorKey: "status",
         enableSorting: true,
         enableColumnFilter: true,
 
