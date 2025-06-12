@@ -53,7 +53,7 @@ const FiltersForm = <TableData,>({
         onSubmit={handleSubmit(onFormSubmit)}
         className={cn(
           "w-full flex flex-col overflow-y-auto",
-          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2"
+          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 md:pb-1"
         )}
       >
         <FormField

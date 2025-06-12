@@ -21,9 +21,11 @@ interface ITransactionFormProps {
 }
 
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
-  const { isLoading, createTransaction } = useTransactionStore();
+  const { isLoading, createTransaction, deleteTransaction } =
+    useTransactionStore();
   const { transactionData, mode, closeTransactionModal } =
     useTransactionTableStore();
+
   const { toast } = useToast();
 
   const form = useForm({
@@ -42,15 +44,28 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = async (formData: TransactionsFormFields) => {
-    createTransaction(formData)
-      .then(() => closeTransactionModal())
+  const handleDeleteTransaction = async () => {
+    deleteTransaction(transactionData!.id)
+      .then(() => toast({ description: "Transaction deleted successfully!" }))
       .catch(() => {
         toast({
           variant: "destructive",
           description: "Something went wrong!",
         });
-      });
+      })
+      .finally(() => closeTransactionModal());
+  };
+
+  const onFormSubmit = async (formData: TransactionsFormFields) => {
+    createTransaction(formData)
+      .then(() => toast({ description: "Transaction created successfully!" }))
+      .catch(() => {
+        toast({
+          variant: "destructive",
+          description: "Something went wrong!",
+        });
+      })
+      .finally(() => closeTransactionModal());
   };
 
   return (
@@ -60,7 +75,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
         className={cn(
           "w-full gap-4 overflow-y-auto",
           "grid grid-cols-1 sm:grid-cols-2",
-          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2",
+          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 md:pb-1",
           classNames
         )}
       >
@@ -123,9 +138,17 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
         </div>
 
         <div className="col-span-1 sm:col-span-2 flex flex-col-reverse xs:flex-row gap-4 mt-8">
-          <Button variant="destructive" className="h-10 w-full" disabled>
-            Delete
-          </Button>
+          {mode === "edit" && (
+            <Button
+              type="button"
+              variant="destructive"
+              className="h-10 w-full"
+              disabled={isLoading}
+              onClick={handleDeleteTransaction}
+            >
+              Delete
+            </Button>
+          )}
 
           <SubmitButton
             label={mode === "create" ? "Create" : "Save"}

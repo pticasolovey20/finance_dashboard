@@ -34,8 +34,9 @@ export const getTransactionById = async (id: string) => {
     });
 
     return existingTransaction;
-  } catch {
-    return null;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
 
@@ -43,7 +44,23 @@ export const getAllTransactions = async () => {
   try {
     const existingTransactions = await database.transaction.findMany();
     return existingTransactions;
-  } catch {
-    return null;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getDeleteTransactionById = async (id: string) => {
+  try {
+    const deletedTransaction = await database.transaction.delete({
+      where: {
+        id,
+      },
+    });
+
+    return deletedTransaction;
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };
