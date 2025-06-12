@@ -15,7 +15,6 @@ import {
 type TransactionsState = {
   isLoading: boolean;
   transactions: ITransactionData[];
-  // error: string | null;
 
   // ASYNC ACTIONS
   createTransaction: (data: TransactionsFormFields) => Promise<void>;
@@ -28,13 +27,9 @@ type TransactionsState = {
 export const useTransactionStore = create<TransactionsState>()((set) => ({
   isLoading: false,
   transactions: [],
-  // error: null,
 
   createTransaction: async (transactionData) => {
-    set({
-      isLoading: true,
-      // error: null,
-    });
+    set({ isLoading: true });
 
     try {
       const createdTransaction = await getCreateTransaction(transactionData);
@@ -51,10 +46,7 @@ export const useTransactionStore = create<TransactionsState>()((set) => ({
   },
 
   deleteTransaction: async (id) => {
-    set({
-      isLoading: true,
-      // error: null
-    });
+    set({ isLoading: true });
 
     try {
       await getDeleteTransactionById(id);
@@ -71,10 +63,7 @@ export const useTransactionStore = create<TransactionsState>()((set) => ({
   },
 
   fetchTransactions: async () => {
-    set({
-      isLoading: true,
-      // error: null,
-    });
+    set({ isLoading: true });
 
     try {
       const transactions = await getAllTransactions();
@@ -88,10 +77,7 @@ export const useTransactionStore = create<TransactionsState>()((set) => ({
   },
 
   fetchTransactionById: async (id: string) => {
-    set({
-      isLoading: true,
-      // error: null,
-    });
+    set({ isLoading: true });
 
     try {
       const transaction = await getTransactionById(id);
