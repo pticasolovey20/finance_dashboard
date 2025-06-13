@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { Dispatch, SetStateAction } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Table, VisibilityState } from "@tanstack/react-table";
 
-import { FiltersFormFields } from "@/types/filterTypes";
 import { FiltersSchema } from "@/schemas/filterSchema";
+import { FiltersFormFields } from "@/types/filterTypes";
+import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
 import {
   Form,
@@ -18,19 +18,17 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import SubmitButton from "@/components/forms/SubmitButton";
 
-interface IFiltersFormProps<TableData> {
+interface ITransactionFiltersFormProps<TableData> {
   table: Table<TableData>;
-  columnVisibility: VisibilityState;
-  setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>;
   onCloseDrawer: () => void;
 }
 
-const FiltersForm = <TableData,>({
+const TransactionFiltersForm = <TableData,>({
   table,
-  columnVisibility,
-  setColumnVisibility,
   onCloseDrawer,
-}: IFiltersFormProps<TableData>) => {
+}: ITransactionFiltersFormProps<TableData>) => {
+  const { columnVisibility, setColumnVisibility } = useTransactionTableStore();
+
   const columns = table.getAllLeafColumns();
 
   const form = useForm<FiltersFormFields>({
@@ -108,4 +106,4 @@ const FiltersForm = <TableData,>({
   );
 };
 
-export default FiltersForm;
+export default TransactionFiltersForm;

@@ -4,19 +4,16 @@ import {
   SortingState,
   useReactTable,
   getCoreRowModel,
+  PaginationState,
   getSortedRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
-  ColumnSizingState,
-  PaginationState,
-  VisibilityState,
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
 
 import { ITransactionData } from "@/types/transactionTypes";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
-import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionTableFilter";
 
 import { Input } from "@/components/ui/input";
 import { Table } from "@/components/ui/table";
@@ -39,13 +36,15 @@ const TransactionsTable = ({
   transactions,
   isLoading,
 }: ITransactionsTableProps) => {
-  const [columnSizing, setColumnSizing] = useState<ColumnSizingState>({});
-  const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    DEFAULT_COLUMNS_VISIBILITY
-  );
+  const {
+    columnSizing,
+    setColumnSizing,
+    columnVisibility,
+    setColumnVisibility,
+  } = useTransactionTableStore();
 
-  const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [globalFilter, setGlobalFilter] = useState<string>("");
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 50,
@@ -180,11 +179,7 @@ const TransactionsTable = ({
       </div>
 
       <TransactionsTableModal />
-      <TableFilterModal
-        table={transactionTable}
-        columnVisibility={columnVisibility}
-        setColumnVisibility={setColumnVisibility}
-      />
+      <TableFilterModal table={transactionTable} />
     </Fragment>
   );
 };

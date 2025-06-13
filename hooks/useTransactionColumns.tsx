@@ -105,7 +105,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
           return (
             <Badge
               variant="secondary"
-              style={{ color }}
+              style={{ color, height: "26px" }}
               className={cn(
                 "font-mono tabular-nums text-sm",
                 "w-full flex justify-center rounded-md px-1"

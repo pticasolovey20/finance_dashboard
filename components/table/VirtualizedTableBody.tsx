@@ -54,7 +54,7 @@ const VirtualizedTableBody = <TableData,>({
                 <TableCell
                   key={`bodyCell-${cell.id}-${cellIndex}`}
                   className={cn(
-                    "h-10 flex px-4 text-base border-r",
+                    "min-h-10 flex px-4 text-base border-r",
                     !isIdCell ? "capitalize" : ""
                   )}
                   style={{ width: cell.column.getSize() }}

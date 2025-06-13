@@ -1,6 +1,5 @@
+import { Table } from "@tanstack/react-table";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Dispatch, SetStateAction } from "react";
-import { Table, VisibilityState } from "@tanstack/react-table";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
 import {
@@ -15,18 +14,14 @@ import {
   DialogHeader,
   DialogContent,
 } from "@/components/ui/dialog";
-import FiltersForm from "@/components/forms/FiltersForm";
+import TransactionFiltersForm from "@/components/forms/TransactionFiltersForm";
 
 interface ITableFilterModalProps<TableData> {
   table: Table<TableData>;
-  columnVisibility: VisibilityState;
-  setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>;
 }
 
 const TableFilterModal = <TableData,>({
   table,
-  columnVisibility,
-  setColumnVisibility,
 }: ITableFilterModalProps<TableData>) => {
   const isMobile = useIsMobile();
 
@@ -50,12 +45,7 @@ const TableFilterModal = <TableData,>({
             </DrawerTitle>
           </DrawerHeader>
 
-          <FiltersForm
-            table={table}
-            columnVisibility={columnVisibility}
-            setColumnVisibility={setColumnVisibility}
-            onCloseDrawer={closeFilter}
-          />
+          <TransactionFiltersForm table={table} onCloseDrawer={closeFilter} />
         </DrawerContent>
       </Drawer>
     );
@@ -73,12 +63,7 @@ const TableFilterModal = <TableData,>({
           </DialogTitle>
         </DialogHeader>
 
-        <FiltersForm
-          table={table}
-          columnVisibility={columnVisibility}
-          setColumnVisibility={setColumnVisibility}
-          onCloseDrawer={closeFilter}
-        />
+        <TransactionFiltersForm table={table} onCloseDrawer={closeFilter} />
       </DialogContent>
     </Dialog>
   );
