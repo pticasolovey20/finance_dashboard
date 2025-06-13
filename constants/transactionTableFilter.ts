@@ -1,5 +1,5 @@
 export const DEFAULT_COLUMNS_VISIBILITY = {
-  id: false,
+  id: true,
   type: true,
   status: true,
   amount: true,
