@@ -22,7 +22,7 @@ interface ITransactionFormProps {
 }
 
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
-  const { isLoading, createTransaction, deleteTransaction } =
+  const { isLoading, createTransaction, editTransaction, deleteTransaction } =
     useTransactionStore();
   const {
     transactionData,
@@ -62,15 +62,36 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
   };
 
   const onFormSubmit = async (formData: TransactionsFormFields) => {
-    createTransaction(formData)
-      .then(() => toast({ description: "Transaction created successfully!" }))
-      .catch(() => {
+    if (isEditMode) {
+      if (!transactionData?.id) {
         toast({
           variant: "destructive",
-          description: "Something went wrong!",
+          description: "Transaction ID is missing!",
         });
-      })
-      .finally(() => closeTransactionModal());
+
+        return;
+      }
+
+      editTransaction(transactionData?.id, formData)
+        .then(() => toast({ description: "Transaction updated successfully!" }))
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            description: "Something went wrong!",
+          });
+        })
+        .finally(() => closeTransactionModal());
+    } else {
+      createTransaction(formData)
+        .then(() => toast({ description: "Transaction created successfully!" }))
+        .catch(() => {
+          toast({
+            variant: "destructive",
+            description: "Something went wrong!",
+          });
+        })
+        .finally(() => closeTransactionModal());
+    }
   };
 
   return (

@@ -1,3 +1,4 @@
+import { cn } from "@/lib/utils";
 import { ReactNode, useMemo } from "react";
 import { formatDate } from "@/lib/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
@@ -34,7 +35,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
-        size: 200,
+        enableResizing: false,
+        size: 150,
 
         id: "status",
         accessorKey: "status",
@@ -45,7 +47,10 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         cell: ({ getValue }) => (
           <Badge
             variant="secondary"
-            className="rounded-md px-1 font-mono tabular-nums text-sm"
+            className={cn(
+              "font-mono tabular-nums text-sm",
+              "w-full flex justify-center rounded-md px-1"
+            )}
           >
             {getValue() as ReactNode}
           </Badge>

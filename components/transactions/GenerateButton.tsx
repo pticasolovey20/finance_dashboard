@@ -8,14 +8,19 @@ const GenerateButton = () => {
 
   const handleClick = () => {
     startTransition(() => {
-      seedTransactions(200)
+      seedTransactions(100)
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
     });
   };
 
   return (
-    <Button onClick={handleClick} disabled={isPending} className="w-fit mb-4">
+    <Button
+      onClick={handleClick}
+      disabled={isPending}
+      variant="destructive"
+      className="w-fit h-10"
+    >
       GENERATE
     </Button>
   );

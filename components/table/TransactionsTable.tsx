@@ -23,6 +23,7 @@ import { Button } from "@/components/ui/button";
 import TablePagination from "@/components/table/TablePagination";
 import CreateButton from "@/components/transactions/CreateButton";
 import TableFilterModal from "@/components/table/TableFilterModal";
+// import GenerateButton from "@/components/transactions/GenerateButton";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import TransactionsTableModal from "@/components/table/TransactionsTableModal";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
@@ -108,7 +109,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
 
   return (
     <>
-      <div className="flex gap-4 mb-4">
+      <div className="flex items-center gap-4 mb-4">
         <CreateButton />
 
         <Input
@@ -117,6 +118,8 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           className="h-10 placeholder:text-base"
           onChange={(event) => setGlobalFilter(event.target.value)}
         />
+
+        {/* <GenerateButton /> */}
 
         <Button
           variant="outline"

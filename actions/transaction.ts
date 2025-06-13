@@ -1,7 +1,7 @@
 "use server";
 
 import { database } from "@/lib/database";
-import { TransactionType } from "@prisma/client";
+import { TransactionType, TransactionStatus } from "@prisma/client";
 import { TransactionsFormFields } from "@/types/transactionTypes";
 
 export const getCreateTransaction = async (
@@ -11,6 +11,7 @@ export const getCreateTransaction = async (
     const createdTransaction = await database.transaction.create({
       data: {
         type: transaction.type as TransactionType,
+        status: transaction.status as TransactionStatus,
         amount: transaction.amount,
         date: transaction.date,
         note: transaction.note,
@@ -19,6 +20,30 @@ export const getCreateTransaction = async (
     });
 
     return createdTransaction;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};
+
+export const getUpdateTransactionById = async (
+  id: string,
+  transaction: TransactionsFormFields
+) => {
+  try {
+    const updatedTransaction = await database.transaction.update({
+      where: { id },
+
+      data: {
+        type: transaction.type as TransactionType,
+        amount: transaction.amount,
+        date: transaction.date,
+        note: transaction.note,
+        categoryId: transaction.categoryId,
+      },
+    });
+
+    return updatedTransaction;
   } catch (error) {
     console.error(error);
     throw error;

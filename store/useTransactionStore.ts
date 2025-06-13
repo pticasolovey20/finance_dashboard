@@ -4,6 +4,7 @@ import {
   getAllTransactions,
   getTransactionById,
   getCreateTransaction,
+  getUpdateTransactionById,
   getDeleteTransactionById,
 } from "@/actions/transaction";
 
@@ -16,8 +17,11 @@ type TransactionsState = {
   isLoading: boolean;
   transactions: ITransactionData[];
 
+  addTransaction: (data: ITransactionData) => void;
+
   // ASYNC ACTIONS
   createTransaction: (data: TransactionsFormFields) => Promise<void>;
+  editTransaction: (id: string, data: TransactionsFormFields) => Promise<void>;
   deleteTransaction: (id: string) => Promise<void>;
 
   fetchTransactions: () => Promise<void>;
@@ -28,6 +32,12 @@ export const useTransactionStore = create<TransactionsState>()((set) => ({
   isLoading: false,
   transactions: [],
 
+  addTransaction: (transaction) => {
+    set((state) => ({
+      transactions: [...state.transactions, transaction],
+    }));
+  },
+
   createTransaction: async (transactionData) => {
     set({ isLoading: true });
 
@@ -36,6 +46,28 @@ export const useTransactionStore = create<TransactionsState>()((set) => ({
 
       set((state) => ({
         transactions: [...state.transactions, createdTransaction],
+        isLoading: false,
+      }));
+    } catch (error: unknown) {
+      set({ isLoading: false });
+      console.error("Store: Error creating transaction:", error);
+      throw error;
+    }
+  },
+
+  editTransaction: async (transactionId, transactionData) => {
+    set({ isLoading: true });
+
+    try {
+      const updatedTransaction = await getUpdateTransactionById(
+        transactionId,
+        transactionData
+      );
+
+      set((state) => ({
+        transactions: state.transactions.map((transaction) =>
+          transaction.id === transactionId ? updatedTransaction : transaction
+        ),
         isLoading: false,
       }));
     } catch (error: unknown) {

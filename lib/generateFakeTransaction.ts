@@ -2,6 +2,7 @@ import { faker } from "@faker-js/faker";
 import { ITransactionData } from "@/types/transactionTypes";
 import { getCreateTransaction } from "@/actions/transaction";
 import { TransactionType, TransactionStatus } from "@prisma/client";
+import { useTransactionStore } from "@/store/useTransactionStore";
 
 export const generateFakeTransaction = (): ITransactionData => {
   return {
@@ -28,10 +29,12 @@ export const seedTransactions = async (count: number = 10) => {
 
   for (let index = 0; index < count; index++) {
     try {
-      const generatedTransaction = generateFakeTransaction();
+      const generatedTransaction: ITransactionData = generateFakeTransaction();
       const createdTransaction = await getCreateTransaction(
         generatedTransaction
       );
+
+      useTransactionStore.getState().addTransaction(createdTransaction);
       createdTransactions.push(createdTransaction);
     } catch (error) {
       console.error(error);
