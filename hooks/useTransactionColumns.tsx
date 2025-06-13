@@ -1,8 +1,9 @@
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
 import { formatDate } from "@/lib/formatDate";
 import { ColumnDef } from "@tanstack/react-table";
 import { ITransactionData } from "@/types/transactionTypes";
 
+import { Badge } from "@/components/ui/badge";
 import ColumnHeader from "@/components/table/ColumnHeader";
 
 export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
@@ -41,7 +42,14 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="Status" column={column} />,
-        cell: ({ getValue }) => getValue(),
+        cell: ({ getValue }) => (
+          <Badge
+            variant="secondary"
+            className="rounded-md px-1 font-mono tabular-nums text-sm"
+          >
+            {getValue() as ReactNode}
+          </Badge>
+        ),
       },
 
       {

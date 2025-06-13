@@ -80,8 +80,7 @@ const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
                 }
               }}
               className={cn(
-                "h-10 peer shadow-sm",
-                "text-base text-gray-400",
+                "h-10 peer text-base shadow-sm",
                 isFocused ? "ring-1 ring-ring" : "!ring-0",
                 hasError && "border-red-500 focus-visible:ring-red-500"
               )}

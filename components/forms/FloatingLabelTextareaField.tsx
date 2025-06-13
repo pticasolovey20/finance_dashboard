@@ -1,10 +1,9 @@
-import { HTMLInputTypeAttribute } from "react";
-import { cn } from "@/lib/utils";
 import {
-  ControllerRenderProps,
   FieldValues,
   useFormContext,
+  ControllerRenderProps,
 } from "react-hook-form";
+import { cn } from "@/lib/utils";
 
 import {
   FormItem,
@@ -12,30 +11,28 @@ import {
   FormMessage,
   FormDescription,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import FloatingLabelWrapper from "@/components/forms/FloatingLabelWrapper";
 
-interface FloatingLabelInputFieldProps<TFieldValues extends FieldValues> {
+interface IFloatingLabelTextareaFieldProps<TFieldValues extends FieldValues> {
   field: ControllerRenderProps<TFieldValues>;
   onBlur?: () => void;
   id: string;
-  type?: HTMLInputTypeAttribute;
   label: string;
   helperText?: string;
   disabled?: boolean;
   classNames?: string;
 }
 
-const FloatingLabelInputField = <TFieldValues extends FieldValues>({
+const FloatingLabelTextareaField = <TFieldValues extends FieldValues>({
   field,
   onBlur,
   id,
-  type = "text",
   label,
   helperText,
   disabled,
   classNames,
-}: FloatingLabelInputFieldProps<TFieldValues>) => {
+}: IFloatingLabelTextareaFieldProps<TFieldValues>) => {
   const { formState } = useFormContext<TFieldValues>();
   const hasValue = !!field.value;
   const hasError = !!formState.errors[field.name];
@@ -46,7 +43,7 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
   };
 
   return (
-    <FormItem className="w-full">
+    <FormItem>
       <FormControl>
         <FloatingLabelWrapper
           id={id}
@@ -54,10 +51,9 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
           hasValue={hasValue}
           hasError={hasError}
         >
-          <Input
+          <Textarea
             id={id}
             {...field}
-            type={type}
             tabIndex={-1}
             placeholder=" "
             disabled={disabled}
@@ -85,4 +81,4 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
   );
 };
 
-export default FloatingLabelInputField;
+export default FloatingLabelTextareaField;

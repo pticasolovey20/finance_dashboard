@@ -15,6 +15,7 @@ import { Form, FormField } from "@/components/ui/form";
 import SubmitButton from "@/components/forms/SubmitButton";
 import FloatingLabelInputField from "@/components/forms/FloatingLabelInputField";
 import FloatingLabelSelectField from "@/components/forms/FloatingLabelSelectField";
+import FloatingLabelTextareaField from "@/components/forms/FloatingLabelTextareaField";
 
 interface ITransactionFormProps {
   classNames?: string;
@@ -23,10 +24,14 @@ interface ITransactionFormProps {
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
   const { isLoading, createTransaction, deleteTransaction } =
     useTransactionStore();
-  const { transactionData, mode, closeTransactionModal } =
-    useTransactionTableStore();
-
+  const {
+    transactionData,
+    mode: formMode,
+    closeTransactionModal,
+  } = useTransactionTableStore();
   const { toast } = useToast();
+
+  const isEditMode = formMode === "edit";
 
   const form = useForm({
     mode: "onChange",
@@ -73,8 +78,8 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
       <form
         onSubmit={handleSubmit(onFormSubmit)}
         className={cn(
-          "w-full gap-4 overflow-y-auto",
-          "grid grid-cols-1 sm:grid-cols-2",
+          "w-full grid gap-4 overflow-y-auto",
+          isEditMode ?? "grid-cols-1 sm:grid-cols-2",
           "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 md:pb-1",
           classNames
         )}
@@ -92,7 +97,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           )}
         />
 
-        {mode === "edit" && (
+        {isEditMode && (
           <FormField
             control={control}
             name="status"
@@ -102,6 +107,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
                 id="status"
                 label="Status"
                 disabled
+                classNames="capitalize"
               />
             )}
           />
@@ -127,18 +133,27 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           )}
         />
 
-        <div className="col-span-1 sm:col-span-2">
+        <div className={cn(isEditMode ?? "col-span-1 sm:col-span-2")}>
           <FormField
             control={control}
             name="note"
             render={({ field }) => (
-              <FloatingLabelInputField field={field} id="note" label="Note" />
+              <FloatingLabelTextareaField
+                field={field}
+                id="note"
+                label="Note"
+              />
             )}
           />
         </div>
 
-        <div className="col-span-1 sm:col-span-2 flex flex-col-reverse xs:flex-row gap-4 mt-8">
-          {mode === "edit" && (
+        <div
+          className={cn(
+            isEditMode ?? "col-span-1 sm:col-span-2",
+            "flex flex-col-reverse xs:flex-row gap-4 mt-8"
+          )}
+        >
+          {isEditMode && (
             <Button
               type="button"
               variant="destructive"
@@ -151,7 +166,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           )}
 
           <SubmitButton
-            label={mode === "create" ? "Create" : "Save"}
+            label={isEditMode ? "Save" : "Create"}
             isLoading={isLoading}
           />
         </div>
