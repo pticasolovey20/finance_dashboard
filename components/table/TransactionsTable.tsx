@@ -145,14 +145,14 @@ const TransactionsTable = ({
             className={cn(
               "min-h-[200px] overflow-hidden",
               "flex items-center justify-center",
-              "md:border border-muted md:rounded-md"
+              "border border-muted rounded-md"
             )}
           >
             <span className="font-medium text-lg">Nothing found!</span>
           </div>
         ) : (
           <Fragment>
-            <div className="md:border border-muted md:rounded-md overflow-hidden">
+            <div className="border border-muted rounded-md overflow-hidden">
               <div
                 ref={tableContainerRef}
                 style={{ minWidth: totalTableWidth }}
