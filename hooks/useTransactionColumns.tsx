@@ -67,7 +67,11 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
           const type = data.table.getRow(data.row.id).original.type;
           const color = getTypeColor(type);
 
-          return <span style={{ color }}>{amount}</span>;
+          return (
+            <span style={{ color }}>
+              {type === "income" ? "+" : "-"} {amount}
+            </span>
+          );
         },
       },
 
