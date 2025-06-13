@@ -23,6 +23,7 @@ const MainLayout = async ({ children }: IMainLayoutProps) => {
             aria-label="sidebar trigger"
             className="absolute top-4  md:top-[26px] w-5 h-5 text-muted-foreground hover:text-primary"
           />
+
           {children}
         </main>
       </SidebarProvider>

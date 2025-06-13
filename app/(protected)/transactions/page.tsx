@@ -15,7 +15,7 @@ const TransactionsPage = () => {
   }, [fetchTransactions]);
 
   return (
-    <div className="flex flex-col mt-12">
+    <div className="min-h-[calc(100dvh-80px)] h-full flex flex-col mt-12">
       <TransactionsTable transactions={transactions} />
       {isLoading && <CircleLoader />}
     </div>

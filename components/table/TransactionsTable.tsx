@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react";
+import { Fragment, useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   SortingState,
@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button";
 import TablePagination from "@/components/table/TablePagination";
 import CreateButton from "@/components/transactions/CreateButton";
 import TableFilterModal from "@/components/table/TableFilterModal";
-// import GenerateButton from "@/components/transactions/GenerateButton";
+import GenerateButton from "@/components/transactions/GenerateButton";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import TransactionsTableModal from "@/components/table/TransactionsTableModal";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
@@ -88,6 +88,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
   });
 
   const visibleColumns = transactionTable.getVisibleLeafColumns();
+  const isEmptyTable = transactionTable.getRowModel().rows.length === 0;
 
   const columnVirtualizer = useVirtualizer<
     HTMLDivElement,
@@ -107,10 +108,23 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
     openTransactionModal("edit", rowData);
   };
 
+  const EmptyTableBody = () => (
+    <tbody>
+      <tr>
+        <td colSpan={visibleColumns.length} className="text-center py-16">
+          <div className="min-h-[200px] flex items-center justify-center">
+            <span className="font-medium text-lg">Nothing found!</span>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  );
+
   return (
-    <>
+    <Fragment>
       <div className="flex items-center gap-4 mb-4">
         <CreateButton />
+        <GenerateButton />
 
         <Input
           placeholder="Search..."
@@ -118,8 +132,6 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
           className="h-10 placeholder:text-base"
           onChange={(event) => setGlobalFilter(event.target.value)}
         />
-
-        {/* <GenerateButton /> */}
 
         <Button
           variant="outline"
@@ -130,11 +142,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
         </Button>
       </div>
 
-      {transactionTable.getRowModel().rows.length === 0 ? (
-        <div className="h-[100px] flex items-center justify-center">
-          <span className="font-medium text-lg">Nothing found!</span>
-        </div>
-      ) : (
+      <div className="relative flex-1">
         <div className="md:border border-muted md:rounded-md overflow-hidden">
           <div
             ref={tableContainerRef}
@@ -147,20 +155,22 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
                 columnVirtualizer={columnVirtualizer}
               />
 
-              <VirtualizedTableBody
-                table={transactionTable}
-                setSelectedRow={handleSelectRow}
-                tableContainerRef={tableContainerRef}
-                columnVirtualizer={columnVirtualizer}
-              />
+              {isEmptyTable ? (
+                <EmptyTableBody />
+              ) : (
+                <VirtualizedTableBody
+                  table={transactionTable}
+                  setSelectedRow={handleSelectRow}
+                  tableContainerRef={tableContainerRef}
+                  columnVirtualizer={columnVirtualizer}
+                />
+              )}
             </Table>
           </div>
         </div>
-      )}
 
-      {transactionTable.getRowModel().rows.length !== 0 && (
-        <TablePagination table={transactionTable} />
-      )}
+        {!isEmptyTable && <TablePagination table={transactionTable} />}
+      </div>
 
       <TransactionsTableModal />
       <TableFilterModal
@@ -168,7 +178,7 @@ const TransactionsTable = ({ transactions }: ITransactionsTableProps) => {
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
       />
-    </>
+    </Fragment>
   );
 };
 
