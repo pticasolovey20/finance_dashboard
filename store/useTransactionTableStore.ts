@@ -2,10 +2,10 @@ import {
   OnChangeFn,
   VisibilityState,
   ColumnSizingState,
+  SortingState,
 } from "@tanstack/react-table";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { Dispatch, SetStateAction } from "react";
 import { ITransactionData, ModalMode } from "@/types/transactionTypes";
 import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionTableFilter";
 
@@ -17,12 +17,15 @@ interface TransactionTableState {
   isTransactionFilterOpen: boolean;
 
   columnSizing: ColumnSizingState;
-  columnVisibility: VisibilityState;
-
   setColumnSizing: OnChangeFn<ColumnSizingState>;
-  setColumnVisibility: Dispatch<SetStateAction<VisibilityState>>;
   resetColumnSizing: () => void;
+
+  columnVisibility: VisibilityState;
+  setColumnVisibility: OnChangeFn<VisibilityState>;
   resetColumnVisibility: () => void;
+
+  columnSorting: SortingState;
+  setColumnSorting: OnChangeFn<SortingState>;
 
   openTransactionModal: (mode: ModalMode, data?: ITransactionData) => void;
   closeTransactionModal: () => void;
@@ -40,6 +43,7 @@ export const useTransactionTableStore = create<TransactionTableState>()(
 
       columnSizing: {},
       columnVisibility: DEFAULT_COLUMNS_VISIBILITY,
+      columnSorting: [],
 
       isTransactionModalOpen: false,
       isTransactionFilterOpen: false,
@@ -54,6 +58,8 @@ export const useTransactionTableStore = create<TransactionTableState>()(
               : updater,
         })),
 
+      resetColumnSizing: () => set({ columnSizing: {} }),
+
       setColumnVisibility: (updater) =>
         set((state) => ({
           columnVisibility:
@@ -62,10 +68,16 @@ export const useTransactionTableStore = create<TransactionTableState>()(
               : updater,
         })),
 
-      resetColumnSizing: () => set({ columnSizing: {} }),
-
       resetColumnVisibility: () =>
         set({ columnVisibility: DEFAULT_COLUMNS_VISIBILITY }),
+
+      setColumnSorting: (updater) =>
+        set((state) => ({
+          columnSorting:
+            typeof updater === "function"
+              ? updater(state.columnSorting)
+              : updater,
+        })),
 
       // MODALS ACTIONS
 
@@ -94,6 +106,7 @@ export const useTransactionTableStore = create<TransactionTableState>()(
       partialize: (state) => ({
         columnSizing: state.columnSizing,
         columnVisibility: state.columnVisibility,
+        columnSorting: state.columnSorting,
       }),
     }
   )

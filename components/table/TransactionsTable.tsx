@@ -1,7 +1,6 @@
 import { Fragment, useMemo, useRef, useState } from "react";
 import { useVirtualizer } from "@tanstack/react-virtual";
 import {
-  SortingState,
   useReactTable,
   getCoreRowModel,
   PaginationState,
@@ -41,9 +40,10 @@ const TransactionsTable = ({
     setColumnSizing,
     columnVisibility,
     setColumnVisibility,
+    columnSorting,
+    setColumnSorting,
   } = useTransactionTableStore();
 
-  const [sorting, setSorting] = useState<SortingState>([]);
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
@@ -55,24 +55,18 @@ const TransactionsTable = ({
     return Object.values(columnSizing).reduce((acc, state) => acc + state, 0);
   }, [columnSizing]);
 
+  console.log(columnSorting);
+
   const transactionTable = useReactTable({
     data: transactions,
     columns: useTransactionColumns(),
 
-    // initialState: {
-    //   sorting,
-    //   pagination,
-    //   globalFilter,
-    //   columnSizing,
-    //   columnVisibility,
-    // },
-
     state: {
-      sorting,
       pagination,
       globalFilter,
       columnSizing,
       columnVisibility,
+      sorting: columnSorting,
     },
 
     enableColumnResizing: true,
@@ -85,7 +79,7 @@ const TransactionsTable = ({
     onGlobalFilterChange: setGlobalFilter,
     getFilteredRowModel: getFilteredRowModel(),
 
-    onSortingChange: setSorting,
+    onSortingChange: setColumnSorting,
     getSortedRowModel: getSortedRowModel(),
 
     onPaginationChange: setPagination,
