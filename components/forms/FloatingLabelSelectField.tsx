@@ -5,6 +5,7 @@ import {
 } from "react-hook-form";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+
 import { IOptionsData } from "@/types/selectOptionsTypes";
 
 import {
@@ -82,15 +83,16 @@ const FloatingLabelSelectField = <TFieldValues extends FieldValues>({
               className={cn(
                 "h-10 peer text-base shadow-sm",
                 isFocused ? "ring-1 ring-ring" : "!ring-0",
-                hasError && "border-red-500 focus-visible:ring-red-500"
+                hasError &&
+                  "text-red-500 border-red-500 focus-visible:ring-red-500"
               )}
             >
               <SelectValue placeholder=" " />
             </SelectTrigger>
 
             <SelectContent>
-              {options.map(({ value, label }) => (
-                <SelectItem key={value} value={value}>
+              {options.map(({ value, label, disabled }) => (
+                <SelectItem key={value} value={value} disabled={disabled}>
                   {label}
                 </SelectItem>
               ))}

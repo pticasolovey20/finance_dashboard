@@ -1,8 +1,8 @@
 import {
   OnChangeFn,
+  SortingState,
   VisibilityState,
   ColumnSizingState,
-  SortingState,
 } from "@tanstack/react-table";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";

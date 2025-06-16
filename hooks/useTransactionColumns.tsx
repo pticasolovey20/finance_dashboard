@@ -1,10 +1,11 @@
 import { cn } from "@/lib/utils";
 import { useMemo } from "react";
+import { ColumnDef } from "@tanstack/react-table";
+
 import { formatDate } from "@/lib/formatDate";
 import { TransactionType } from "@prisma/client";
-import { ColumnDef } from "@tanstack/react-table";
-import { getStatusColor, getTypeColor } from "@/lib/transaction";
 import { ITransactionData } from "@/types/transactionTypes";
+import { getStatusColor, getTypeColor } from "@/lib/transaction";
 
 import { Badge } from "@/components/ui/badge";
 import { ArrowUp, ArrowDown } from "lucide-react";
@@ -39,6 +40,23 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
             </div>
           );
         },
+      },
+
+      {
+        size: 200,
+
+        id: "categoryId",
+        accessorKey: "categoryId",
+        enableSorting: true,
+        enableColumnFilter: true,
+
+        header: ({ column }) => (
+          <ColumnHeader title="Category" column={column} />
+        ),
+
+        cell: ({ getValue }) => (
+          <span className="capitalize">{getValue() as string}</span>
+        ),
       },
 
       {

@@ -1,10 +1,11 @@
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { cn } from "@/lib/utils";
 
-import ThemeProvider from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
+import ThemeProvider from "@/components/theme/ThemeProvider";
+
 import "@/app/styles/globals.scss";
 
 const montserrat = Montserrat({

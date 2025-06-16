@@ -84,7 +84,7 @@ const TransactionFiltersForm = <TableData,>({
                       </FormControl>
 
                       <FormLabel className="w-full text-sm font-normal capitalize !mt-0">
-                        {columnID}
+                        {columnID === "categoryId" ? "Category" : columnID}
                       </FormLabel>
                     </FormItem>
                   );

@@ -1,4 +1,5 @@
 import { create } from "zustand";
+
 import { login } from "@/actions/login";
 import { register } from "@/actions/register";
 import { LoginFormFields, RegisterFormFields } from "@/types/authTypes";

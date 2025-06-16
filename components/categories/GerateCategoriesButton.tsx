@@ -1,14 +1,21 @@
 import { useTransition } from "react";
-import { seedTransactions } from "@/lib/generateFakeTransaction";
+
+import {
+  incomeCategories,
+  expenseCategories,
+} from "@/constants/transactionCategory";
+import { seedCategories } from "@/lib/generateCategories";
 
 import { Button } from "@/components/ui/button";
 
-const GenerateButton = () => {
+const GerateCategoriesButton = () => {
   const [isPending, startTransition] = useTransition();
+
+  const categories = expenseCategories.concat(incomeCategories);
 
   const handleClick = () => {
     startTransition(() => {
-      seedTransactions(100)
+      seedCategories(categories)
         .then((response) => console.log(response))
         .catch((error) => console.log(error));
     });
@@ -21,9 +28,9 @@ const GenerateButton = () => {
       variant="destructive"
       className="w-fit h-10"
     >
-      GENERATE
+      GENERATE C
     </Button>
   );
 };
 
-export default GenerateButton;
+export default GerateCategoriesButton;

@@ -1,8 +1,13 @@
+import * as zod from "zod";
+
 import { TransactionType } from "@prisma/client";
+import { CategorySchema } from "@/schemas/categorySchema";
 
 export interface ICategoryData {
-  id: string;
-  name: string;
+  categoryId: string;
+  categoryName: string;
   type: TransactionType;
-  color?: string | null;
+  color: string;
 }
+
+export type CategoriesFormFields = zod.infer<typeof CategorySchema>;

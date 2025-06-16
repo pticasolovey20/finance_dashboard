@@ -1,25 +1,39 @@
 import { faker } from "@faker-js/faker";
+
+import {
+  incomeCategories,
+  expenseCategories,
+} from "@/constants/transactionCategory";
 import { ITransactionData } from "@/types/transactionTypes";
 import { getCreateTransaction } from "@/actions/transaction";
-import { TransactionType, TransactionStatus } from "@prisma/client";
 import { useTransactionStore } from "@/store/useTransactionStore";
+import { TransactionType, TransactionStatus } from "@prisma/client";
 
-export const generateFakeTransaction = (): ITransactionData => {
+export const generateTransaction = (): ITransactionData => {
+  const type = faker.helpers.arrayElement([
+    TransactionType.expense,
+    TransactionType.income,
+  ]);
+
+  const categoryId =
+    type === TransactionType.expense
+      ? faker.helpers.arrayElement(expenseCategories)
+      : faker.helpers.arrayElement(incomeCategories);
+
   return {
+    type,
+    categoryId,
+
     id: faker.string.uuid(),
-    type: faker.helpers.arrayElement([
-      TransactionType.expense,
-      TransactionType.income,
-    ]),
     status: faker.helpers.arrayElement([
       TransactionStatus.cancelled,
       TransactionStatus.completed,
       TransactionStatus.failed,
       TransactionStatus.pending,
     ]),
+
     amount: parseFloat(faker.finance.amount({ min: 5, max: 500, dec: 2 })),
     date: faker.date.past(),
-    categoryId: "food",
     note: faker.lorem.sentence(),
   };
 };
@@ -29,7 +43,7 @@ export const seedTransactions = async (count: number = 10) => {
 
   for (let index = 0; index < count; index++) {
     try {
-      const generatedTransaction: ITransactionData = generateFakeTransaction();
+      const generatedTransaction: ITransactionData = generateTransaction();
       const createdTransaction = await getCreateTransaction(
         generatedTransaction
       );

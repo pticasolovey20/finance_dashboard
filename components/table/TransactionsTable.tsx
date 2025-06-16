@@ -1,5 +1,3 @@
-import { Fragment, useMemo, useRef, useState } from "react";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import {
   useReactTable,
   getCoreRowModel,
@@ -9,6 +7,8 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 import { cn } from "@/lib/utils";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import { Fragment, useMemo, useRef, useState } from "react";
 
 import { ITransactionData } from "@/types/transactionTypes";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
@@ -21,10 +21,11 @@ import CircleLoader from "@/components/CircleLoader";
 import TablePagination from "@/components/table/TablePagination";
 import CreateButton from "@/components/transactions/CreateButton";
 import TableFilterModal from "@/components/table/TableFilterModal";
-// import GenerateButton from "@/components/transactions/GenerateButton";
 import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import TransactionsTableModal from "@/components/table/TransactionsTableModal";
 import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
+// import GerateCategoriesButton from "@/components/categories/GerateCategoriesButton";
+// import GenerateTransactionsButton from "@/components/transactions/GenerateTransactionsButton";
 
 interface ITransactionsTableProps {
   transactions: ITransactionData[];
@@ -110,7 +111,8 @@ const TransactionsTable = ({
       <div className="flex items-center gap-4 mb-4">
         <CreateButton />
 
-        {/* <GenerateButton /> */}
+        {/* <GerateCategoriesButton />
+        <GenerateTransactionsButton /> */}
 
         <Input
           placeholder="Search..."

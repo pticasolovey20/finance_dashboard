@@ -17,6 +17,7 @@ type TransactionsState = {
   isLoading: boolean;
   transactions: ITransactionData[];
 
+  // SYNC ACTIONS
   addTransaction: (data: ITransactionData) => void;
 
   // ASYNC ACTIONS

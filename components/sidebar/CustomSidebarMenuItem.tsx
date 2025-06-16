@@ -4,9 +4,9 @@ import { ElementType } from "react";
 import { usePathname } from "next/navigation";
 
 import {
+  useSidebar,
   SidebarMenuItem,
   SidebarMenuButton,
-  useSidebar,
 } from "@/components/ui/sidebar";
 
 interface ICustomSidebarMenuItemProps {

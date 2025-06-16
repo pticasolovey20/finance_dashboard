@@ -1,6 +1,7 @@
 "use client";
 
 import { useTheme } from "next-themes";
+
 import { Switch } from "@/components/ui/switch";
 
 const ThemeSwitcher = () => {

@@ -4,9 +4,9 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
   DropdownMenuItem,
-} from "../ui/dropdown-menu";
-import { Avatar, AvatarImage, AvatarFallback } from "../ui/avatar";
+} from "@/components/ui/dropdown-menu";
 import AccountSectionHeader from "@/components/SectionHeader";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface IAccountImageProps {
   imageSRC: string;

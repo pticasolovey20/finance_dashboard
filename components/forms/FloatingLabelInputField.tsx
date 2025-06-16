@@ -1,10 +1,10 @@
-import { HTMLInputTypeAttribute } from "react";
-import { cn } from "@/lib/utils";
 import {
-  ControllerRenderProps,
   FieldValues,
   useFormContext,
+  ControllerRenderProps,
 } from "react-hook-form";
+import { cn } from "@/lib/utils";
+import { HTMLInputTypeAttribute } from "react";
 
 import {
   FormItem,
@@ -70,7 +70,8 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
             }}
             className={cn(
               "peer h-10 shadow-sm",
-              hasError && "border-red-500 focus-visible:ring-red-500",
+              hasError &&
+                "text-red-500 border-red-500 focus-visible:ring-red-500",
               classNames
             )}
           />

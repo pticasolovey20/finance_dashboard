@@ -77,7 +77,7 @@ model Transaction {
   amount     Float
   date       DateTime
   note       String  
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [categoryId])
   categoryId String
 
   @@index([categoryId])
@@ -85,10 +85,10 @@ model Transaction {
 }
 
 model Category {
-  id       String            @id @default(uuid())
-  name     String
+  categoryId       String  @id          
+  categoryName     String
   type     TransactionType
-  color    String?
+  color    String
   transactions Transaction[]
   
   @@map("categories")

@@ -1,8 +1,9 @@
 import dynamic from "next/dynamic";
+
 import CircleLoader from "@/components/CircleLoader";
 import { Separator } from "@/components/ui/separator";
-import AccountSecurity from "@/components/account/AccountSecurity";
 import AccountSectionHeader from "@/components/SectionHeader";
+import AccountSecurity from "@/components/account/AccountSecurity";
 
 const AccountForm = dynamic(() => import("@/components/forms/AccountForm"), {
   ssr: false,

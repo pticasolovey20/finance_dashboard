@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+
 import SectionHeader from "@/components/SectionHeader";
 
 interface ISectionWrapperProps {

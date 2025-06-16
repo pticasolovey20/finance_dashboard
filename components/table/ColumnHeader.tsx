@@ -1,4 +1,5 @@
 import { Column } from "@tanstack/react-table";
+
 import { ArrowUp, ArrowDown, ArrowUpDown } from "lucide-react";
 
 interface IColumnHeaderProps<TableData> {

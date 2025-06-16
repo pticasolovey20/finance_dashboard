@@ -1,6 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { RowData, Table } from "@tanstack/react-table";
+
+import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface ITablePaginationProps<TableData extends RowData> {

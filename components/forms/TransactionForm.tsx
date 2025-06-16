@@ -1,14 +1,23 @@
 import { cn } from "@/lib/utils";
-import { useForm } from "react-hook-form";
-import { TransactionStatus } from "@prisma/client";
+import { useEffect, useMemo } from "react";
+import { useToast } from "@/hooks/use-toast";
+import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useToast } from "@/hooks/use-toast";
+import {
+  incomeCategories,
+  expenseCategories,
+} from "@/constants/transactionCategory";
+import {
+  incomeCategoryOptions,
+  expenseCategoryOptions,
+  transactionsTypeOptions,
+} from "@/constants/transactionFormOptions";
 import { TransactionSchema } from "@/schemas/transactionSchema";
 import { TransactionsFormFields } from "@/types/transactionTypes";
 import { useTransactionStore } from "@/store/useTransactionStore";
+import { TransactionStatus, TransactionType } from "@prisma/client";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
-import { transactionsTypeOptions } from "@/constants/transactionFormOptions";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
@@ -24,11 +33,13 @@ interface ITransactionFormProps {
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
   const { isLoading, createTransaction, editTransaction, deleteTransaction } =
     useTransactionStore();
+
   const {
     transactionData,
     mode: formMode,
     closeTransactionModal,
   } = useTransactionTableStore();
+
   const { toast } = useToast();
 
   const isEditMode = formMode === "edit";
@@ -47,7 +58,59 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
     },
   });
 
-  const { handleSubmit, control } = form;
+  const { handleSubmit, control, setValue } = form;
+
+  const transactionType = useWatch({
+    control,
+    name: "type",
+  });
+
+  const selectedCategoryId = useWatch({
+    control,
+    name: "categoryId",
+  });
+
+  useEffect(() => {
+    if (!selectedCategoryId) return;
+
+    if (incomeCategories.includes(selectedCategoryId)) {
+      setValue("type", TransactionType.income, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    } else if (expenseCategories.includes(selectedCategoryId)) {
+      setValue("type", TransactionType.expense, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [selectedCategoryId, setValue]);
+
+  const filteredCategoryOptions = useMemo(() => {
+    return incomeCategoryOptions
+      .concat(expenseCategoryOptions)
+      .map((option) => {
+        const isIncome = incomeCategoryOptions.some(
+          (category) => category.value === option.value
+        );
+
+        const isExpense = expenseCategoryOptions.some(
+          (category) => category.value === option.value
+        );
+
+        const disabled =
+          transactionType === TransactionType.income
+            ? isExpense
+            : transactionType === TransactionType.expense
+            ? isIncome
+            : false;
+
+        return {
+          ...option,
+          disabled,
+        };
+      });
+  }, [transactionType]);
 
   const handleDeleteTransaction = async () => {
     deleteTransaction(transactionData!.id)
@@ -138,8 +201,9 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           control={control}
           name="categoryId"
           render={({ field }) => (
-            <FloatingLabelInputField
+            <FloatingLabelSelectField
               field={field}
+              options={filteredCategoryOptions}
               id="categoryId"
               label="Category ID"
             />
