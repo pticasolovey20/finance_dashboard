@@ -55,8 +55,6 @@ const TransactionsTable = ({
     return Object.values(columnSizing).reduce((acc, state) => acc + state, 0);
   }, [columnSizing]);
 
-  console.log(columnSorting);
-
   const transactionTable = useReactTable({
     data: transactions,
     columns: useTransactionColumns(),

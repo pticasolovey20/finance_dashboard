@@ -6,8 +6,12 @@ import {
 } from "@tanstack/react-table";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+
+import {
+  DEFAULT_COLUMNS_SIZING,
+  DEFAULT_COLUMNS_VISIBILITY,
+} from "@/constants/transactionTableFilter";
 import { ITransactionData, ModalMode } from "@/types/transactionTypes";
-import { DEFAULT_COLUMNS_VISIBILITY } from "@/constants/transactionTableFilter";
 
 interface TransactionTableState {
   mode: ModalMode;
@@ -41,7 +45,7 @@ export const useTransactionTableStore = create<TransactionTableState>()(
       mode: "create",
       transactionData: null,
 
-      columnSizing: {},
+      columnSizing: DEFAULT_COLUMNS_SIZING,
       columnVisibility: DEFAULT_COLUMNS_VISIBILITY,
       columnSorting: [],
 
