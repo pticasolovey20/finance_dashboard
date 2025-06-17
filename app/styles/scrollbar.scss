@@ -55,9 +55,10 @@
 }
 
 .scrollable {
-  overflow: overlay;
   position: relative;
   z-index: 40;
+  overflow-y: auto;
+  overflow-x: auto;
 
   scroll-behavior: smooth;
 
