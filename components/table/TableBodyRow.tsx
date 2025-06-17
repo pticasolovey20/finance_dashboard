@@ -1,10 +1,11 @@
-import { Row } from "@tanstack/react-table";
+import { Row, Table } from "@tanstack/react-table";
 import { VirtualItem, Virtualizer } from "@tanstack/react-virtual";
 
 import { TableCell, TableRow } from "@/components/ui/table";
 import TableBodyCell from "@/components/table/TableBodyCell";
 
 interface ITableBodyRowProps<TableData> {
+  table: Table<TableData>;
   columnVirtualizer: Virtualizer<HTMLDivElement, HTMLTableCellElement>;
   row: Row<TableData>;
   virtualRow: VirtualItem;
@@ -15,6 +16,7 @@ interface ITableBodyRowProps<TableData> {
 }
 
 const TableBodyRow = <TableData,>({
+  table,
   columnVirtualizer,
   row,
   virtualRow,
@@ -38,10 +40,18 @@ const TableBodyRow = <TableData,>({
         <TableCell className="flex" style={{ width: virtualPaddingLeft }} />
       ) : null}
 
-      {virtualColumns.map((virtualColumn) => {
+      {virtualColumns.map((virtualColumn, index) => {
         const cell = visibleCells[virtualColumn.index];
+        const isLast = index === virtualColumns.length - 1;
 
-        return <TableBodyCell key={cell.id} cell={cell} />;
+        return (
+          <TableBodyCell
+            key={cell.id}
+            table={table}
+            cell={cell}
+            isLast={isLast}
+          />
+        );
       })}
 
       {virtualPaddingRight ? (

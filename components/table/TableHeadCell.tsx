@@ -8,12 +8,15 @@ type EventHandlerType = MouseEvent<HTMLDivElement> | TouchEvent<HTMLDivElement>;
 
 interface ITableHeadCellProps<TableData> {
   header: Header<TableData, unknown>;
+  isLast: boolean;
 }
 
 const TableHeadCell = <TableData,>({
   header,
+  isLast,
 }: ITableHeadCellProps<TableData>) => {
-  const isResizing = useRef(false);
+  const isResizingRef = useRef(false);
+  const isResizing = header.column.getIsResizing();
 
   const isCanSort = header.column.getCanSort();
   const isCanResize = header.column.getCanResize();
@@ -23,7 +26,7 @@ const TableHeadCell = <TableData,>({
   useEffect(() => {
     const handleMouseUp = () => {
       requestAnimationFrame(() => {
-        isResizing.current = false;
+        isResizingRef.current = false;
       });
     };
 
@@ -40,7 +43,7 @@ const TableHeadCell = <TableData,>({
     event: EventHandlerType,
     handler: (event: EventHandlerType) => void
   ) => {
-    isResizing.current = true;
+    isResizingRef.current = true;
     handler(event);
   };
 
@@ -51,10 +54,13 @@ const TableHeadCell = <TableData,>({
 
   return (
     <TableHead
-      className="flex items-center border-r border-muted"
+      className={cn(
+        "flex items-center",
+        isLast && (!isResizingRef.current || !isResizing) ? "" : "border-r"
+      )}
       style={{ width: header.getSize() }}
       onClick={() => {
-        if (!isResizing.current && isCanSort) {
+        if (!isResizingRef.current && isCanSort) {
           header.column.toggleSorting?.();
         }
       }}

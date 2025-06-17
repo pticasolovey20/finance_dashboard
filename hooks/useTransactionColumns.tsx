@@ -140,7 +140,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
       {
         minSize: 350,
-        size: 700,
+        size: 800,
 
         id: "note",
         accessorKey: "note",
