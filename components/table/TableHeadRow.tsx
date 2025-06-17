@@ -25,10 +25,13 @@ const TableHeadRow = <TableData,>({
         <TableHead className="flex" style={{ width: virtualPaddingLeft }} />
       ) : null}
 
-      {virtualColumns.map((virtualColumn) => {
+      {virtualColumns.map((virtualColumn, index) => {
         const header = headerGroup.headers[virtualColumn.index];
+        const isLast = index === virtualColumns.length - 1;
 
-        return <TableHeadCell key={header.id} header={header} />;
+        return (
+          <TableHeadCell key={header.id} header={header} isLast={isLast} />
+        );
       })}
 
       {virtualPaddingRight ? (

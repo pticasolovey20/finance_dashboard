@@ -51,6 +51,7 @@ const TableBody = <TableData,>({
         return (
           <TableBodyRow
             key={row.id}
+            table={table}
             columnVirtualizer={columnVirtualizer}
             row={row}
             virtualRow={virtualRow}
