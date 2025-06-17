@@ -31,8 +31,14 @@ interface ITransactionFormProps {
 }
 
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
-  const { isLoading, createTransaction, editTransaction, deleteTransaction } =
-    useTransactionStore();
+  const {
+    isCreating,
+    isUpdating,
+    isDeleting,
+    createTransaction,
+    editTransaction,
+    deleteTransaction,
+  } = useTransactionStore();
 
   const {
     transactionData,
@@ -243,7 +249,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
               type="button"
               variant="destructive"
               className="h-10 w-full"
-              disabled={isLoading}
+              disabled={isDeleting}
               onClick={handleDeleteTransaction}
             >
               Delete
@@ -252,7 +258,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
 
           <SubmitButton
             label={isEditMode ? "Save" : "Create"}
-            isLoading={isLoading}
+            isLoading={isCreating || isUpdating}
           />
         </div>
       </form>
