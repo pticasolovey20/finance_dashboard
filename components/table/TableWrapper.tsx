@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Table } from "@tanstack/react-table";
 import { useVirtualizer } from "@tanstack/react-virtual";
 
@@ -16,9 +16,27 @@ const TableWrapper = <TableData,>({
   table,
   handleSelectRow,
 }: ITableWrapperProps<TableData>) => {
+  const [containerHeight, setContainerHeight] = useState<number>(0);
+  const tableContainerRef = useRef<HTMLDivElement>(null);
+
   const visibleColumns = table.getVisibleLeafColumns();
 
-  const tableContainerRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const element = tableContainerRef.current;
+    if (!element) return;
+
+    const updateHeight = () => setContainerHeight(element.offsetHeight);
+    updateHeight();
+    const resizeObserver = new ResizeObserver(() => updateHeight());
+
+    resizeObserver.observe(element);
+    window.addEventListener("resize", updateHeight);
+
+    return () => {
+      resizeObserver.disconnect();
+      window.removeEventListener("resize", updateHeight);
+    };
+  }, []);
 
   const columnVirtualizer = useVirtualizer<
     HTMLDivElement,
@@ -69,7 +87,10 @@ const TableWrapper = <TableData,>({
       </div>
 
       {/* overlay border */}
-      <div className="absolute inset-0 max-h-[calc(100dvh-220px)] border border-muted rounded-md pointer-events-none z-10" />
+      <div
+        className="absolute inset-0 h-full border border-muted rounded-md pointer-events-none z-10"
+        style={{ height: containerHeight }}
+      />
     </div>
   );
 };
