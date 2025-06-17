@@ -88,7 +88,7 @@ const TableWrapper = <TableData,>({
 
       {/* overlay border */}
       <div
-        className="absolute inset-0 h-full border border-muted rounded-md pointer-events-none z-10"
+        className="absolute inset-0 h-full border border-muted rounded-md pointer-events-none z-50"
         style={{ height: containerHeight }}
       />
     </div>
