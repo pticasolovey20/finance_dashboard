@@ -1,10 +1,10 @@
-import { HTMLInputTypeAttribute } from "react";
-import { cn } from "@/lib/utils";
 import {
-  ControllerRenderProps,
   FieldValues,
   useFormContext,
+  ControllerRenderProps,
 } from "react-hook-form";
+import { cn } from "@/lib/utils";
+import { HTMLInputTypeAttribute } from "react";
 
 import {
   FormItem,
@@ -23,6 +23,7 @@ interface FloatingLabelInputFieldProps<TFieldValues extends FieldValues> {
   label: string;
   helperText?: string;
   disabled?: boolean;
+  classNames?: string;
 }
 
 const FloatingLabelInputField = <TFieldValues extends FieldValues>({
@@ -33,6 +34,7 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
   label,
   helperText,
   disabled,
+  classNames,
 }: FloatingLabelInputFieldProps<TFieldValues>) => {
   const { formState } = useFormContext<TFieldValues>();
   const hasValue = !!field.value;
@@ -56,6 +58,7 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
             id={id}
             {...field}
             type={type}
+            tabIndex={-1}
             placeholder=" "
             disabled={disabled}
             onBlur={handleBlur}
@@ -67,7 +70,9 @@ const FloatingLabelInputField = <TFieldValues extends FieldValues>({
             }}
             className={cn(
               "peer h-10 shadow-sm",
-              hasError && "border-red-500 focus-visible:ring-red-500"
+              hasError &&
+                "text-red-500 border-red-500 focus-visible:ring-red-500",
+              classNames
             )}
           />
         </FloatingLabelWrapper>

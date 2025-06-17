@@ -1,11 +1,12 @@
 "use client";
 
-import { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useAuthStore } from "@/store/authStore";
+import { ReactNode } from "react";
 
-import AuthLeftSide from "@/components/auth/AuthLeftSide";
+import { useAuthStore } from "@/store/useAuthStore";
+
 import CircleLoader from "@/components/CircleLoader";
+import AuthLeftSide from "@/components/auth/AuthLeftSide";
 
 interface IAuthLayoutProps {
   children: ReactNode;

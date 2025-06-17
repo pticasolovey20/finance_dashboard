@@ -1,11 +1,12 @@
+import { ProtectedRoutesEnum } from "@/types/routeTypes";
+
 import {
-  LayoutDashboard,
-  BadgeDollarSign,
   Wallet,
   Settings,
   CircleUser,
+  LayoutDashboard,
+  BadgeDollarSign,
 } from "lucide-react";
-import { ProtectedRoutesEnum } from "@/types/route";
 
 export const NAVIGATION = [
   {

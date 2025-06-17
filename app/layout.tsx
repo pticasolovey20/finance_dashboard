@@ -1,11 +1,12 @@
+import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { cn } from "@/lib/utils";
 
-import ThemeProvider from "@/components/theme/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
-import "./globals.scss";
+import ThemeProvider from "@/components/theme/ThemeProvider";
+
+import "@/app/styles/globals.scss";
 
 const montserrat = Montserrat({
   subsets: ["latin"],
@@ -25,11 +26,8 @@ interface IRootLayoutProps {
 
 const RootLayout = async ({ children }: IRootLayoutProps) => {
   return (
-    <html lang="en">
-      <body
-        suppressHydrationWarning
-        className={cn(montserrat.variable, "font-sans antialiased")}
-      >
+    <html lang="en" suppressHydrationWarning>
+      <body className={cn(montserrat.variable, "font-sans antialiased")}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

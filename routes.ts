@@ -1,4 +1,4 @@
-import { AuthRoutesEnum, ProtectedRoutesEnum } from "@/types/route";
+import { AuthRoutesEnum, ProtectedRoutesEnum } from "@/types/routeTypes";
 
 export const publicRoutes = ["/faq"];
 

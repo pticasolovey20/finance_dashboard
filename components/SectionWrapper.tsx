@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
 import { ReactNode } from "react";
+
 import SectionHeader from "@/components/SectionHeader";
 
 interface ISectionWrapperProps {
@@ -16,7 +17,7 @@ const SectionWrapper = ({
   children,
 }: ISectionWrapperProps) => {
   return (
-    <div className={cn("flex flex-col gap-8 my-6", classNames)}>
+    <div className={cn("flex flex-col gap-8", classNames)}>
       <SectionHeader title={sectionTitle} description={sectionDescription} />
 
       {children}

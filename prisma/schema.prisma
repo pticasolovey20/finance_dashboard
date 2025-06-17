@@ -9,6 +9,18 @@ enum UserRole {
   USER
 }
 
+enum TransactionType {
+  income
+  expense
+}
+
+enum TransactionStatus {
+  pending 
+  completed 
+  failed 
+  cancelled  
+}
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -18,6 +30,8 @@ datasource db {
   url  	    = env("DATABASE_URL")
   directUrl = env("DATABASE_URL_UNPOOLED")
 }
+
+// USERS MODELS
 
 model Account {
   id                 String  @id @default(cuid())
@@ -53,3 +67,31 @@ model User {
 
   @@map("users")
 }
+
+// TRANSACTION MODELS
+
+model Transaction {
+  id         String   @id @default(uuid())
+  type       TransactionType
+  status     TransactionStatus @default(pending)
+  amount     Float
+  date       DateTime
+  note       String  
+  category   Category @relation(fields: [categoryId], references: [categoryId])
+  categoryId String
+
+  @@index([categoryId])
+  @@map("transactions")
+}
+
+model Category {
+  categoryId       String  @id          
+  categoryName     String
+  type     TransactionType
+  color    String
+  transactions Transaction[]
+  
+  @@map("categories")
+}
+
+

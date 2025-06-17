@@ -3,7 +3,7 @@
 import { getUserById } from "@/lib/user";
 import { database } from "@/lib/database";
 import { getCurrentUser } from "@/lib/auth";
-import { AccountSettingsFormFields } from "@/types/acountSettings";
+import { AccountSettingsFormFields } from "@/types/acountSettingsTypes";
 
 export const updateAccountSettings = async (
   values: AccountSettingsFormFields

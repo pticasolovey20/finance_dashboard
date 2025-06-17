@@ -2,12 +2,12 @@
 
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useToast } from "@/hooks/use-toast";
-import { useAuthStore } from "@/store/authStore";
-import { RegisterFormFields } from "@/types/auth";
+import { useAuthStore } from "@/store/useAuthStore";
 import { RegisterSchema } from "@/schemas/authSchema";
+import { RegisterFormFields } from "@/types/authTypes";
 
 import { Form, FormField } from "@/components/ui/form";
 import SubmitButton from "@/components/forms/SubmitButton";

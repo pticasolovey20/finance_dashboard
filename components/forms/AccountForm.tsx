@@ -1,15 +1,14 @@
 "use client";
 
-import { Fragment, useEffect, useTransition } from "react";
 import { useForm } from "react-hook-form";
-
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Fragment, useEffect, useTransition } from "react";
 
 import { useCurrentUser } from "@/hooks/useCurrentUser";
 import { updateAccountSettings } from "@/actions/accountSettings";
-import { AccountSettingsFormFields } from "@/types/acountSettings";
+import { AccountSettingsFormFields } from "@/types/acountSettingsTypes";
 import { AccountSettingsSchema } from "@/schemas/accountSettingsSchema";
 
 import { Separator } from "@/components/ui/separator";
