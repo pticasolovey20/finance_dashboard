@@ -26,6 +26,7 @@ const TablePagination = <TableData extends RowData>({
         size="icon"
         variant="ghost"
         onClick={handlePrevPage}
+        aria-label="prev button"
         className={cn(hasPrevPage ? "visible" : "invisible")}
       >
         <ChevronLeft />
@@ -38,6 +39,7 @@ const TablePagination = <TableData extends RowData>({
       <Button
         size="icon"
         variant="ghost"
+        aria-label="next button"
         onClick={handleNextPage}
         className={cn(hasNextPage ? "visible" : "invisible")}
       >
