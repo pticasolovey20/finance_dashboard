@@ -6,26 +6,19 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { cn } from "@/lib/utils";
-import { useVirtualizer } from "@tanstack/react-virtual";
-import { Fragment, useMemo, useRef, useState } from "react";
+import { Fragment, useState } from "react";
 
 import { ITransactionData } from "@/types/transactionTypes";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
-import { Input } from "@/components/ui/input";
-import { Table } from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
 import CircleLoader from "@/components/CircleLoader";
+import EmptyTable from "@/components/table/EmptyTable";
+import TableTopbar from "@/components/table/TableTopbar";
+import TableWrapper from "@/components/table/TableWrapper";
 import TablePagination from "@/components/table/TablePagination";
-import CreateButton from "@/components/transactions/CreateButton";
 import TableFilterModal from "@/components/table/TableFilterModal";
-import VirtualizedTableBody from "@/components/table/VirtualizedTableBody";
 import TransactionsTableModal from "@/components/table/TransactionsTableModal";
-import VirtualizedTableHeader from "@/components/table/VirtualizedTableHeader";
-// import GerateCategoriesButton from "@/components/categories/GerateCategoriesButton";
-// import GenerateTransactionsButton from "@/components/transactions/GenerateTransactionsButton";
 
 interface ITransactionsTableProps {
   transactions: ITransactionData[];
@@ -50,11 +43,6 @@ const TransactionsTable = ({
     pageIndex: 0,
     pageSize: 50,
   });
-
-  const tableContainerRef = useRef<HTMLDivElement>(null);
-  const totalTableWidth = useMemo(() => {
-    return Object.values(columnSizing).reduce((acc, state) => acc + state, 0);
-  }, [columnSizing]);
 
   const transactionTable = useReactTable({
     data: transactions,
@@ -85,19 +73,7 @@ const TransactionsTable = ({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
-  const visibleColumns = transactionTable.getVisibleLeafColumns();
   const isEmptyTable = transactionTable.getRowModel().rows.length === 0;
-
-  const columnVirtualizer = useVirtualizer<
-    HTMLDivElement,
-    HTMLTableCellElement
-  >({
-    count: visibleColumns.length,
-    estimateSize: (index) => visibleColumns[index].getSize(),
-    getScrollElement: () => tableContainerRef.current,
-    horizontal: true,
-    overscan: 3,
-  });
 
   const { openTransactionModal, openTransactionFilter } =
     useTransactionTableStore();
@@ -108,64 +84,24 @@ const TransactionsTable = ({
 
   return (
     <Fragment>
-      <div className="flex items-center gap-4 mb-4">
-        <CreateButton />
-
-        {/* <GerateCategoriesButton />
-        <GenerateTransactionsButton /> */}
-
-        <Input
-          placeholder="Search..."
-          value={globalFilter ?? ""}
-          className="h-10 placeholder:text-base"
-          onChange={(event) => setGlobalFilter(event.target.value)}
-        />
-
-        <Button
-          variant="outline"
-          onClick={openTransactionFilter}
-          className="h-10 max-w-[100px] xs:max-w-[150px] w-full md:text-base"
-        >
-          Filters
-        </Button>
-      </div>
+      <TableTopbar
+        globalFilter={globalFilter}
+        setGlobalFilter={setGlobalFilter}
+        handleOpenModal={openTransactionModal}
+        handleOpenFilter={openTransactionFilter}
+      />
 
       <div className="relative flex-1">
         {isLoading ? (
           <CircleLoader />
         ) : isEmptyTable ? (
-          <div
-            className={cn(
-              "min-h-[200px] overflow-hidden",
-              "flex items-center justify-center",
-              "border border-muted rounded-md"
-            )}
-          >
-            <span className="font-medium text-lg">Nothing found!</span>
-          </div>
+          <EmptyTable />
         ) : (
           <Fragment>
-            <div className="border border-muted rounded-md overflow-hidden">
-              <div
-                ref={tableContainerRef}
-                style={{ minWidth: totalTableWidth }}
-                className="relative grid max-h-[calc(100dvh-220px)] overflow-auto"
-              >
-                <Table className="relative table-auto w-full overflow-auto">
-                  <VirtualizedTableHeader
-                    table={transactionTable}
-                    columnVirtualizer={columnVirtualizer}
-                  />
-
-                  <VirtualizedTableBody
-                    table={transactionTable}
-                    setSelectedRow={handleSelectRow}
-                    tableContainerRef={tableContainerRef}
-                    columnVirtualizer={columnVirtualizer}
-                  />
-                </Table>
-              </div>
-            </div>
+            <TableWrapper<ITransactionData>
+              table={transactionTable}
+              handleSelectRow={handleSelectRow}
+            />
 
             <TablePagination table={transactionTable} />
           </Fragment>

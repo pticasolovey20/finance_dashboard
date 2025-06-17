@@ -43,6 +43,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
+        minSize: 150,
         size: 200,
 
         id: "categoryId",
@@ -60,6 +61,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
+        minSize: 200,
         size: 400,
 
         id: "id",
@@ -72,7 +74,8 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
-        size: 200,
+        minSize: 150,
+        size: 150,
 
         id: "amount",
         accessorKey: "amount",
@@ -136,6 +139,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
       },
 
       {
+        minSize: 350,
         size: 700,
 
         id: "note",
