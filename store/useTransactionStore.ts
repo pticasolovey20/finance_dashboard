@@ -29,13 +29,13 @@ type TransactionsState = {
   fetchTransactionById: (id: string) => Promise<ITransactionData | null>;
 };
 
-export const useTransactionStore = create<TransactionsState>()((set) => ({
+export const useTransactionStore = create<TransactionsState>()((set, get) => ({
   isLoading: false,
   transactions: [],
 
   addTransaction: (transaction) => {
     set((state) => ({
-      transactions: [...state.transactions, transaction],
+      transactions: [transaction, ...state.transactions],
     }));
   },
 
@@ -45,10 +45,8 @@ export const useTransactionStore = create<TransactionsState>()((set) => ({
     try {
       const createdTransaction = await getCreateTransaction(transactionData);
 
-      set((state) => ({
-        transactions: [...state.transactions, createdTransaction],
-        isLoading: false,
-      }));
+      get().addTransaction(createdTransaction);
+      set({ isLoading: false });
     } catch (error: unknown) {
       set({ isLoading: false });
       console.error("Store: Error creating transaction:", error);
