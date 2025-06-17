@@ -80,7 +80,7 @@ const TableHeadCell = <TableData,>({
             }
             onDoubleClick={handleResizeReset}
             className={cn(
-              "w-1 h-full bg-muted",
+              "hidden md:block w-1 h-full bg-muted",
               "absolute inset-y-0 right-0",
               "cursor-col-resize select-none"
             )}
