@@ -46,24 +46,19 @@
   }
 
   scrollbar-color: $thumb-bg $track-bg;
-
-  scroll-behavior: smooth;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: auto;
 }
 
 @mixin thin-scrollbar {
-  @include custom-scrollbar($width: 6px);
-
   scrollbar-width: thin;
+
+  @include custom-scrollbar($width: 6px);
 }
 
 .scrollable {
-  @include custom-scrollbar;
-}
+  overflow: overlay;
+  scroll-behavior: smooth;
 
-.scrollable-thin {
-  @include thin-scrollbar;
+  @include custom-scrollbar;
 }
 
 @media (max-width: 768px) {
