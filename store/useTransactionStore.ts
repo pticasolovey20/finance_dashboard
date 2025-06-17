@@ -14,7 +14,11 @@ import {
 } from "@/types/transactionTypes";
 
 type TransactionsState = {
-  isLoading: boolean;
+  isFetching: boolean;
+  isCreating: boolean;
+  isUpdating: boolean;
+  isDeleting: boolean;
+
   transactions: ITransactionData[];
 
   // SYNC ACTIONS
@@ -30,7 +34,11 @@ type TransactionsState = {
 };
 
 export const useTransactionStore = create<TransactionsState>()((set, get) => ({
-  isLoading: false,
+  isFetching: false,
+  isCreating: false,
+  isUpdating: false,
+  isDeleting: false,
+
   transactions: [],
 
   addTransaction: (transaction) => {
@@ -40,22 +48,22 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
   },
 
   createTransaction: async (transactionData) => {
-    set({ isLoading: true });
+    set({ isCreating: true });
 
     try {
       const createdTransaction = await getCreateTransaction(transactionData);
 
       get().addTransaction(createdTransaction);
-      set({ isLoading: false });
+      set({ isCreating: false });
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isCreating: false });
       console.error("Store: Error creating transaction:", error);
       throw error;
     }
   },
 
   editTransaction: async (transactionId, transactionData) => {
-    set({ isLoading: true });
+    set({ isUpdating: true });
 
     try {
       const updatedTransaction = await getUpdateTransactionById(
@@ -67,56 +75,56 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
         transactions: state.transactions.map((transaction) =>
           transaction.id === transactionId ? updatedTransaction : transaction
         ),
-        isLoading: false,
+        isUpdating: false,
       }));
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isUpdating: false });
       console.error("Store: Error creating transaction:", error);
       throw error;
     }
   },
 
   deleteTransaction: async (id) => {
-    set({ isLoading: true });
+    set({ isDeleting: true });
 
     try {
       await getDeleteTransactionById(id);
 
       set((state) => ({
         transactions: state.transactions.filter((t) => t.id !== id),
-        isLoading: false,
+        isDeleting: false,
       }));
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isDeleting: false });
       console.error("Store: Error deleting transaction:", error);
       throw error;
     }
   },
 
   fetchTransactions: async () => {
-    set({ isLoading: true });
+    set({ isFetching: true });
 
     try {
       const transactions = await getAllTransactions();
 
-      set({ transactions, isLoading: false });
+      set({ transactions, isFetching: false });
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isFetching: false });
       console.error("Store: Error fetching transactions:", error);
       throw error;
     }
   },
 
   fetchTransactionById: async (id: string) => {
-    set({ isLoading: true });
+    set({ isFetching: true });
 
     try {
       const transaction = await getTransactionById(id);
 
-      set({ isLoading: false });
+      set({ isFetching: false });
       return transaction;
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isFetching: false });
       console.error(`Store: Error fetching transaction by id ${id}:`, error);
       throw error;
     }
