@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useCategoryStore } from "@/store/useCategoryStore";
 
-import ChartExample from "@/components/chart/ChartExample";
+import PieCategoryChart from "@/components/chart/PieCategoryChart";
 
 const DashboardPage = () => {
   const { fetchCategories, isFetching, categories } = useCategoryStore();
@@ -14,7 +14,7 @@ const DashboardPage = () => {
 
   return (
     <div className="mt-12">
-      <ChartExample categories={categories} isLoading={isFetching} />
+      <PieCategoryChart categories={categories} isLoading={isFetching} />
     </div>
   );
 };
