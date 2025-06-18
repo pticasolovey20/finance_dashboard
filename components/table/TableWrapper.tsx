@@ -65,7 +65,7 @@ const TableWrapper = <TableData,>({
     <div className="reltive">
       <div
         ref={tableContainerRef}
-        className="relative max-h-[calc(100dvh-220px)] border border-muted rounded-md overflow-auto scrollable"
+        className="relative max-h-[calc(100dvh-220px)] border border-input rounded-md overflow-auto scrollable"
       >
         <table className="grid">
           <TableHead
@@ -88,7 +88,7 @@ const TableWrapper = <TableData,>({
 
       {/* overlay border */}
       <div
-        className="absolute inset-0 h-full border border-muted rounded-md pointer-events-none z-50"
+        className="absolute inset-0 h-full border border-input rounded-md pointer-events-none z-50"
         style={{ height: containerHeight }}
       />
     </div>

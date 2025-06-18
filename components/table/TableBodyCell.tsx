@@ -20,7 +20,7 @@ const TableBodyCell = <TableData,>({
     <TableCell
       className={cn(
         "min-h-10 flex px-4 text-base cursor-pointer",
-        isLast && !isResizing ? "" : "border-r"
+        isLast && !isResizing ? "" : "border-r border-input"
       )}
       style={{ width: cell.column.getSize() }}
     >

@@ -56,7 +56,9 @@ const TableHeadCell = <TableData,>({
     <TableHead
       className={cn(
         "flex items-center",
-        isLast && (!isResizingRef.current || !isResizing) ? "" : "border-r"
+        isLast && (!isResizingRef.current || !isResizing)
+          ? ""
+          : "border-r border-input"
       )}
       style={{ width: header.getSize() }}
       onClick={() => {
