@@ -1,91 +1,104 @@
-"use client";
-import { data } from "@/constants/chart";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { useState } from "react";
+import { COLORS } from "@/constants/chart";
 import { useIsMobile } from "@/hooks/use-mobile";
 
-import {
-  XAxis,
-  YAxis,
-  Legend,
-  Tooltip,
-  CartesianGrid,
-  Bar,
-  Line,
-  Area,
-  ComposedChart,
-  ResponsiveContainer,
-} from "recharts";
+import CircleLoader from "@/components/CircleLoader";
 import { Card, CardContent } from "@/components/ui/card";
-import CustomTooltip from "@/components/chart/CustomTooltip";
+import { Sector, PieChart, Pie, ResponsiveContainer, Cell } from "recharts";
 
-const ChartExample = () => {
+const renderActiveShape = ({
+  cx,
+  cy,
+  innerRadius,
+  outerRadius,
+  startAngle,
+  endAngle,
+  fill,
+  payload,
+  percent,
+}: any) => {
+  return (
+    <g>
+      <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill}>
+        <tspan x={cx} dy="-0.4em">
+          {payload.name}
+        </tspan>
+
+        <tspan x={cx} dy="1.2em">{`${(percent * 100).toFixed(2)}%`}</tspan>
+      </text>
+
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={innerRadius}
+        outerRadius={outerRadius}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+      />
+
+      <Sector
+        cx={cx}
+        cy={cy}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        innerRadius={outerRadius + 6}
+        outerRadius={outerRadius + 10}
+        fill={fill}
+      />
+    </g>
+  );
+};
+
+interface IChartExampleProps {
+  categories: unknown[];
+  isLoading: boolean;
+}
+
+const ChartExample = ({ categories, isLoading }: IChartExampleProps) => {
+  const [activeIndex, setActiveIndex] = useState<number>(1);
+
   const isMobile = useIsMobile();
 
-  const config = {
-    data,
+  const preparedData = categories.map(({ categoryName, _count }: any) => ({
+    name: categoryName,
+    value: _count.transactions,
+  }));
 
-    width: 800,
-    height: 500,
-    margin: {
-      top: isMobile ? 0 : 20,
-      right: isMobile ? 0 : 20,
-      bottom: isMobile ? 0 : 20,
-      left: isMobile ? -10 : 0,
-    },
-  };
+  const onPieEnter = (_: any, index: number) => setActiveIndex(index);
 
   return (
-    <Card className="max-w-[800px] w-full rounded-lg">
-      <CardContent className="h-[500px] p-3">
-        <ResponsiveContainer>
-          <ComposedChart {...config} className="!cursor-pointer">
-            <CartesianGrid stroke="#f5f5f5" />
-
-            <XAxis
-              dataKey="date"
-              tickFormatter={(date) =>
-                new Date(date).toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
-                })
-              }
-            />
-
-            <YAxis />
-
-            <Tooltip
-              content={({ active, payload, label }) => (
-                <CustomTooltip
-                  active={active}
-                  payload={payload}
-                  label={label}
-                />
-              )}
-            />
-
-            {/* TO DO: Custom Legend */}
-            <Legend content={() => <div></div>} />
-
-            <Area
-              type="monotone"
-              dataKey="third_param"
-              fill="#8884d8"
-              stroke="#8884d8"
-            />
-
-            <Bar
-              dataKey="second_param"
-              barSize={isMobile ? 20 : 40}
-              fill="#413ea0"
-            />
-
-            <Line
-              type="monotone"
-              dataKey="first_param"
-              stroke="#ff7300"
-              strokeWidth={2}
-            />
-          </ComposedChart>
-        </ResponsiveContainer>
+    <Card className="max-w-[500px] w-full rounded-lg">
+      <CardContent className="relative h-[500px] p-3">
+        {isLoading ? (
+          <CircleLoader />
+        ) : (
+          <ResponsiveContainer>
+            <PieChart width={500} height={500}>
+              <Pie
+                activeIndex={activeIndex}
+                activeShape={renderActiveShape}
+                data={preparedData}
+                cx="50%"
+                cy="50%"
+                innerRadius={isMobile ? 80 : 100}
+                outerRadius={isMobile ? 140 : 180}
+                paddingAngle={3}
+                dataKey="value"
+                onMouseEnter={onPieEnter}
+              >
+                {preparedData.map((_, index) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    fill={COLORS[index % COLORS.length]}
+                  />
+                ))}
+              </Pie>
+            </PieChart>
+          </ResponsiveContainer>
+        )}
       </CardContent>
     </Card>
   );

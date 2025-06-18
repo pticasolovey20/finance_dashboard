@@ -9,7 +9,11 @@ import { capitalize } from "@/lib/capitalize";
 import { CategoriesFormFields, ICategoryData } from "@/types/categoryTypes";
 
 type CategoriesSate = {
-  isLoading: boolean;
+  isFetching: boolean;
+  isCreating: boolean;
+  isUpdating: boolean;
+  isDeleting: boolean;
+
   categories: ICategoryData[];
 
   // ASYNC ACTIONS
@@ -22,7 +26,11 @@ type CategoriesSate = {
 };
 
 export const useCategoryStore = create<CategoriesSate>()((set) => ({
-  isLoading: false,
+  isFetching: false,
+  isCreating: false,
+  isUpdating: false,
+  isDeleting: false,
+
   categories: [],
 
   addCategory: (category) =>
@@ -31,7 +39,7 @@ export const useCategoryStore = create<CategoriesSate>()((set) => ({
     })),
 
   createCategory: async (categoryData) => {
-    set({ isLoading: true });
+    set({ isCreating: true });
 
     try {
       const categoryName = capitalize(categoryData.categoryId);
@@ -45,36 +53,36 @@ export const useCategoryStore = create<CategoriesSate>()((set) => ({
         isLoading: false,
       }));
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isCreating: false });
       console.error("Store: Error creating transaction:", error);
       throw error;
     }
   },
 
   fetchCategories: async () => {
-    set({ isLoading: true });
+    set({ isFetching: true });
 
     try {
       const categories = await getAllCategories();
 
-      set({ categories, isLoading: false });
+      set({ categories, isFetching: false });
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isFetching: false });
       console.error("Store: Error fetching categories:", error);
       throw error;
     }
   },
 
   fetchCategoryById: async (id: string) => {
-    set({ isLoading: true });
+    set({ isFetching: true });
 
     try {
       const category = await getCategoryById(id);
 
-      set({ isLoading: false });
+      set({ isFetching: false });
       return category;
     } catch (error: unknown) {
-      set({ isLoading: false });
+      set({ isFetching: false });
       console.error(`Store: Error fetching category by id ${id}:`, error);
       throw error;
     }

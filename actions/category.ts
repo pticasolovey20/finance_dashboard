@@ -41,7 +41,13 @@ export const getCategoryById = async (id: string) => {
 
 export const getAllCategories = async () => {
   try {
-    const existingCategories = await database.category.findMany();
+    const existingCategories = await database.category.findMany({
+      include: {
+        _count: {
+          select: { transactions: true },
+        },
+      },
+    });
     return existingCategories;
   } catch (error) {
     console.error(error);

@@ -36,3 +36,20 @@ export const data = [
     third_param: 1700,
   },
 ];
+
+export const COLORS = [
+  "#0088FE",
+  "#00C49F",
+  "#FFBB28",
+  "#FF8042",
+  "#A28EFF",
+  "#FF6666",
+  "#66CCFF",
+  "#FF99CC",
+  "#33CC99",
+  "#9966CC",
+  "#FFCC66",
+  "#66FF66",
+  "#3399FF",
+  "#FF6666",
+];
