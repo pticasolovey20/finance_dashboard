@@ -26,7 +26,7 @@ const ChartWrapper = ({
   isLoading,
 
   width = "max-w-[500px]",
-  height = "h-[650px]",
+  height = "h-auto",
 
   children,
   showHeader = true,
@@ -40,7 +40,12 @@ const ChartWrapper = ({
         </CardHeader>
       )}
 
-      <CardContent className={cn("relative p-3", height)}>
+      <CardContent
+        className={cn(
+          "relative p-3 transition-all duration-300 ease-in-out",
+          height
+        )}
+      >
         {isLoading ? <CircleLoader /> : isEmpty ? <EmptyChart /> : children}
       </CardContent>
     </Card>

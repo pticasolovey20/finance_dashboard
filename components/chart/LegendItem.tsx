@@ -11,6 +11,7 @@ interface ILegendItemProps {
   entry: IPieData;
   isHidden: boolean;
   onMouseEnter: () => void;
+  onMouseLeave: () => void;
   onClick: (itemName: string) => void;
 }
 
@@ -18,6 +19,7 @@ const LegendItem = ({
   entry,
   isHidden,
   onMouseEnter,
+  onMouseLeave,
   onClick,
 }: ILegendItemProps) => {
   const handleClick = useCallback(() => {
@@ -29,6 +31,7 @@ const LegendItem = ({
       title={isHidden ? "Show" : "Hide"}
       onClick={handleClick}
       onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       className={cn(
         "flex items-center gap-2",
         "cursor-pointer transition-all",

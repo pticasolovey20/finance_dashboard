@@ -3,22 +3,25 @@ import { useCallback, useMemo, useState } from "react";
 
 import { ICategoryData } from "@/types/categoryTypes";
 
-import LegendItem from "@/components/chart/LegendItem";
+import CustomLegend from "@/components/chart/CustomLegend";
 import ChartWrapper from "@/components/chart/ChartWrapper";
 import PieActiveShape from "@/components/chart/PieActiveShape";
-import { Pie, Cell, Legend, PieChart, ResponsiveContainer } from "recharts";
+import { Pie, Cell, PieChart, ResponsiveContainer } from "recharts";
 
 interface IPieCategoryChartProps {
   categories: ICategoryData[];
+  showLegend?: boolean;
   isLoading: boolean;
 }
 
 const PieCategoryChart = ({
   categories,
+  showLegend = true,
   isLoading,
 }: IPieCategoryChartProps) => {
   const [activeName, setActiveName] = useState<string | undefined>(undefined);
   const [hiddenItems, setHiddenItems] = useState<string[]>([]);
+  const [accordionValue, setAccordionValue] = useState<string>("");
 
   const isMobile = useIsMobile();
 
@@ -39,7 +42,7 @@ const PieCategoryChart = ({
   }, [visibleData, activeName]);
 
   const handlePieEnter = useCallback(
-    (_: unknown, index: number) => {
+    (_event: MouseEvent, index: number) => {
       const item = visibleData[index];
 
       if (item) {
@@ -75,24 +78,6 @@ const PieCategoryChart = ({
     });
   }, []);
 
-  const renderCustomLegend = useCallback(() => {
-    return (
-      <ul className="flex flex-wrap justify-center gap-4 mt-4">
-        {data.map((entry) => {
-          return (
-            <LegendItem
-              key={entry.name}
-              entry={entry}
-              isHidden={hiddenItems.includes(entry.name)}
-              onClick={handleLegendClick}
-              onMouseEnter={() => handleLegendHover(entry.name)}
-            />
-          );
-        })}
-      </ul>
-    );
-  }, [data, hiddenItems, handleLegendClick, handleLegendHover]);
-
   const pieCells = useMemo(() => {
     return visibleData.map((entry) => {
       return (
@@ -122,30 +107,39 @@ const PieCategoryChart = ({
       isLoading={isLoading}
       isEmpty={false}
     >
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            activeIndex={activeIndex}
-            activeShape={<PieActiveShape />}
-            data={visibleData}
-            cx="50%"
-            cy="50%"
-            innerRadius={isMobile ? 100 : 100}
-            outerRadius={isMobile ? 160 : 180}
-            paddingAngle={3}
-            dataKey="value"
-            onMouseEnter={handlePieEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            {pieCells}
-          </Pie>
+      <div className="w-full h-[500px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              activeIndex={activeIndex}
+              activeShape={<PieActiveShape />}
+              data={visibleData}
+              cx="50%"
+              cy="50%"
+              innerRadius={isMobile ? 100 : 100}
+              outerRadius={isMobile ? 160 : 180}
+              paddingAngle={3}
+              dataKey="value"
+              onMouseEnter={handlePieEnter}
+              onMouseLeave={handleMouseLeave}
+            >
+              {pieCells}
+            </Pie>
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
 
-          <Legend
-            wrapperStyle={{ paddingTop: "20px" }}
-            content={renderCustomLegend}
-          />
-        </PieChart>
-      </ResponsiveContainer>
+      {showLegend && (
+        <CustomLegend
+          data={data}
+          hiddenItems={hiddenItems}
+          accordionValue={accordionValue}
+          setAccordionValue={setAccordionValue}
+          handleLegendClick={handleLegendClick}
+          handleLegendHover={handleLegendHover}
+          handleMouseLeave={handleMouseLeave}
+        />
+      )}
     </ChartWrapper>
   );
 };
