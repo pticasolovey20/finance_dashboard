@@ -17,7 +17,7 @@ const PieCategoryChart = ({
   categories,
   isLoading,
 }: IPieCategoryChartProps) => {
-  const [activeIndex, setActiveIndex] = useState<number | undefined>(undefined);
+  const [activeName, setActiveName] = useState<string | undefined>(undefined);
   const [hiddenItems, setHiddenItems] = useState<string[]>([]);
 
   const isMobile = useIsMobile();
@@ -34,29 +34,40 @@ const PieCategoryChart = ({
     return data.filter((item) => !hiddenItems.includes(item.name));
   }, [data, hiddenItems]);
 
-  const handlePieEnter = useCallback((_: unknown, index: number) => {
-    setActiveIndex(index);
-  }, []);
+  const activeIndex = useMemo(() => {
+    return visibleData.findIndex((item) => item.name === activeName);
+  }, [visibleData, activeName]);
 
-  const handleMouseLeave = useCallback(() => setActiveIndex(undefined), []);
+  const handlePieEnter = useCallback(
+    (_: unknown, index: number) => {
+      const item = visibleData[index];
+
+      if (item) {
+        setActiveName(item.name);
+      }
+    },
+    [visibleData]
+  );
+
+  const handleMouseLeave = useCallback(() => setActiveName(undefined), []);
 
   const handleLegendHover = useCallback(
     (itemName: string) => {
       const itemIndex = visibleData.findIndex((item) => item.name === itemName);
 
       if (itemIndex === -1) {
-        setActiveIndex(undefined);
+        setActiveName(undefined);
       } else {
-        setActiveIndex(itemIndex);
+        setActiveName(itemName);
       }
     },
-
     [visibleData]
   );
 
   const handleLegendClick = useCallback((itemName: string) => {
     setHiddenItems((prev) => {
       if (prev.includes(itemName)) {
+        setActiveName(itemName);
         return prev.filter((name) => name !== itemName);
       } else {
         return [...prev, itemName];
