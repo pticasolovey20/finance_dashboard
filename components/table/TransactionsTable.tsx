@@ -12,28 +12,23 @@ import {
   getPaginationRowModel,
 } from "@tanstack/react-table";
 
-import { ITransactionData } from "@/types/transactionTypes";
+import { ITransactionData } from "@/types/transactionFormTypes";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
-import { Skeleton } from "@/components/ui/skeleton";
+import TableColumnsModal from "@/components/modal/TableColumnsModal";
+import TransactionsFormModal from "@/components/modal/TransactionsFormModal";
+
 import EmptyTable from "@/components/table/EmptyTable";
 import SkeletonTable from "@/components/skeleton/SkeletonTable";
 import TablePagination from "@/components/table/TablePagination";
-import TableFilterModal from "@/components/modal/TableFilterModal";
-import TransactionsTableModal from "@/components/modal/TransactionsTableModal";
 import VirtualizedTableWrapper from "@/components/table/VirtualizedTableWrapper";
+import SkeletonTransctionTableTopbar from "@/components/skeleton/SkeletonTransctionTableTopbar";
 
 const TransactionsTableTopbar = dynamic(() => import("@/components/table/TransactionsTableTopbar"), {
   ssr: false,
-  loading: () => (
-    <div className="flex items-center gap-4 mb-4">
-      <Skeleton className="h-10 w-10 aspect-square" />
-      <Skeleton className="h-10 w-full" />
-      <Skeleton className="h-10 max-w-[100px] xs:max-w-[150px] w-full" />
-    </div>
-  ),
+  loading: () => <SkeletonTransctionTableTopbar />,
 });
 
 const TransactionsTable = () => {
@@ -46,12 +41,15 @@ const TransactionsTable = () => {
   const {
     columnSizing,
     setColumnSizing,
+
     columnVisibility,
     setColumnVisibility,
+
     columnSorting,
     setColumnSorting,
-    openTransactionModal,
-    openTransactionFilter,
+
+    openFormModal,
+    openColumnsModal,
   } = useTransactionTableStore();
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
@@ -91,21 +89,15 @@ const TransactionsTable = () => {
 
   const isEmptyTable = transactionTable.getRowModel().rows.length === 0;
 
-  const handleSelectRow = useCallback(
-    (rowData: ITransactionData) => {
-      openTransactionModal("edit", rowData);
-    },
-
-    [openTransactionModal]
-  );
+  const handleSelectRow = useCallback((rowData: ITransactionData) => openFormModal("edit", rowData), [openFormModal]);
 
   return (
     <div className="mt-12">
       <TransactionsTableTopbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
-        handleOpenModal={openTransactionModal}
-        handleOpenFilter={openTransactionFilter}
+        openFormModal={openFormModal}
+        openColumnsModal={openColumnsModal}
       />
 
       <div className="relative flex-1">
@@ -120,8 +112,8 @@ const TransactionsTable = () => {
         <TablePagination table={transactionTable} />
       </div>
 
-      <TransactionsTableModal />
-      <TableFilterModal table={transactionTable} />
+      <TransactionsFormModal />
+      <TableColumnsModal table={transactionTable} />
     </div>
   );
 };

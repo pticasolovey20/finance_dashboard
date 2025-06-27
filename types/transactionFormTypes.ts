@@ -1,7 +1,7 @@
 import * as zod from "zod";
 
-import { TransactionSchema } from "@/schemas/transactionSchema";
 import { TransactionType, TransactionStatus } from "@prisma/client";
+import { TransactionFormSchema } from "@/schemas/transactionFormSchema";
 
 export interface ITransactionData {
   id: string;
@@ -13,6 +13,6 @@ export interface ITransactionData {
   note: string;
 }
 
-export type TransactionsFormFields = zod.infer<typeof TransactionSchema>;
+export type TransactionsFormFields = zod.infer<typeof TransactionFormSchema>;
 
 export type ModalMode = "create" | "edit";

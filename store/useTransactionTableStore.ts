@@ -6,15 +6,17 @@ import {
   DEFAULT_COLUMNS_SIZING,
   DEFAULT_COLUMNS_SORTING,
   DEFAULT_COLUMNS_VISIBILITY,
-} from "@/constants/transactionTableFilter";
-import { ITransactionData, ModalMode } from "@/types/transactionTypes";
+} from "@/constants/transactionTable";
+import { ITransactionData, ModalMode } from "@/types/transactionFormTypes";
 
 interface TransactionTableState {
   mode: ModalMode;
   transactionData: ITransactionData | null;
 
-  isTransactionModalOpen: boolean;
-  isTransactionFilterOpen: boolean;
+  transactionModals: {
+    isFormOpen: boolean;
+    isColumnsOpen: boolean;
+  };
 
   columnSizing: ColumnSizingState;
   setColumnSizing: OnChangeFn<ColumnSizingState>;
@@ -27,12 +29,12 @@ interface TransactionTableState {
   columnSorting: SortingState;
   setColumnSorting: OnChangeFn<SortingState>;
 
-  openTransactionModal: (mode: ModalMode, data?: ITransactionData) => void;
-  closeTransactionModal: () => void;
-  resetTransactionModal: () => void;
+  openFormModal: (mode: ModalMode, data?: ITransactionData) => void;
+  closeFormModal: () => void;
+  resetFormModal: () => void;
 
-  openTransactionFilter: () => void;
-  closeTransactionFilter: () => void;
+  openColumnsModal: () => void;
+  closeColumnsModal: () => void;
 }
 
 export const useTransactionTableStore = create<TransactionTableState>()(
@@ -45,8 +47,11 @@ export const useTransactionTableStore = create<TransactionTableState>()(
       columnVisibility: DEFAULT_COLUMNS_VISIBILITY,
       columnSorting: DEFAULT_COLUMNS_SORTING,
 
-      isTransactionModalOpen: false,
-      isTransactionFilterOpen: false,
+      transactionModals: {
+        isFormOpen: false,
+        isDateRangeOpen: false,
+        isColumnsOpen: false,
+      },
 
       // COLUMNS ACTIONS
 
@@ -69,26 +74,44 @@ export const useTransactionTableStore = create<TransactionTableState>()(
           columnSorting: typeof updater === "function" ? updater(state.columnSorting) : updater,
         })),
 
-      // MODALS ACTIONS
+      // MODAL ACTIONS
+      // FORM MODAL
 
-      openTransactionModal: (mode, data) =>
-        set({
-          isTransactionModalOpen: true,
+      openFormModal: (mode, data) => {
+        set((state) => ({
           mode,
           transactionData: data ?? null,
-        }),
+          transactionModals: { ...state.transactionModals, isFormOpen: true },
+        }));
+      },
 
-      closeTransactionModal: () => set({ isTransactionModalOpen: false }),
+      closeFormModal: () => {
+        set((state) => ({
+          transactionModals: { ...state.transactionModals, isFormOpen: false },
+        }));
+      },
 
-      resetTransactionModal: () =>
-        set({
-          isTransactionModalOpen: false,
+      resetFormModal: () => {
+        set((state) => ({
           mode: "create",
           transactionData: null,
-        }),
+          transactionModals: { ...state.transactionModals, isFormOpen: false },
+        }));
+      },
 
-      openTransactionFilter: () => set({ isTransactionFilterOpen: true }),
-      closeTransactionFilter: () => set({ isTransactionFilterOpen: false }),
+      // COLUMNS MODAL
+
+      openColumnsModal: () => {
+        set((state) => ({
+          transactionModals: { ...state.transactionModals, isColumnsOpen: true },
+        }));
+      },
+
+      closeColumnsModal: () => {
+        set((state) => ({
+          transactionModals: { ...state.transactionModals, isColumnsOpen: false },
+        }));
+      },
     }),
 
     {

@@ -6,7 +6,7 @@ import { TransactionType } from "@prisma/client";
 
 import { ColumnDef } from "@tanstack/react-table";
 
-import { ITransactionData } from "@/types/transactionTypes";
+import { ITransactionData } from "@/types/transactionFormTypes";
 import { getStatusColor, getTypeColor } from "@/lib/transaction";
 
 import { Badge } from "@/components/ui/badge";

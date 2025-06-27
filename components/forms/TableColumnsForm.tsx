@@ -3,36 +3,27 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Table, VisibilityState } from "@tanstack/react-table";
 
-import { FiltersSchema } from "@/schemas/filterSchema";
-import { FiltersFormFields } from "@/types/filterTypes";
+import { TableColumnsSchema } from "@/schemas/tableColumnsSchema";
+import { TableColumnsFormFields } from "@/types/tableColumnsTypes";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import SubmitButton from "@/components/forms/SubmitButton";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
-interface ITransactionFiltersFormProps<TableData> {
+interface TableColumnsFormProps<TableData> {
   table: Table<TableData>;
   onCloseDrawer: () => void;
 }
 
-const TransactionFiltersForm = <TableData,>({
-  table,
-  onCloseDrawer,
-}: ITransactionFiltersFormProps<TableData>) => {
+const TableColumnsForm = <TableData,>({ table, onCloseDrawer }: TableColumnsFormProps<TableData>) => {
   const { columnVisibility, setColumnVisibility } = useTransactionTableStore();
 
   const columns = table.getAllLeafColumns();
 
-  const form = useForm<FiltersFormFields>({
-    resolver: zodResolver(FiltersSchema),
+  const form = useForm<TableColumnsFormFields>({
+    resolver: zodResolver(TableColumnsSchema),
     defaultValues: {
       columns: columnVisibility,
     },
@@ -40,7 +31,7 @@ const TransactionFiltersForm = <TableData,>({
 
   const { handleSubmit, control } = form;
 
-  const onFormSubmit = (formData: FiltersFormFields) => {
+  const onFormSubmit = (formData: TableColumnsFormFields) => {
     setColumnVisibility(formData.columns as VisibilityState);
     onCloseDrawer();
   };
@@ -49,10 +40,7 @@ const TransactionFiltersForm = <TableData,>({
     <Form {...form}>
       <form
         onSubmit={handleSubmit(onFormSubmit)}
-        className={cn(
-          "w-full flex flex-col overflow-y-auto",
-          "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 md:pb-1"
-        )}
+        className={cn("w-full flex flex-col overflow-y-auto", "p-4 md:p-0 md:pt-4 md:pl-1 md:pr-2 md:pb-1")}
       >
         <FormField
           control={control}
@@ -66,10 +54,7 @@ const TransactionFiltersForm = <TableData,>({
                   const checked = field.value?.[columnID] ?? true;
 
                   return (
-                    <FormItem
-                      key={columnID}
-                      className="w-full flex items-center gap-2"
-                    >
+                    <FormItem key={columnID} className="w-full flex items-center gap-2">
                       <FormControl>
                         <Checkbox
                           className="h-5 w-5"
@@ -106,4 +91,4 @@ const TransactionFiltersForm = <TableData,>({
   );
 };
 
-export default TransactionFiltersForm;
+export default TableColumnsForm;

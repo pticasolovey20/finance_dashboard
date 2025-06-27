@@ -14,11 +14,7 @@ interface IPieCategoryChartProps {
   isLoading: boolean;
 }
 
-const PieCategoryChart = ({
-  categories,
-  showLegend = true,
-  isLoading,
-}: IPieCategoryChartProps) => {
+const PieCategoryChart = ({ categories, showLegend = true, isLoading }: IPieCategoryChartProps) => {
   const [activeName, setActiveName] = useState<string | undefined>(undefined);
   const [hiddenItems, setHiddenItems] = useState<string[]>([]);
   const [accordionValue, setAccordionValue] = useState<string>("");
@@ -80,33 +76,16 @@ const PieCategoryChart = ({
 
   const pieCells = useMemo(() => {
     return visibleData.map((entry) => {
-      return (
-        <Cell
-          key={entry.name}
-          strokeWidth={0}
-          stroke="transparent"
-          fill={entry.color}
-        />
-      );
+      return <Cell key={entry.name} strokeWidth={0} stroke="transparent" fill={entry.color} />;
     });
   }, [visibleData]);
 
   if (data.length === 0) {
-    return (
-      <ChartWrapper
-        title="Pie Category Chart"
-        isLoading={isLoading}
-        isEmpty={true}
-      />
-    );
+    return <ChartWrapper title="Pie Category Chart" isLoading={isLoading} isEmpty={true} />;
   }
 
   return (
-    <ChartWrapper
-      title="Pie Category Chart"
-      isLoading={isLoading}
-      isEmpty={false}
-    >
+    <ChartWrapper title="Pie Category Chart" isLoading={isLoading} isEmpty={false}>
       <div className="w-full h-[500px]">
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>

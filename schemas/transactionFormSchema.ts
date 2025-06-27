@@ -1,12 +1,9 @@
 import * as zod from "zod";
 
-import {
-  incomeCategories,
-  expenseCategories,
-} from "@/constants/transactionCategory";
 import { TransactionType } from "@prisma/client";
+import { incomeCategories, expenseCategories } from "@/constants/transactionCategory";
 
-export const TransactionSchema = zod
+export const TransactionFormSchema = zod
   .object({
     type: zod.string({ required_error: "Required field" }),
     status: zod.optional(zod.string()),

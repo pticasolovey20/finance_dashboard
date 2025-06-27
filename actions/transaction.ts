@@ -2,11 +2,9 @@
 
 import { database } from "@/lib/database";
 import { TransactionType, TransactionStatus } from "@prisma/client";
-import { TransactionsFormFields } from "@/types/transactionTypes";
+import { TransactionsFormFields } from "@/types/transactionFormTypes";
 
-export const getCreateTransaction = async (
-  transaction: TransactionsFormFields
-) => {
+export const getCreateTransaction = async (transaction: TransactionsFormFields) => {
   try {
     const createdTransaction = await database.transaction.create({
       data: {
@@ -26,10 +24,7 @@ export const getCreateTransaction = async (
   }
 };
 
-export const getUpdateTransactionById = async (
-  id: string,
-  transaction: TransactionsFormFields
-) => {
+export const getUpdateTransactionById = async (id: string, transaction: TransactionsFormFields) => {
   try {
     const updatedTransaction = await database.transaction.update({
       where: { id },

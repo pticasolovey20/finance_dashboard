@@ -1,23 +1,21 @@
-import { cn } from "@/lib/utils";
 import { useEffect, useMemo } from "react";
+
+import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
 import { useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
-  incomeCategories,
-  expenseCategories,
-} from "@/constants/transactionCategory";
-import {
   incomeCategoryOptions,
   expenseCategoryOptions,
   transactionsTypeOptions,
 } from "@/constants/transactionFormOptions";
-import { TransactionSchema } from "@/schemas/transactionSchema";
-import { TransactionsFormFields } from "@/types/transactionTypes";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import { TransactionStatus, TransactionType } from "@prisma/client";
+import { TransactionsFormFields } from "@/types/transactionFormTypes";
+import { TransactionFormSchema } from "@/schemas/transactionFormSchema";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
+import { incomeCategories, expenseCategories } from "@/constants/transactionCategory";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormField } from "@/components/ui/form";
@@ -31,20 +29,10 @@ interface ITransactionFormProps {
 }
 
 const TransactionForm = ({ classNames }: ITransactionFormProps) => {
-  const {
-    isCreating,
-    isUpdating,
-    isDeleting,
-    createTransaction,
-    editTransaction,
-    deleteTransaction,
-  } = useTransactionStore();
+  const { isCreating, isUpdating, isDeleting, createTransaction, editTransaction, deleteTransaction } =
+    useTransactionStore();
 
-  const {
-    transactionData,
-    mode: formMode,
-    closeTransactionModal,
-  } = useTransactionTableStore();
+  const { transactionData, mode: formMode, closeFormModal } = useTransactionTableStore();
 
   const { toast } = useToast();
 
@@ -52,7 +40,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
 
   const form = useForm({
     mode: "onChange",
-    resolver: zodResolver(TransactionSchema),
+    resolver: zodResolver(TransactionFormSchema),
 
     defaultValues: {
       type: transactionData?.type ?? undefined,
@@ -93,29 +81,23 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
   }, [selectedCategoryId, setValue]);
 
   const filteredCategoryOptions = useMemo(() => {
-    return incomeCategoryOptions
-      .concat(expenseCategoryOptions)
-      .map((option) => {
-        const isIncome = incomeCategoryOptions.some(
-          (category) => category.value === option.value
-        );
+    return incomeCategoryOptions.concat(expenseCategoryOptions).map((option) => {
+      const isIncome = incomeCategoryOptions.some((category) => category.value === option.value);
 
-        const isExpense = expenseCategoryOptions.some(
-          (category) => category.value === option.value
-        );
+      const isExpense = expenseCategoryOptions.some((category) => category.value === option.value);
 
-        const disabled =
-          transactionType === TransactionType.income
-            ? isExpense
-            : transactionType === TransactionType.expense
-            ? isIncome
-            : false;
+      const disabled =
+        transactionType === TransactionType.income
+          ? isExpense
+          : transactionType === TransactionType.expense
+          ? isIncome
+          : false;
 
-        return {
-          ...option,
-          disabled,
-        };
-      });
+      return {
+        ...option,
+        disabled,
+      };
+    });
   }, [transactionType]);
 
   const handleDeleteTransaction = async () => {
@@ -127,7 +109,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           description: "Something went wrong!",
         });
       })
-      .finally(() => closeTransactionModal());
+      .finally(() => closeFormModal());
   };
 
   const onFormSubmit = async (formData: TransactionsFormFields) => {
@@ -149,7 +131,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             description: "Something went wrong!",
           });
         })
-        .finally(() => closeTransactionModal());
+        .finally(() => closeFormModal());
     } else {
       createTransaction(formData)
         .then(() => toast({ description: "Transaction created successfully!" }))
@@ -159,7 +141,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             description: "Something went wrong!",
           });
         })
-        .finally(() => closeTransactionModal());
+        .finally(() => closeFormModal());
     }
   };
 
@@ -178,12 +160,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
           control={control}
           name="type"
           render={({ field }) => (
-            <FloatingLabelSelectField
-              field={field}
-              options={transactionsTypeOptions}
-              id="type"
-              label="Type"
-            />
+            <FloatingLabelSelectField field={field} options={transactionsTypeOptions} id="type" label="Type" />
           )}
         />
 
@@ -192,13 +169,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             control={control}
             name="status"
             render={({ field }) => (
-              <FloatingLabelInputField
-                field={field}
-                id="status"
-                label="Status"
-                disabled
-                classNames="capitalize"
-              />
+              <FloatingLabelInputField field={field} id="status" label="Status" disabled classNames="capitalize" />
             )}
           />
         )}
@@ -219,31 +190,18 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
         <FormField
           control={control}
           name="amount"
-          render={({ field }) => (
-            <FloatingLabelInputField field={field} id="amount" label="Amount" />
-          )}
+          render={({ field }) => <FloatingLabelInputField field={field} id="amount" label="Amount" />}
         />
 
         <div className={cn(isEditMode ?? "col-span-1 sm:col-span-2")}>
           <FormField
             control={control}
             name="note"
-            render={({ field }) => (
-              <FloatingLabelTextareaField
-                field={field}
-                id="note"
-                label="Note"
-              />
-            )}
+            render={({ field }) => <FloatingLabelTextareaField field={field} id="note" label="Note" />}
           />
         </div>
 
-        <div
-          className={cn(
-            isEditMode ?? "col-span-1 sm:col-span-2",
-            "flex flex-col-reverse xs:flex-row gap-4 mt-8"
-          )}
-        >
+        <div className={cn(isEditMode ?? "col-span-1 sm:col-span-2", "flex flex-col-reverse xs:flex-row gap-4 mt-8")}>
           {isEditMode && (
             <Button
               type="button"
@@ -256,10 +214,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             </Button>
           )}
 
-          <SubmitButton
-            label={isEditMode ? "Save" : "Create"}
-            isLoading={isCreating || isUpdating}
-          />
+          <SubmitButton label={isEditMode ? "Save" : "Create"} isLoading={isCreating || isUpdating} />
         </div>
       </form>
     </Form>
