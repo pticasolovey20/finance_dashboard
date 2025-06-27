@@ -214,7 +214,7 @@ const TransactionForm = ({ classNames }: ITransactionFormProps) => {
             </Button>
           )}
 
-          <SubmitButton label={isEditMode ? "Save" : "Create"} isLoading={isCreating || isUpdating} />
+          <SubmitButton label={isEditMode ? "Save" : "Create"} disabled={isCreating || isUpdating} />
         </div>
       </form>
     </Form>

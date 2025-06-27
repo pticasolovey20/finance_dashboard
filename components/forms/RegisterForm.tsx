@@ -53,11 +53,7 @@ const RegisterForm = () => {
           control={control}
           name="firstName"
           render={({ field }) => (
-            <FloatingLabelInputField<RegisterFormFields>
-              field={field}
-              id="firstName"
-              label="First Name"
-            />
+            <FloatingLabelInputField<RegisterFormFields> field={field} id="firstName" label="First Name" />
           )}
         />
 
@@ -65,24 +61,14 @@ const RegisterForm = () => {
           control={control}
           name="lastName"
           render={({ field }) => (
-            <FloatingLabelInputField<RegisterFormFields>
-              id="lastName"
-              field={field}
-              label="Last Name"
-            />
+            <FloatingLabelInputField<RegisterFormFields> id="lastName" field={field} label="Last Name" />
           )}
         />
 
         <FormField
           control={control}
           name="email"
-          render={({ field }) => (
-            <FloatingLabelInputField<RegisterFormFields>
-              id="email"
-              label="Email"
-              field={field}
-            />
-          )}
+          render={({ field }) => <FloatingLabelInputField<RegisterFormFields> id="email" label="Email" field={field} />}
         />
 
         <FormField
@@ -110,7 +96,7 @@ const RegisterForm = () => {
           )}
         />
 
-        <SubmitButton label="Register" isLoading={isLoading} />
+        <SubmitButton label="Register" disabled={isLoading} />
       </form>
     </Form>
   );

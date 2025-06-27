@@ -65,12 +65,7 @@ const LoginForm = () => {
           control={control}
           name="email"
           render={({ field }) => (
-            <FloatingLabelInputField<LoginFormFields>
-              field={field}
-              id="email"
-              type="email"
-              label="Email"
-            />
+            <FloatingLabelInputField<LoginFormFields> field={field} id="email" type="email" label="Email" />
           )}
         />
 
@@ -78,15 +73,11 @@ const LoginForm = () => {
           control={control}
           name="password"
           render={({ field }) => (
-            <FloatingLabelPasswordField<LoginFormFields>
-              field={field}
-              id="password"
-              label="Password"
-            />
+            <FloatingLabelPasswordField<LoginFormFields> field={field} id="password" label="Password" />
           )}
         />
 
-        <SubmitButton label="Login" isLoading={isLoading} />
+        <SubmitButton label="Login" disabled={isLoading} />
       </form>
     </Form>
   );

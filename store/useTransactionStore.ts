@@ -73,7 +73,7 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
       }));
     } catch (error: unknown) {
       set({ isUpdating: false });
-      console.error("Store: Error creating transaction:", error);
+      console.error("Store: Error updating transaction:", error);
       throw error;
     }
   },
