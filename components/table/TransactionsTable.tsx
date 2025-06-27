@@ -1,3 +1,8 @@
+"use client";
+
+import dynamic from "next/dynamic";
+import { useEffect, useState, useCallback } from "react";
+
 import {
   useReactTable,
   getCoreRowModel,
@@ -6,29 +11,38 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
 } from "@tanstack/react-table";
-import { Fragment, useState } from "react";
 
 import { ITransactionData } from "@/types/transactionTypes";
+import { useTransactionStore } from "@/store/useTransactionStore";
 import { useTransactionColumns } from "@/hooks/useTransactionColumns";
 import { useTransactionTableStore } from "@/store/useTransactionTableStore";
 
-import CircleLoader from "@/components/CircleLoader";
+import { Skeleton } from "@/components/ui/skeleton";
 import EmptyTable from "@/components/table/EmptyTable";
-import TableTopbar from "@/components/table/TableTopbar";
-import TableWrapper from "@/components/table/TableWrapper";
+import SkeletonTable from "@/components/skeleton/SkeletonTable";
 import TablePagination from "@/components/table/TablePagination";
-import TableFilterModal from "@/components/table/TableFilterModal";
-import TransactionsTableModal from "@/components/table/TransactionsTableModal";
+import TableFilterModal from "@/components/modal/TableFilterModal";
+import TransactionsTableModal from "@/components/modal/TransactionsTableModal";
+import VirtualizedTableWrapper from "@/components/table/VirtualizedTableWrapper";
 
-interface ITransactionsTableProps {
-  transactions: ITransactionData[];
-  isLoading: boolean;
-}
+const TransactionsTableTopbar = dynamic(() => import("@/components/table/TransactionsTableTopbar"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex items-center gap-4 mb-4">
+      <Skeleton className="h-10 w-10 aspect-square" />
+      <Skeleton className="h-10 w-full" />
+      <Skeleton className="h-10 max-w-[100px] xs:max-w-[150px] w-full" />
+    </div>
+  ),
+});
 
-const TransactionsTable = ({
-  transactions,
-  isLoading,
-}: ITransactionsTableProps) => {
+const TransactionsTable = () => {
+  const { fetchTransactions, isFetching, transactions } = useTransactionStore();
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [fetchTransactions]);
+
   const {
     columnSizing,
     setColumnSizing,
@@ -36,6 +50,8 @@ const TransactionsTable = ({
     setColumnVisibility,
     columnSorting,
     setColumnSorting,
+    openTransactionModal,
+    openTransactionFilter,
   } = useTransactionTableStore();
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
@@ -75,16 +91,17 @@ const TransactionsTable = ({
 
   const isEmptyTable = transactionTable.getRowModel().rows.length === 0;
 
-  const { openTransactionModal, openTransactionFilter } =
-    useTransactionTableStore();
+  const handleSelectRow = useCallback(
+    (rowData: ITransactionData) => {
+      openTransactionModal("edit", rowData);
+    },
 
-  const handleSelectRow = (rowData: ITransactionData) => {
-    openTransactionModal("edit", rowData);
-  };
+    [openTransactionModal]
+  );
 
   return (
-    <Fragment>
-      <TableTopbar
+    <div className="mt-12">
+      <TransactionsTableTopbar
         globalFilter={globalFilter}
         setGlobalFilter={setGlobalFilter}
         handleOpenModal={openTransactionModal}
@@ -92,25 +109,20 @@ const TransactionsTable = ({
       />
 
       <div className="relative flex-1">
-        {isLoading ? (
-          <CircleLoader />
+        {isFetching ? (
+          <SkeletonTable />
         ) : isEmptyTable ? (
           <EmptyTable />
         ) : (
-          <Fragment>
-            <TableWrapper<ITransactionData>
-              table={transactionTable}
-              handleSelectRow={handleSelectRow}
-            />
-
-            <TablePagination table={transactionTable} />
-          </Fragment>
+          <VirtualizedTableWrapper table={transactionTable} handleSelectRow={handleSelectRow} />
         )}
+
+        <TablePagination table={transactionTable} />
       </div>
 
       <TransactionsTableModal />
       <TableFilterModal table={transactionTable} />
-    </Fragment>
+    </div>
   );
 };
 

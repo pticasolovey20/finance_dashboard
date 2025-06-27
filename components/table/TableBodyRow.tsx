@@ -36,27 +36,16 @@ const TableBodyRow = <TableData,>({
       className="absolute flex w-full"
       style={{ transform: `translateY(${virtualRow.start}px)` }}
     >
-      {virtualPaddingLeft ? (
-        <TableCell className="flex" style={{ width: virtualPaddingLeft }} />
-      ) : null}
+      {virtualPaddingLeft ? <TableCell className="flex" style={{ width: virtualPaddingLeft }} /> : null}
 
       {virtualColumns.map((virtualColumn, index) => {
         const cell = visibleCells[virtualColumn.index];
         const isLast = index === virtualColumns.length - 1;
 
-        return (
-          <TableBodyCell
-            key={cell.id}
-            table={table}
-            cell={cell}
-            isLast={isLast}
-          />
-        );
+        return <TableBodyCell key={cell.id} table={table} cell={cell} isLast={isLast} />;
       })}
 
-      {virtualPaddingRight ? (
-        <TableCell className="flex" style={{ width: virtualPaddingRight }} />
-      ) : null}
+      {virtualPaddingRight ? <TableCell className="flex" style={{ width: virtualPaddingRight }} /> : null}
     </TableRow>
   );
 };

@@ -1,7 +1,7 @@
+import { cn } from "@/lib/utils";
 import { Table, Cell, flexRender } from "@tanstack/react-table";
 
 import { TableCell } from "@/components/ui/table";
-import { cn } from "@/lib/utils";
 
 interface ITableBodyCellProps<TableData> {
   table: Table<TableData>;
@@ -9,11 +9,7 @@ interface ITableBodyCellProps<TableData> {
   isLast: boolean;
 }
 
-const TableBodyCell = <TableData,>({
-  table,
-  cell,
-  isLast,
-}: ITableBodyCellProps<TableData>) => {
+const TableBodyCell = <TableData,>({ table, cell, isLast }: ITableBodyCellProps<TableData>) => {
   const isResizing = table.getState().columnSizingInfo.isResizingColumn;
 
   return (

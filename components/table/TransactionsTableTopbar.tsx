@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
-import { ModalMode } from "@/types/transactionTypes";
+import { ITransactionData, ModalMode } from "@/types/transactionTypes";
 
 import { Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -8,19 +8,19 @@ import { Button } from "@/components/ui/button";
 // import GerateCategoriesButton from "@/components/categories/GerateCategoriesButton";
 // import GenerateTransactionsButton from "@/components/transactions/GenerateTransactionsButton";
 
-interface ITableTopbarProps<TableData> {
+interface TransactionsTableTopbarProps {
   globalFilter: string;
   setGlobalFilter: Dispatch<SetStateAction<string>>;
-  handleOpenModal: (mode: ModalMode, data?: TableData) => void;
+  handleOpenModal: (mode: ModalMode, data?: ITransactionData) => void;
   handleOpenFilter: () => void;
 }
 
-const TableTopbar = <TableData,>({
+const TransactionsTableTopbar = ({
   globalFilter,
   setGlobalFilter,
   handleOpenModal,
   handleOpenFilter,
-}: ITableTopbarProps<TableData>) => {
+}: TransactionsTableTopbarProps) => {
   return (
     <div className="flex items-center gap-4 mb-4">
       <Button
@@ -54,4 +54,4 @@ const TableTopbar = <TableData,>({
   );
 };
 
-export default TableTopbar;
+export default TransactionsTableTopbar;

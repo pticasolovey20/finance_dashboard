@@ -6,7 +6,7 @@ const EmptyTable = () => {
       className={cn(
         "min-h-[200px] overflow-hidden",
         "flex items-center justify-center",
-        "border border-muted rounded-md"
+        "border border-input rounded-md"
       )}
     >
       <span className="font-medium text-lg">Nothing found!</span>
