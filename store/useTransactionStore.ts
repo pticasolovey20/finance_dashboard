@@ -8,10 +8,7 @@ import {
   getDeleteTransactionById,
 } from "@/actions/transaction";
 
-import {
-  ITransactionData,
-  TransactionsFormFields,
-} from "@/types/transactionTypes";
+import { ITransactionData, TransactionsFormFields } from "@/types/transactionFormTypes";
 
 type TransactionsState = {
   isFetching: boolean;
@@ -66,10 +63,7 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
     set({ isUpdating: true });
 
     try {
-      const updatedTransaction = await getUpdateTransactionById(
-        transactionId,
-        transactionData
-      );
+      const updatedTransaction = await getUpdateTransactionById(transactionId, transactionData);
 
       set((state) => ({
         transactions: state.transactions.map((transaction) =>

@@ -15,3 +15,10 @@ export const DEFAULT_COLUMNS_VISIBILITY = {
   date: true,
   note: true,
 };
+
+export const DEFAULT_COLUMNS_SORTING = [
+  {
+    id: "date",
+    desc: true,
+  },
+];

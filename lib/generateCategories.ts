@@ -8,9 +8,7 @@ import { expenseCategories } from "@/constants/transactionCategory";
 export const generateCategory = (categoryId: string): ICategoryData => {
   const categoryName = categoryId.charAt(0).toUpperCase() + categoryId.slice(1);
 
-  const type = expenseCategories.includes(categoryId)
-    ? TransactionType.expense
-    : TransactionType.income;
+  const type = expenseCategories.includes(categoryId) ? TransactionType.expense : TransactionType.income;
 
   return {
     type,

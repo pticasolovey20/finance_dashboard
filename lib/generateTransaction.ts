@@ -1,19 +1,13 @@
 import { faker } from "@faker-js/faker";
 
-import {
-  incomeCategories,
-  expenseCategories,
-} from "@/constants/transactionCategory";
-import { ITransactionData } from "@/types/transactionTypes";
+import { incomeCategories, expenseCategories } from "@/constants/transactionCategory";
+import { ITransactionData } from "@/types/transactionFormTypes";
 import { getCreateTransaction } from "@/actions/transaction";
 import { useTransactionStore } from "@/store/useTransactionStore";
 import { TransactionType, TransactionStatus } from "@prisma/client";
 
 export const generateTransaction = (): ITransactionData => {
-  const type = faker.helpers.arrayElement([
-    TransactionType.expense,
-    TransactionType.income,
-  ]);
+  const type = faker.helpers.arrayElement([TransactionType.expense, TransactionType.income]);
 
   const categoryId =
     type === TransactionType.expense
@@ -44,9 +38,7 @@ export const seedTransactions = async (count: number = 10) => {
   for (let index = 0; index < count; index++) {
     try {
       const generatedTransaction: ITransactionData = generateTransaction();
-      const createdTransaction = await getCreateTransaction(
-        generatedTransaction
-      );
+      const createdTransaction = await getCreateTransaction(generatedTransaction);
 
       useTransactionStore.getState().addTransaction(createdTransaction);
       createdTransactions.push(createdTransaction);

@@ -8,6 +8,10 @@ export interface ICategoryData {
   categoryName: string;
   type: TransactionType;
   color: string;
+
+  _count?: {
+    transactions: number;
+  };
 }
 
 export type CategoriesFormFields = zod.infer<typeof CategorySchema>;

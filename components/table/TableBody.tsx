@@ -1,4 +1,5 @@
 import { RefObject } from "react";
+
 import { Row, Table } from "@tanstack/react-table";
 import { Virtualizer, useVirtualizer } from "@tanstack/react-virtual";
 
@@ -31,8 +32,7 @@ const TableBody = <TableData,>({
     estimateSize: () => 32,
     getScrollElement: () => tableContainerRef.current,
     measureElement:
-      typeof window !== "undefined" &&
-      navigator.userAgent.indexOf("Firefox") === -1
+      typeof window !== "undefined" && navigator.userAgent.indexOf("Firefox") === -1
         ? (element) => element?.getBoundingClientRect().height
         : undefined,
     overscan: 10,
@@ -41,10 +41,7 @@ const TableBody = <TableData,>({
   const virtualRows = rowVirtualizer.getVirtualItems();
 
   return (
-    <HeadlessTableBody
-      className="relative grid"
-      style={{ height: `${rowVirtualizer.getTotalSize()}px` }}
-    >
+    <HeadlessTableBody className="relative grid" style={{ height: `${rowVirtualizer.getTotalSize()}px` }}>
       {virtualRows.map((virtualRow) => {
         const row = rows[virtualRow.index] as Row<TableData>;
 

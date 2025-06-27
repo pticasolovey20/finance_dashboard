@@ -1,9 +1,6 @@
 import { useTransition } from "react";
 
-import {
-  incomeCategories,
-  expenseCategories,
-} from "@/constants/transactionCategory";
+import { incomeCategories, expenseCategories } from "@/constants/transactionCategory";
 import { seedCategories } from "@/lib/generateCategories";
 
 import { Button } from "@/components/ui/button";
@@ -22,12 +19,7 @@ const GerateCategoriesButton = () => {
   };
 
   return (
-    <Button
-      onClick={handleClick}
-      disabled={isPending}
-      variant="destructive"
-      className="w-fit h-10"
-    >
+    <Button onClick={handleClick} disabled={isPending} variant="destructive" className="w-fit h-10">
       GENERATE C
     </Button>
   );

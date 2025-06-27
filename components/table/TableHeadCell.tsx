@@ -1,6 +1,7 @@
+import { MouseEvent, TouchEvent, useRef, useCallback, useEffect } from "react";
+
 import { cn } from "@/lib/utils";
 import { Header, flexRender } from "@tanstack/react-table";
-import { useRef, useEffect, MouseEvent, TouchEvent } from "react";
 
 import { TableHead } from "@/components/ui/table";
 
@@ -11,17 +12,14 @@ interface ITableHeadCellProps<TableData> {
   isLast: boolean;
 }
 
-const TableHeadCell = <TableData,>({
-  header,
-  isLast,
-}: ITableHeadCellProps<TableData>) => {
+const TableHeadCell = <TableData,>({ header, isLast }: ITableHeadCellProps<TableData>) => {
   const isResizingRef = useRef(false);
-  const isResizing = header.column.getIsResizing();
 
-  const isCanSort = header.column.getCanSort();
-  const isCanResize = header.column.getCanResize();
+  const { column } = header;
 
-  const toggleSortingHandler = () => header.column.getToggleSortingHandler();
+  const isCanSort = column.getCanSort();
+  const isResizing = column.getIsResizing();
+  const isCanResize = column.getCanResize();
 
   useEffect(() => {
     const handleMouseUp = () => {
@@ -39,51 +37,48 @@ const TableHeadCell = <TableData,>({
     };
   }, []);
 
-  const handleResizeStart = (
-    event: EventHandlerType,
-    handler: (event: EventHandlerType) => void
-  ) => {
-    isResizingRef.current = true;
-    handler(event);
-  };
+  const handleClick = useCallback(() => {
+    if (!isResizingRef.current && isCanSort) {
+      column.toggleSorting();
+    }
+  }, [column, isCanSort]);
 
-  const handleResizeReset = (event: EventHandlerType) => {
-    event.stopPropagation();
-    header.column.resetSize();
-  };
+  const handleResizeStart = useCallback(
+    (event: EventHandlerType) => {
+      isResizingRef.current = true;
+      header.getResizeHandler()(event);
+    },
+
+    [header]
+  );
+
+  const handleResizeReset = useCallback(
+    (event: EventHandlerType) => {
+      event.stopPropagation();
+      column.resetSize();
+    },
+
+    [column]
+  );
 
   return (
     <TableHead
       className={cn(
         "flex items-center",
-        isLast && (!isResizingRef.current || !isResizing) ? "" : "border-r"
+        isLast && (!isResizingRef.current || !isResizing) ? "" : "border-r border-input"
       )}
       style={{ width: header.getSize() }}
-      onClick={() => {
-        if (!isResizingRef.current && isCanSort) {
-          header.column.toggleSorting?.();
-        }
-      }}
+      onClick={handleClick}
     >
-      <div
-        onClick={toggleSortingHandler}
-        className={cn(
-          "relative w-full text-base",
-          isCanSort ? "cursor-pointer select-none" : ""
-        )}
-      >
+      <div className={cn("relative w-full text-base", isCanSort ? "cursor-pointer select-none" : "")}>
         {flexRender(header.column.columnDef.header, header.getContext())}
 
         {isCanResize && (
           <div
             role="button"
             title="Reesize column width"
-            onMouseDown={(event) =>
-              handleResizeStart(event, header.getResizeHandler())
-            }
-            onTouchStart={(event) =>
-              handleResizeStart(event, header.getResizeHandler())
-            }
+            onMouseDown={handleResizeStart}
+            onTouchStart={handleResizeStart}
             onDoubleClick={handleResizeReset}
             className={cn(
               "hidden md:block w-1 h-full bg-muted",

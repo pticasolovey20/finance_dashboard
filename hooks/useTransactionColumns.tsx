@@ -1,10 +1,12 @@
-import { cn } from "@/lib/utils";
 import { useMemo } from "react";
-import { ColumnDef } from "@tanstack/react-table";
 
+import { cn } from "@/lib/utils";
 import { formatDate } from "@/lib/formatDate";
 import { TransactionType } from "@prisma/client";
-import { ITransactionData } from "@/types/transactionTypes";
+
+import { ColumnDef } from "@tanstack/react-table";
+
+import { ITransactionData } from "@/types/transactionFormTypes";
 import { getStatusColor, getTypeColor } from "@/lib/transaction";
 
 import { Badge } from "@/components/ui/badge";
@@ -20,7 +22,23 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "type",
         accessorKey: "type",
+
         enableSorting: true,
+        sortingFn: (rowA, rowB, columnId) => {
+          const order = {
+            income: 1,
+            expense: 2,
+          };
+
+          const a = rowA.getValue(columnId) as string;
+          const b = rowB.getValue(columnId) as string;
+
+          const aKey = a as keyof typeof order;
+          const bKey = b as keyof typeof order;
+
+          return (order[aKey] || 99) - (order[bKey] || 99);
+        },
+
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="Type" column={column} />,
@@ -48,16 +66,14 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "categoryId",
         accessorKey: "categoryId",
+
         enableSorting: true,
+        sortingFn: "alphanumeric",
+
         enableColumnFilter: true,
 
-        header: ({ column }) => (
-          <ColumnHeader title="Category" column={column} />
-        ),
-
-        cell: ({ getValue }) => (
-          <span className="capitalize">{getValue() as string}</span>
-        ),
+        header: ({ column }) => <ColumnHeader title="Category" column={column} />,
+        cell: ({ getValue }) => <span className="capitalize">{getValue() as string}</span>,
       },
 
       {
@@ -66,7 +82,10 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "id",
         accessorKey: "id",
+
         enableSorting: true,
+        sortingFn: "alphanumeric",
+
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="ID" column={column} />,
@@ -79,7 +98,15 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "amount",
         accessorKey: "amount",
+
         enableSorting: true,
+        sortingFn: (rowA, rowB, columnId) => {
+          const a = parseFloat(rowA.getValue(columnId));
+          const b = parseFloat(rowB.getValue(columnId));
+
+          return a - b;
+        },
+
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="Amount" column={column} />,
@@ -102,7 +129,12 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "date",
         accessorKey: "date",
+
         enableSorting: true,
+        sortingFn: (rowA, rowB, columnId) => {
+          return new Date(rowA.getValue(columnId)).getTime() - new Date(rowB.getValue(columnId)).getTime();
+        },
+
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="Date" column={column} />,
@@ -115,7 +147,10 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "status",
         accessorKey: "status",
+
         enableSorting: true,
+        sortingFn: "alphanumeric",
+
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="Status" column={column} />,
@@ -127,10 +162,7 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
             <Badge
               variant="secondary"
               style={{ color, height: "26px" }}
-              className={cn(
-                "font-mono tabular-nums text-sm",
-                "w-full flex justify-center rounded-md px-1"
-              )}
+              className={cn("font-mono tabular-nums text-sm", "w-full flex justify-center rounded-md px-1")}
             >
               {status}
             </Badge>
@@ -144,13 +176,17 @@ export const useTransactionColumns = (): ColumnDef<ITransactionData>[] => {
 
         id: "note",
         accessorKey: "note",
+
         enableSorting: true,
+        sortingFn: "alphanumeric",
+
         enableColumnFilter: true,
 
         header: ({ column }) => <ColumnHeader title="Note" column={column} />,
         cell: ({ getValue }) => getValue(),
       },
     ],
+
     []
   );
 };

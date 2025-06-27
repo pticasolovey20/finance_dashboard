@@ -21,22 +21,16 @@ const TableHeadRow = <TableData,>({
 
   return (
     <TableRow className="flex w-full">
-      {virtualPaddingLeft ? (
-        <TableHead className="flex" style={{ width: virtualPaddingLeft }} />
-      ) : null}
+      {virtualPaddingLeft ? <TableHead className="flex" style={{ width: virtualPaddingLeft }} /> : null}
 
       {virtualColumns.map((virtualColumn, index) => {
         const header = headerGroup.headers[virtualColumn.index];
         const isLast = index === virtualColumns.length - 1;
 
-        return (
-          <TableHeadCell key={header.id} header={header} isLast={isLast} />
-        );
+        return <TableHeadCell key={header.id} header={header} isLast={isLast} />;
       })}
 
-      {virtualPaddingRight ? (
-        <TableHead className="flex" style={{ width: virtualPaddingRight }} />
-      ) : null}
+      {virtualPaddingRight ? <TableHead className="flex" style={{ width: virtualPaddingRight }} /> : null}
     </TableRow>
   );
 };
