@@ -34,7 +34,7 @@ const TableContainer = forwardRef<HTMLDivElement, TableContainerProps>(({ classN
       <div
         ref={tableContainerRef}
         className={cn(
-          "relative max-h-[calc(100dvh-220px)]",
+          "relative max-h-[calc(100dvh-270px)] sm:max-h-[calc(100dvh-220px)]",
           "border border-input rounded-md",
           "overflow-auto scrollable",
           classNames

@@ -2,10 +2,9 @@ import { Dispatch, SetStateAction } from "react";
 
 import { ITransactionData, ModalMode } from "@/types/transactionFormTypes";
 
-import { Columns2, Plus } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import DateRangeForm from "@/components/forms/DateRangeForm";
+import { CalendarSearch, Columns2, Plus } from "lucide-react";
 
 interface TransactionsTableTopbarProps {
   globalFilter: string;
@@ -42,7 +41,10 @@ const TransactionsTableTopbar = ({
       </div>
 
       <div className="w-full sm:w-auto flex items-center gap-4">
-        <DateRangeForm onSubmit={(data) => console.log(data)} />
+        <Button variant="outline" className="h-10 sm:max-w-[200px] w-full flex items-center gap-3">
+          <span className="md:text-base">Date Range</span>
+          <CalendarSearch />
+        </Button>
 
         <Button
           variant="outline"
