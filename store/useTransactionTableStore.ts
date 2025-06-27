@@ -1,14 +1,10 @@
-import {
-  OnChangeFn,
-  SortingState,
-  VisibilityState,
-  ColumnSizingState,
-} from "@tanstack/react-table";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { OnChangeFn, SortingState, VisibilityState, ColumnSizingState } from "@tanstack/react-table";
 
 import {
   DEFAULT_COLUMNS_SIZING,
+  DEFAULT_COLUMNS_SORTING,
   DEFAULT_COLUMNS_VISIBILITY,
 } from "@/constants/transactionTableFilter";
 import { ITransactionData, ModalMode } from "@/types/transactionTypes";
@@ -47,7 +43,7 @@ export const useTransactionTableStore = create<TransactionTableState>()(
 
       columnSizing: DEFAULT_COLUMNS_SIZING,
       columnVisibility: DEFAULT_COLUMNS_VISIBILITY,
-      columnSorting: [],
+      columnSorting: DEFAULT_COLUMNS_SORTING,
 
       isTransactionModalOpen: false,
       isTransactionFilterOpen: false,
@@ -56,31 +52,21 @@ export const useTransactionTableStore = create<TransactionTableState>()(
 
       setColumnSizing: (updater) =>
         set((state) => ({
-          columnSizing:
-            typeof updater === "function"
-              ? updater(state.columnSizing)
-              : updater,
+          columnSizing: typeof updater === "function" ? updater(state.columnSizing) : updater,
         })),
 
       resetColumnSizing: () => set({ columnSizing: {} }),
 
       setColumnVisibility: (updater) =>
         set((state) => ({
-          columnVisibility:
-            typeof updater === "function"
-              ? updater(state.columnVisibility)
-              : updater,
+          columnVisibility: typeof updater === "function" ? updater(state.columnVisibility) : updater,
         })),
 
-      resetColumnVisibility: () =>
-        set({ columnVisibility: DEFAULT_COLUMNS_VISIBILITY }),
+      resetColumnVisibility: () => set({ columnVisibility: DEFAULT_COLUMNS_VISIBILITY }),
 
       setColumnSorting: (updater) =>
         set((state) => ({
-          columnSorting:
-            typeof updater === "function"
-              ? updater(state.columnSorting)
-              : updater,
+          columnSorting: typeof updater === "function" ? updater(state.columnSorting) : updater,
         })),
 
       // MODALS ACTIONS
