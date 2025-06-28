@@ -32,7 +32,7 @@ const TransactionsTableTopbar = dynamic(() => import("@/components/table/Transac
 });
 
 const TransactionsTable = () => {
-  const { fetchTransactions, isFetching, transactions } = useTransactionStore();
+  const { fetchTransactions, isFetching, filteredTransactions } = useTransactionStore();
 
   useEffect(() => {
     fetchTransactions();
@@ -59,7 +59,7 @@ const TransactionsTable = () => {
   });
 
   const transactionTable = useReactTable({
-    data: transactions,
+    data: filteredTransactions,
     columns: useTransactionColumns(),
 
     state: {

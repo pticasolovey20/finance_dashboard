@@ -16,6 +16,7 @@ interface TransactionTableState {
   transactionModals: {
     isFormOpen: boolean;
     isColumnsOpen: boolean;
+    isDateRangeOpen: boolean;
   };
 
   columnSizing: ColumnSizingState;
@@ -35,6 +36,9 @@ interface TransactionTableState {
 
   openColumnsModal: () => void;
   closeColumnsModal: () => void;
+
+  openDateRange: () => void;
+  closeDateRange: () => void;
 }
 
 export const useTransactionTableStore = create<TransactionTableState>()(
@@ -75,6 +79,7 @@ export const useTransactionTableStore = create<TransactionTableState>()(
         })),
 
       // MODAL ACTIONS
+
       // FORM MODAL
 
       openFormModal: (mode, data) => {
@@ -96,6 +101,20 @@ export const useTransactionTableStore = create<TransactionTableState>()(
           mode: "create",
           transactionData: null,
           transactionModals: { ...state.transactionModals, isFormOpen: false },
+        }));
+      },
+
+      // DATE RANGE
+
+      openDateRange: () => {
+        set((state) => ({
+          transactionModals: { ...state.transactionModals, isDateRangeOpen: true },
+        }));
+      },
+
+      closeDateRange: () => {
+        set((state) => ({
+          transactionModals: { ...state.transactionModals, isDateRangeOpen: false },
         }));
       },
 

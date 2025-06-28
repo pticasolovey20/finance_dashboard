@@ -8,6 +8,7 @@ import {
   getDeleteTransactionById,
 } from "@/actions/transaction";
 
+import { DateRangeData } from "@/types/dateRangeTypes";
 import { ITransactionData, TransactionsFormFields } from "@/types/transactionFormTypes";
 
 type TransactionsState = {
@@ -16,10 +17,15 @@ type TransactionsState = {
   isUpdating: boolean;
   isDeleting: boolean;
 
+  currentDateRange: DateRangeData;
+
   transactions: ITransactionData[];
+  filteredTransactions: ITransactionData[];
 
   // SYNC ACTIONS
   addTransaction: (data: ITransactionData) => void;
+  setDateRange: (dateRange: DateRangeData | null) => void;
+  clearDateRange: () => void;
 
   // ASYNC ACTIONS
   createTransaction: (data: TransactionsFormFields) => Promise<void>;
@@ -36,11 +42,49 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
   isUpdating: false,
   isDeleting: false,
 
+  currentDateRange: null,
+
   transactions: [],
+  filteredTransactions: [],
 
   addTransaction: (transaction) => {
     set((state) => ({
       transactions: [transaction, ...state.transactions],
+    }));
+  },
+
+  setDateRange: (dateRange: DateRangeData | null) => {
+    set((state) => {
+      if (!dateRange || !dateRange.from) {
+        return {
+          currentDateRange: null,
+          filteredTransactions: state.transactions,
+        };
+      }
+
+      const from = new Date(dateRange.from);
+      const to = dateRange.to ? new Date(dateRange.to) : new Date(dateRange.from);
+
+      from.setHours(0, 0, 0, 0);
+      to.setHours(23, 59, 59, 999);
+
+      const filtered = state.transactions.filter((transaction) => {
+        const transactionDate = new Date(transaction.date);
+
+        return transactionDate >= from && transactionDate <= to;
+      });
+
+      return {
+        currentDateRange: { from, to },
+        filteredTransactions: filtered,
+      };
+    });
+  },
+
+  clearDateRange: () => {
+    set((state) => ({
+      currentDateRange: null,
+      filteredTransactions: state.transactions,
     }));
   },
 
@@ -65,12 +109,22 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
     try {
       const updatedTransaction = await getUpdateTransactionById(transactionId, transactionData);
 
-      set((state) => ({
-        transactions: state.transactions.map((transaction) =>
-          transaction.id === transactionId ? updatedTransaction : transaction
-        ),
-        isUpdating: false,
-      }));
+      set((state) => {
+        const updatedTransactions = state.transactions.map((t) => (t.id === transactionId ? updatedTransaction : t));
+        let updatedFiltered = state.filteredTransactions;
+
+        if (state.currentDateRange) {
+          updatedFiltered = state.filteredTransactions.map((t) => (t.id === transactionId ? updatedTransaction : t));
+        } else {
+          updatedFiltered = updatedTransactions;
+        }
+
+        return {
+          transactions: updatedTransactions,
+          filteredTransactions: updatedFiltered,
+          isUpdating: false,
+        };
+      });
     } catch (error: unknown) {
       set({ isUpdating: false });
       console.error("Store: Error updating transaction:", error);
@@ -85,7 +139,8 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
       await getDeleteTransactionById(id);
 
       set((state) => ({
-        transactions: state.transactions.filter((t) => t.id !== id),
+        transactions: state.transactions.filter((transaction) => transaction.id !== id),
+        filteredTransactions: state.filteredTransactions.filter((transaction) => transaction.id !== id),
         isDeleting: false,
       }));
     } catch (error: unknown) {
@@ -101,7 +156,11 @@ export const useTransactionStore = create<TransactionsState>()((set, get) => ({
     try {
       const transactions = await getAllTransactions();
 
-      set({ transactions, isFetching: false });
+      set((state) => ({
+        transactions,
+        filteredTransactions: state.currentDateRange ? state.filteredTransactions : transactions,
+        isFetching: false,
+      }));
     } catch (error: unknown) {
       set({ isFetching: false });
       console.error("Store: Error fetching transactions:", error);
